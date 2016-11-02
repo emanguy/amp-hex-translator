@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Unit testing working</title>
+		<meta charset="utf-8">
+		<script src="../bower_components/web-component-tester/browser.js"></script>
+	</head>
+
+	<body>
+		<script>
+suite('wct-working', function() {
+	test('wct runs', function() {
+		var hello = "hello world";
+
+		expect(hello).to.be.a("string").and.equal("hello world");
+	});
+});
+		</script>
+	</body>
+</html>

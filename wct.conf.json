@@ -1,0 +1,29 @@
+{
+	"plugins": {
+		"sauce": {
+			"disabled": false,
+			"browsers": [
+				{
+					"browserName": "chrome",
+					"platform": "Windows 10",
+					"version": "54.0"
+				},
+				{
+					"browserName": "firefox",
+					"platform": "Windows 10",
+					"version": "49.0"
+				},
+				{
+					"browserName": "chrome",
+					"platform": "OS X 10.11",
+					"version": "54.0"
+				},
+				{
+					"browserName": "firefox",
+					"platform": "OS X 10.11",
+					"version": "49.0"
+				}
+			]
+		}
+	}
+}
