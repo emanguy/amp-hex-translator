@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "outFile": "ampParser.js",
+    "watch": false
+  },
+  "include" : [
+    "amp/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

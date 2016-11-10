@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AMP Parser</title>
+
+    <!-- AMP Parser >
+    <script src="./amp/parser/AMP_Parser.js"></script>
+    <script src="src/amp/parser/AMP_ParserUtil.js"></script>
+
+    <!-- Common Message Parts >
+    <script src="./amp/message/MessageGroupHeader.js"></script>
+    <script src="./amp/message/MessageHeaderByte.js"></script>
+
+    <!-- AMP Data Types >
+    <script src="./amp/datatypes/AMP_Datatypes.js"></script>
+
+    <!-- AMP Basics >
+    <script src="./amp/datatypes/basic/AMP_Byte.js"></script>
+    <script src="./amp/datatypes/basic/AMP_MIDS.js"></script>
+    <script src="./amp/datatypes/basic/AMP_String.js"></script>
+    <script src="./amp/datatypes/basic/AMP_Timestamp.js"></script>
+
+    <!-- AMP Complex >
+    <script src="./amp/datatypes/complex/AMP_Blob.js"></script>
+    <script src="./amp/datatypes/complex/AMP_DataCollection.js"></script>
+    <script src="./amp/datatypes/complex/AMP_MidCollection.js"></script>
+    <script src="./amp/datatypes/complex/AMP_TypedDataCollection.js"></script>
+
+    <!-- AMP Function Types >
+    <script src="./amp/functions/DataReport.js"></script>
+    <script src="./amp/functions/PerformControl.js"></script>
+    <script src="./amp/functions/RegisterAgent.js"></script>
+
+    <!-- AMP Control Types >
+    <script src="./amp/controls/ControlsUtil.js"></script>
+    <-->
+    <script src="./ampParser.js"></script>
+
+</head>
+<body>
+        <textarea id="hexValue" placeholder="Enter hex string" required autofocus cols="40" rows="10"></textarea>
+        <input type="submit" value="Parse Hex" onclick="convert()"/>
+        <pre>
+            <div id="resultHolder"/>
+        </pre>
+</body>
+
+<!--script src="//jdataview.github.io/dist/jdataview.js"></script-->
+<!--script src="//jdataview.github.io/dist/jbinary.js"></script-->
+
+<script>
+    document.getElementById("hexValue").innerHTML="0x0185bf82ec7f1a0001c304010903021517050182030100020100";
+
+    convert = function() {
+        var hexstring = document.getElementById("hexValue").value;
+        var parser = new AMP_Parser();
+        try {
+            var message = parser.parseHex(hexstring);
+            document.getElementById("resultHolder").innerHTML= JSON.stringify(message, null, 2);
+        } catch (e) {
+            document.getElementById("resultHolder").innerHTML = e.message;
+        }
+    }
+</script>
+</html>
