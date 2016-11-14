@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+		<link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+		<script src="string.js"></script>
+	</head>
+	<body>
+		<script>
+
+suite("String model constructor", function()
+{
+	var stringHex;
+	var returnedObj;
+
+	suiteSetup(function()
+	{
+		stringhex = "1ABCDE00FGHI";
+		returnedObj = AMPParse.buildString(stringhex);
+	});
+
+	test("returns the correct value", function()
+	{
+		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("1ABCDE");
+	});
+
+	test("returns correct trailing hexadecimal", function()
+	{
+		expect(returnedObj.trailingHex).to.equal("FGHI");
+	});
+
+	test("throws ReferenceError on bad parameters", function()
+	{
+		expect(function() { AMPParse.buildString(); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.buildString(25); }).to.throw(ReferenceError);
+	});
+
+	test("throws RangeError on short inputs", function()
+	{
+		expect(function() { AMPParse.buildString("00ABCDE"); }).to.throw(RangeError);
+	});
+});
+		</script>
+	</body>
+</html>
