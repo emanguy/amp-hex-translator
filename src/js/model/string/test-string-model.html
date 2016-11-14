@@ -16,13 +16,13 @@ suite("String model constructor", function()
 
 	suiteSetup(function()
 	{
-		stringhex = "1ABCDE00FGHI";
-		returnedObj = AMPParse.buildString(stringhex);
+		stringHex = "5445535400FGHI";
+		returnedObj = AMPParse.buildString(stringHex);
 	});
 
 	test("returns the correct value", function()
 	{
-		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("1ABCDE");
+		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("TEST");
 	});
 
 	test("returns correct trailing hexadecimal", function()
