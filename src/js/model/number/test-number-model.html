@@ -1,0 +1,137 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+    <script src="../../../../bower_components/long/dist/long.min.js"></script>
+    <script src="number.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Basic Number model constructor", function()
+    {
+        var negHexInt;
+        var negHexVast;
+        var posHexInt;
+        var posHexVast;
+        var returnedObj;
+
+        suiteSetup(function()
+        {
+            // negative test values
+            negHexInt = "FFFFFFF6ABC";
+            negHexVast = "FFFFFFFFFFFFFFF6ABCD";
+
+            //positive test values
+            posHexInt = "00000090";
+            posHexVast = "0000000000000090";
+
+        });
+
+        test("returns the correct signed integer", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(negHexInt, "Integer", false);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("-10");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b11111111111111111111111111110110");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0xFFFFFFF6");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Integer");
+        });
+
+        test("returns the correct unsigned integer", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(negHexInt, "Integer", true);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("4294967286");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b11111111111111111111111111110110");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0xFFFFFFF6");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Integer");
+        });
+
+        test("returns the correct signed vast", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(negHexVast, "Vast", false);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("-10");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b1111111111111111111111111111111111111111111111111111111111110110");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0xFFFFFFFFFFFFFFF6");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Vast");
+        });
+
+        test("returns the correct unsigned vast", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(negHexVast, "Vast", true);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("18446744073709551606");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b1111111111111111111111111111111111111111111111111111111111110110");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0xFFFFFFFFFFFFFFF6");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Vast");
+        });
+
+        test("returns the correct signed integer from positive hex", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(posHexInt, "Integer", false);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("144");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b10010000");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0x90");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Integer");
+        });
+
+        test("returns the correct unsigned integer from positive hex", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(posHexInt, "Integer", true);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("144");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b10010000");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0x90");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Integer");
+        });
+
+        test("returns the correct signed vast from positive hex", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(posHexVast, "Vast", false);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("144");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b10010000");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0x90");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Vast");
+        });
+
+        test("returns the correct unsigned vast from positive hex", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(posHexVast, "Vast", true);
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("144");
+            expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b10010000");
+            expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0x90");
+            expect(returnedObj.returnValue.isSigned).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("Vast");
+        });
+
+        test("returns correct trailing hexadecimal", function()
+        {
+            returnedObj = AMPParse.buildBasicNumber(negHexInt, "Integer", true);
+            expect(returnedObj.trailingHex).to.equal("ABC");
+            returnedObj = AMPParse.buildBasicNumber(negHexVast, "Vast", false);
+            expect(returnedObj.trailingHex).to.equal("ABCD");
+        });
+
+        test("throws ReferenceError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildBasicNumber(); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildBasicNumber(25); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildBasicNumber("ABCD", "Invalid", true); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildBasicNumber("ABCD", "Integer", "true"); }).to.throw(ReferenceError);
+        });
+
+        test("throws RangeError on short inputs", function()
+        {
+            expect(function() { AMPParse.buildBasicNumber("AAAAAAA", "Integer", true); }).to.throw(RangeError);
+            expect(function() { AMPParse.buildBasicNumber("AAAAAAAAAAAAAAA", "Vast", true); }).to.throw(RangeError);
+        });
+    });
+</script>
+</body>
+</html>
