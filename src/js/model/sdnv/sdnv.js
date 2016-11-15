@@ -13,7 +13,6 @@ AMPParse.buildSdnv = function(hexadecimal)
 	}
 
 	var result = 0;
-	var significantBit;
 	var nextByte;
 	var nextHex = hexadecimal;
 	var consumedNibbles = 0;
