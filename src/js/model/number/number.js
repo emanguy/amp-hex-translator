@@ -65,7 +65,7 @@ AMPParse.buildBasicNumber = function (hexadecimal, precision, unsigned)
 
         // if we need the signed version calculate it
         if (!unsigned) {
-            rawLong = new dcodeIO.Long(lowValue, highValue, unsigned);
+            rawLong = rawLong.toSigned();
         }
 
         decimalValue = rawLong.toString();
