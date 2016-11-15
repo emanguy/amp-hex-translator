@@ -16,7 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer#^1.7.0"
+    "polymer": "Polymer#^1.7.0",
+    "long": "dcodeIO/long.js#~3.2.0"
   },
   "devDependencies": {
     "web-component-tester": "^5.0.0",

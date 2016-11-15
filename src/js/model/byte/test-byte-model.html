@@ -1,8 +1,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
-		<link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
 
 		<script src="byte.js"></script>
 	</head>
@@ -16,7 +16,7 @@ suite("Byte model constructor", function()
 
 	suiteSetup(function()
 	{
-		bytehex = "1FABCDE";
+		bytehex = "1FABCDEF";
 		returnedObj = AMPParse.buildByte(bytehex);
 	});
 
@@ -28,7 +28,7 @@ suite("Byte model constructor", function()
 
 	test("returns correct trailing hexadecimal", function()
 	{
-		expect(returnedObj.trailingHex).to.equal("ABCDE");
+		expect(returnedObj.trailingHex).to.equal("ABCDEF");
 	});
 
 	test("throws ReferenceError on bad parameters", function()
@@ -40,6 +40,11 @@ suite("Byte model constructor", function()
 	test("throws RangeError on short inputs", function()
 	{
 		expect(function() { AMPParse.buildByte("A"); }).to.throw(RangeError);
+	});
+
+	test("throws RangeError on inputs with an odd number of characters", function()
+	{
+		expect(function() { AMPParse.buildByte("ABB"); }).to.throw(RangeError);
 	});
 });
 		</script>
