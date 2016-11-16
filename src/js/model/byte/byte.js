@@ -3,13 +3,13 @@ var AMPParse = AMPParse || {};
 AMPParse.buildByte = function (hexadecimal)
 {
 	// Defensive programming
-	if (typeof hexadecimal === "undefined" || typeof hexadecimal !== "string")
+	if (typeof hexadecimal !== "string")
 	{
 		throw new ReferenceError("Provided parameter does not exist or is not a string");
 	}
-	if (hexadecimal.length < 2)
+	if (hexadecimal.length < 2 || hexadecimal.length % 2 !== 0)
 	{
-		throw new RangeError("The provided hex is too short to contain a byte.");
+		throw new RangeError("The provided hex is too short to contain a byte or is misaligned.");
 	}
 
 	// Snag the relevant bytes and build return value object
