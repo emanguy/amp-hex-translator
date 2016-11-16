@@ -8,15 +8,15 @@ AMPParse.buildTimestamp = function (hexadecimal)
 	throw new ReferenceError("Provided parameter does not exist or is not a string");
     }
 
-    // TODO: Call SDNV parser to get true value
-    sdnvReturn = atoi(hexadecimal);
+    //SDNV PARSER GOES HERE
+    sdnvReturn = AMPParse.buildSdnv(hexadecimal);
     
     // Snag the relevant bytes and build return value object
-    var ampEpoch = new Data(0);
+    var ampEpoch = new Date(0);
     ampEpoch.setUTCSeconds(1347148800);
 
-    var returnData = new Data(0);
-    returnData.setUTCSeconds(sdnvReturn);
+    var returnData = new Date(0);
+    returnData.setUTCSeconds(sdnvReturn.returnValue.value);
 
     relative = false;
     if (returnData < ampEpoch) {
@@ -31,19 +31,10 @@ AMPParse.buildTimestamp = function (hexadecimal)
 	isRelative: relative
     };
     
-    // Make the binary representation and append prefix
-    for (var i = 0; i < 8; i++)
-    {
-	returnValue.binaryValue = ( rawValue & 1 ).toString() + returnValue.binaryValue;
-	rawValue = rawValue >>> 1;
-    }
-    
-    returnValue.binaryValue = "0b" + returnValue.binaryValue;
-    
     // Return object according to spec
     return {
 	returnValue: returnValue,
-	nibblesConsumed: 2,
-	trailingHex: hexadecimal.substring(2)
+	nibblesConsumed: sdnvReturn.nibblesConsumed,
+	trailingHex: sdnvReturn.trailingHex
     };
 }
