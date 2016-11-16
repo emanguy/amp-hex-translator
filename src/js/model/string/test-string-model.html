@@ -30,16 +30,17 @@ suite("String model constructor", function()
 		expect(returnedObj.trailingHex).to.equal("FGHI");
 	});
 
+	test("returns empty string", function()
+	{
+		expect(AMPParse.buildString("00ABCDE").returnValue.value).to.be.a("string").and.equal("");
+	});
+
 	test("throws ReferenceError on bad parameters", function()
 	{
 		expect(function() { AMPParse.buildString(); }).to.throw(ReferenceError);
 		expect(function() { AMPParse.buildString(25); }).to.throw(ReferenceError);
 	});
 
-	test("throws RangeError on short inputs", function()
-	{
-		expect(function() { AMPParse.buildString("00ABCDE"); }).to.throw(RangeError);
-	});
 });
 		</script>
 	</body>
