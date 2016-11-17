@@ -51,7 +51,7 @@ AMPParse.buildBlob = function(hexadecimal)
 		}
 		catch(err)
 		{
-			err.nibblesConsumed = nibblesConsumed;
+			err.nibblesConsumed += nibblesConsumed;
 			throw err;
 		}
 	}
