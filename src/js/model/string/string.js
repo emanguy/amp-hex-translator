@@ -1,43 +1,62 @@
 var AMPParse = AMPParse || {};
 
 AMPParse.buildString = function (hexadecimal) {
+    
     nibblesUsed = 0; //int
     nullTerminate = false; //bool
+    noNull = false; //bool
+    badData = false; //bool
     returnString = ""; //string
     tempChars = "00";
     
     // Defensive programming
-    if (typeof hexadecimal === "undefined" || typeof hexadecimal !== "string") {
-	throw new ReferenceError("Provided parameter does not exist or is not a string");
+    if (typeof hexadecimal !== "string") {
+		throw new ReferenceError("Provided parameter does not exist or is not a string");
     }
     tempChars = hexadecimal.substring(0, 2);
     if (tempChars == "00") {
-	throw new RangeError ("The provided hex is too short to contain a string");
+		nullTerminate = true;
+		returnString = "";
     }
 
     // Find length of string
     while (!nullTerminate) {
-	tempChars = hexadecimal.substring(nibblesUsed, nibblesUsed+2);
-	if (tempChars != "00") {
- 	    nibblesUsed++;
-	    nibblesUsed++;
-	    returnString += tempChars;
-	}
-	else {
-	    nullTerminate = true;
-	}
+    	if (nibblesUsed > (hexadecimal.length)) {
+    		nullTerminate = true;
+    		noNull = true;
+    	}
+		tempChars = hexadecimal.substring(nibblesUsed, nibblesUsed+2);
+		if (tempChars != "00") {
+ 	    	nibblesUsed++;
+		    nibblesUsed++;
+		    if (parseInt(tempChars, 16) > 127) {
+		    	nullTerminate = true;
+		    	badData = true;
+		    }
+	    	returnString += String.fromCharCode(parseInt(tempChars, 16));
+		}
+		else {
+	    	nullTerminate = true;
+		}
     }
     
+    if (noNull) {
+    	throw new RangeError("Provided parameter does not null terminate");
+    }
+    if (badData) {
+    	throw new ReferenceError("Provided parameter contains a char of value greater than 127");
+    }
+
     // Snag the relevant bytes and build return value object
     var returnValue = {
-	type: "String",
-	value: returnString
+		type: "String",
+		value: returnString
     };
     
     // Return object according to spec
     return {
-	returnValue: returnValue,
-	nibblesConsumed: nibblesUsed,
-	trailingHex: hexadecimal.substring(nibblesUsed+2)
+		returnValue: returnValue,
+		nibblesConsumed: nibblesUsed,
+		trailingHex: hexadecimal.substring(nibblesUsed+2)
     };
 }
