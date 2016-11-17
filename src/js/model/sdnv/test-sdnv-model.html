@@ -52,14 +52,15 @@ suite("SDNV Parser", function()
 		expect(function() { AMPParse.buildSdnv(25); }).to.throw(ReferenceError);
 	});
 
-	test("throws RangeError on short inputs", function()
+	test("throws RangeError on short or misaligned inputs", function()
 	{
 		expect(function() { AMPParse.buildSdnv("A"); }).to.throw(RangeError);
+		expect(function() { AMPParse.buildSdnv("ABB"); }).to.throw(RangeError);
 	});
 
-	test("throws RangeError on inputs with an odd number of nibbles", function()
+	test("throws RangeError if SDNV never terminates", function()
 	{
-		expect(function() { AMPParse.buildSdnv("ABB"); }).to.throw(RangeError);
+		expect(function() { AMPParse.buildSdnv("808080"); }).to.throw(RangeError);
 	});
 });
 		</script>
