@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="AMPSetup.js"></script>
+	</head>
+	<body>
+		<script>
+		
+suite("AMP setup actions", function()
+{
+	test("all common error types have the nibblesConsumed property", function()
+	{
+		var err = new Error();
+		var refErr = new ReferenceError();
+		var rngErr = new RangeError();
+
+		expect(err).to.have.property("nibblesConsumed");
+		expect(refErr).to.have.property("nibblesConsumed");
+		expect(rngErr).to.have.property("nibblesConsumed");
+	});
+});
+		</script>
+	</body>
+</html>
