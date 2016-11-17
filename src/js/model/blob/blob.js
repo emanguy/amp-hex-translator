@@ -5,7 +5,7 @@ AMPParse.buildBlob = function(hexadecimal)
 	// Defensive programming
 	if (typeof hexadecimal !== "string")
 	{
-		throw new RangeError("Provided hexadecimal is not a string");
+		throw new ReferenceError("Provided hexadecimal is not a string");
 	}
 	if (hexadecimal.length < 2 || hexadecimal.length % 2 != 0)
 	{
@@ -25,13 +25,15 @@ AMPParse.buildBlob = function(hexadecimal)
 	}
 	catch (err)
 	{
-		err.detail.nibblesConsumed = 0; // buildSdnv only throws errors when the hex is bad
+		err.nibblesConsumed = 0; // buildSdnv only throws errors when the hex is bad
 		throw err;
 	}
 
 	var nibblesConsumed = blobLength.nibblesConsumed;
-	var hexCopy = hexadecimal.trailingHex;
+	var hexCopy = blobLength.trailingHex;
 	blobLength = blobLength.returnValue.value;
+
+	console.log("blobLength: " + blobLength);
 
 	// Repeatedly read in bytes
 	var nextByte;
@@ -45,10 +47,11 @@ AMPParse.buildBlob = function(hexadecimal)
 			nibblesConsumed += nextByte.nibblesConsumed;
 
 			returnValue.value.push(nextByte);
+			console.log("Trailing hex: " + hexCopy);
 		}
 		catch(err)
 		{
-			err.detail.nibblesConsumed = nibblesConsumed;
+			err.nibblesConsumed = nibblesConsumed;
 			throw err;
 		}
 	}
