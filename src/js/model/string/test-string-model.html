@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+		<link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+		<script src="string.js"></script>
+	</head>
+	<body>
+		<script>
+
+suite("String model constructor", function()
+{
+	var stringHex;
+	var returnedObj;
+
+	suiteSetup(function()
+	{
+		stringHex = "5445535400FGHI";
+		returnedObj = AMPParse.buildString(stringHex);
+	});
+
+	test("returns the correct value", function()
+	{
+		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("TEST");
+	});
+
+	test("returns correct trailing hexadecimal", function()
+	{
+		expect(returnedObj.trailingHex).to.equal("FGHI");
+	});
+
+	test("returns empty string", function()
+	{
+		expect(AMPParse.buildString("00ABCDE").returnValue.value).to.be.a("string").and.equal("");
+	});
+
+	test("throws ReferenceError on bad parameters", function()
+	{
+		expect(function() { AMPParse.buildString(); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.buildString(25); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.buildString("5445FF00FGHI"); }).to.throw(ReferenceError);
+	});
+
+	test("throws RangeError on bad parameters", function()
+	{
+		expect(function() { AMPParse.buildString("54455354FGHI"); }).to.throw(RangeError);
+	});
+
+});
+		</script>
+	</body>
+</html>
