@@ -3,18 +3,15 @@ var AMPParse = AMPParse || {};
 AMPParse.buildByte = function (hexadecimal)
 {
 	// Defensive programming
-	if (typeof hexadecimal !== "string")
+	if ( !(hexadecimal instanceof AMPHexConsumer) )
 	{
-		throw new ReferenceError("Provided parameter does not exist or is not a string");
-	}
-	if (hexadecimal.length < 2 || hexadecimal.length % 2 !== 0)
-	{
-		throw new RangeError("The provided hex is too short to contain a byte or is misaligned.");
+		throw new ReferenceError("Did not receive an AMPHexConsumer");
 	}
 
 	// Snag the relevant bytes and build return value object
-	var byteChars = hexadecimal.substring(0, 2);
-	var rawValue = parseInt(byteChars, 16);
+	hexadecimal.consumeNibbles();
+	var byteChars = hexadecimal.consumedHex;
+	var rawValue = hexadecimal.consumedHexInt;
 	var returnValue = {
 		type: "Byte",
 		value: rawValue,
@@ -33,7 +30,6 @@ AMPParse.buildByte = function (hexadecimal)
 	// Return object according to spec
 	return {
 		returnValue: returnValue,
-		nibblesConsumed: 2,
-		trailingHex: hexadecimal.substring(2)
+		nibblesConsumed: 2
 	};
 }

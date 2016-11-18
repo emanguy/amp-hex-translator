@@ -21,7 +21,7 @@ AMPParse.buildFloatNumber = function (hexadecimal, precision)
 
     if (hexadecimal.length < nibbles)
     {
-        throw new RangeError("The provided hex is too short to contain a " + precision + ".");
+        throw new RangeError("The provided hex is too short to contain a " + precision +" bit float.");
     }
 
     var binary = "";
