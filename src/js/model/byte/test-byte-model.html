@@ -17,8 +17,8 @@ suite("Byte model constructor", function()
 
 	suiteSetup(function()
 	{
-		bytehex = "1FABCDEF";
-		returnedObj = AMPParse.buildByte(bytehex);
+		byteHex = new AMPHexConsumer("1FABCDEF");
+		returnedObj = AMPParse.buildByte(byteHex);
 	});
 
 	test("returns the correct value", function()
@@ -27,25 +27,10 @@ suite("Byte model constructor", function()
 		expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b00011111");
 	});
 
-	test("returns correct trailing hexadecimal", function()
-	{
-		expect(returnedObj.trailingHex).to.equal("ABCDEF");
-	});
-
 	test("throws ReferenceError on bad parameters", function()
 	{
 		expect(function() { AMPParse.buildByte(); }).to.throw(ReferenceError);
 		expect(function() { AMPParse.buildByte(25); }).to.throw(ReferenceError);
-	});
-
-	test("throws RangeError on short inputs", function()
-	{
-		expect(function() { AMPParse.buildByte("A"); }).to.throw(RangeError);
-	});
-
-	test("throws RangeError on inputs with an odd number of characters", function()
-	{
-		expect(function() { AMPParse.buildByte("ABB"); }).to.throw(RangeError);
 	});
 });
 		</script>
