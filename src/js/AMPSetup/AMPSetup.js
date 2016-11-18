@@ -51,6 +51,7 @@ Object.defineProperties(AMPHexConsumer.prototype, {
  * Consume some number of nibbles.
  *
  * @param nibbles {number=} Optional parameter which says how many nibbles to consume. Defaults to two.
+ * @return {string} The new value of the consumedHex property of this object.
  */
 AMPHexConsumer.prototype.consumeNibbles = function(nibbles)
 {
