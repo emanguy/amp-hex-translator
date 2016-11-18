@@ -3,13 +3,9 @@ var AMPParse = AMPParse || {};
 AMPParse.buildBlob = function(hexadecimal)
 {
 	// Defensive programming
-	if (typeof hexadecimal !== "string")
+	if ( !(hexadecimal instanceof AMPHexConsumer) )
 	{
-		throw new ReferenceError("Provided hexadecimal is not a string");
-	}
-	if (hexadecimal.length < 2 || hexadecimal.length % 2 != 0)
-	{
-		throw new RangeError("Provided hexadecimal is either too short to contain a byte or is misaligned");
+		throw new ReferenceError("Did not receive an instance of AMPHexConsumer");
 	}
 
 	// Read the length of the blob
@@ -30,24 +26,24 @@ AMPParse.buildBlob = function(hexadecimal)
 	}
 
 	var nibblesConsumed = blobLength.nibblesConsumed;
-	var hexCopy = blobLength.trailingHex;
 	blobLength = blobLength.returnValue.value;
 
 	console.log("blobLength: " + blobLength);
 
 	// Repeatedly read in bytes
-	var nextByte;
-
 	for (var i = 0; i < blobLength; i++)
 	{
 		try
 		{
-			nextByte = AMPParse.buildByte(hexCopy);
-			hexCopy = nextByte.trailingHex;
+			if (hexadecimal.isEmpty)
+			{
+				throw new RangeError("There were fewer bytes than stated by the length SDNV.");
+			}
+
+			nextByte = AMPParse.buildByte(hexadecimal);
 			nibblesConsumed += nextByte.nibblesConsumed;
 
 			returnValue.value.push(nextByte);
-			console.log("Trailing hex: " + hexCopy);
 		}
 		catch(err)
 		{
@@ -58,7 +54,6 @@ AMPParse.buildBlob = function(hexadecimal)
 
 	return {
 		returnValue: returnValue,
-		nibblesConsumed: nibblesConsumed,
-		trailingHex: hexCopy
+		nibblesConsumed: nibblesConsumed
 	};
 }
