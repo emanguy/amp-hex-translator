@@ -4,6 +4,7 @@
 		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
 		<link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
 
+		<script src="../../AMPSetup/AMPSetup.js"></script>
 		<script src="string.js"></script>
 	</head>
 	<body>
@@ -17,7 +18,7 @@ suite("String model constructor", function()
 	suiteSetup(function()
 	{
 		stringHex = "5445535400FGHI";
-		returnedObj = AMPParse.buildString(stringHex);
+		returnedObj = AMPParse.buildString(new AMPHexConsumer(stringHex));
 	});
 
 	test("returns the correct value", function()
@@ -25,28 +26,21 @@ suite("String model constructor", function()
 		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("TEST");
 	});
 
-	test("returns correct trailing hexadecimal", function()
+	test("returns correct number of consumed nibbles", function()
 	{
-		expect(returnedObj.trailingHex).to.equal("FGHI");
+		expect(returnedObj.nibblesConsumed).to.equal(10);
 	});
 
 	test("returns empty string", function()
 	{
-		expect(AMPParse.buildString("00ABCDE").returnValue.value).to.be.a("string").and.equal("");
+		expect(AMPParse.buildString(new AMPHexConsumer("00ABCDEF")).returnValue.value).to.be.a("string").and.equal("");
 	});
 
 	test("throws ReferenceError on bad parameters", function()
 	{
 		expect(function() { AMPParse.buildString(); }).to.throw(ReferenceError);
 		expect(function() { AMPParse.buildString(25); }).to.throw(ReferenceError);
-		expect(function() { AMPParse.buildString("5445FF00FGHI"); }).to.throw(ReferenceError);
 	});
-
-	test("throws RangeError on bad parameters", function()
-	{
-		expect(function() { AMPParse.buildString("54455354FGHI"); }).to.throw(RangeError);
-	});
-
 });
 		</script>
 	</body>
