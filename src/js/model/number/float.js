@@ -4,9 +4,9 @@ var AMPParse = AMPParse || {};
 AMPParse.buildFloatNumber = function (hexadecimal, precision)
 {
     // Defensive programming
-    if (typeof hexadecimal === "undefined" || typeof hexadecimal !== "string")
+    if ( !(hexadecimal instanceof AMPHexConsumer) )
     {
-        throw new ReferenceError("Provided hexadecimal parameter does not exist or is not a string");
+        throw new ReferenceError("Did not receive an AMPHexConsumer");
     }
 
     var nibbles = 0;
@@ -19,7 +19,7 @@ AMPParse.buildFloatNumber = function (hexadecimal, precision)
         throw new ReferenceError("Provided precision is invalid: " + precision);
     }
 
-    if (hexadecimal.length < nibbles)
+    if (hexadecimal.remainingNibbles < nibbles)
     {
         throw new RangeError("The provided hex is too short to contain a " + precision +" bit float.");
     }
@@ -27,8 +27,8 @@ AMPParse.buildFloatNumber = function (hexadecimal, precision)
     var binary = "";
     for (var i = 0; i < nibbles; i=i+2)
     {
-        var nextChars = hexadecimal.substr(i, 2);
-        var rawValue = parseInt(nextChars, 16);
+        hexadecimal.consumeNibbles();
+        var rawValue = hexadecimal.consumedHexInt;
         binary += pad(rawValue.toString(2));
     }
 
@@ -76,8 +76,7 @@ AMPParse.buildFloatNumber = function (hexadecimal, precision)
     // Return object according to spec
     return {
         returnValue: returnValue,
-        nibblesConsumed: nibbles,
-        trailingHex: hexadecimal.substr(nibbles)
+        nibblesConsumed: nibbles
     };
 }
 
