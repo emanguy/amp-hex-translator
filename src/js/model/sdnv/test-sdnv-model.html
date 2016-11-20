@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="sdnv.js"></script>
+	</head>
+	<body>
+		<script>
+		
+suite("SDNV Parser", function() 
+{
+	var sampleHex;
+	var returnedObj;
+
+	suiteSetup(function()
+			{
+				sampleHex = "A5A525ABCDEF";
+				returnedObj = AMPParse.buildSdnv(new AMPHexConsumer(sampleHex));
+			});
+
+	test("returns the correct value with a multiple-byte input", function()
+	{
+		expect(returnedObj.returnValue.value).to.be.a("number").and.equal(0x952A5);
+	});
+
+	test("returns the correct hex value", function()
+	{
+		expect(returnedObj.returnValue.hexValue).to.be.a("string").and.equal("0xA5A525");
+	});
+
+	test("returns the correct number of nibbles consumed", function()
+	{
+		expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(6);
+	});
+
+	test("returns the correct value with a single-byte input", function()
+	{
+		expect(AMPParse.buildSdnv(new AMPHexConsumer("07")).returnValue.value).to.be.a("number").and.equal(7);
+	});
+
+	test("throws ReferenceError on bad parameters", function()
+	{
+		expect(function() { AMPParse.buildSdnv(); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.buildSdnv(25); }).to.throw(ReferenceError);
+	});
+});
+		</script>
+	</body>
+</html>

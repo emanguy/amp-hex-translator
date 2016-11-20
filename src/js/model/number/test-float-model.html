@@ -1,0 +1,139 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+    <script src="../../AMPSetup/AMPSetup.js"></script>
+    <script src="float.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Float Number model constructor", function()
+    {
+        var returnedObj;
+
+        test("return accurate to 6 decimal places for 32 bit", function(){
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("418698b7"), "32");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("16.824568");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("32");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.0515354871749878);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(4);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct terminating positive 32 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("3fc00000"), "32");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("1.5");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("32");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.5);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(0);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct terminating negative 32 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("bfc00000"), "32");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("-1.5");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("32");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.5);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(0);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct non-terminating positive bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("41233333"), "32");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("10.2");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("32");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.274999976158142);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(3);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct non-terminating negative 32 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("c1233333"), "32");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("-10.2");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("32");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.274999976158142);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(3);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("return accurate to 15 decimal places for 64 bit", function(){
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("40321F9ADD37B4CE"), "64");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("18.123456789112247");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("64");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.1327160493195154);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(4);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct terminating positive 64 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("3FF8000000000000"), "64");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("1.5");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("64");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.5);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(0);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct terminating negative 64 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("BFF8000000000000"), "64");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("-1.5");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("64");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.5);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(0);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct non-terminating positive 64 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("4024666666666666"), "64");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("10.2");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("64");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.275);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(3);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns the correct non-terminating negative 64 bit float", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("C024666666666666"), "64");
+            expect(returnedObj.returnValue.value).to.be.a("string").and.equal("-10.2");
+            expect(returnedObj.returnValue.precision).to.be.a("string").and.equal("64");
+            expect(returnedObj.returnValue.fraction).to.be.a("number").and.equal(1.275);
+            expect(returnedObj.returnValue.exponent).to.be.a("number").and.equal(3);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Real");
+        });
+
+        test("returns correct nibbles consumed", function()
+        {
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("FFFFFFF6ABCD"), "32");
+            expect(returnedObj.nibblesConsumed).to.equal(8);
+            returnedObj = AMPParse.buildFloatNumber(new AMPHexConsumer("FFFFFFFFFFFFFFF6ABCD"), "64");
+            expect(returnedObj.nibblesConsumed).to.equal(16);
+        });
+
+        test("throws ReferenceError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildFloatNumber(); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildFloatNumber(25); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildFloatNumber(new AMPHexConsumer("ABCD"), "33"); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildFloatNumber(new AMPHexConsumer("ABCD"), 33); }).to.throw(ReferenceError);
+        });
+
+        test("throws RangeError on short inputs", function()
+        {
+            expect(function() { AMPParse.buildFloatNumber(new AMPHexConsumer("AAAAAA"), "32"); }).to.throw(RangeError);
+            expect(function() { AMPParse.buildFloatNumber(new AMPHexConsumer("AAAAAAAAAAAAAA"), "64"); }).to.throw(RangeError);
+        });
+    });
+</script>
+</body>
+</html>
