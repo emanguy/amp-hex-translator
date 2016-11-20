@@ -52,6 +52,7 @@ AMPParse.buildMid = function(hexadecimal) {
 
     } catch (err) {
         err.nibblesConsumed += nibblesConsumed;
+        throw err;
     }
 
     return {
