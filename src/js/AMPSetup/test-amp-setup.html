@@ -42,17 +42,15 @@ suite("AMP setup actions", function()
 		expect(consumer.hexadecimal).to.be.a("string").and.equal("ABCDEFA1234567");
 	});
 
-	test("isEmpty is true at the proper time and causes consumeNibbles to have no effect", function() 
+	test("consumeNibbles throws RangeError if it is called when isEmpty is true", function()
 	{
 		consumer.consumeNibbles(16);
 
 		expect(consumer.consumedHex).to.equal("ABABCDEFA1234567");
 		expect(consumer.isEmpty).to.be.true;
 		expect(consumer.remainingNibbles).to.equal(0);
-		
-		consumer.consumeNibbles();
 
-		expect(consumer.remainingNibbles).to.equal(0);
+		expect( function() { consumer.consumeNibbles();; } ).to.throw(RangeError);
 	});
 
 	test("throws error on bad inputs", function() 

@@ -48,7 +48,7 @@
             // TODO: update the hex value to include OID and DC when available
             // TODO: this should pass after the consumeNibbles always throws RangeError
             byteHex = new AMPHexConsumer("00000002FF0707");
-            expect(function() { AMPParse.buildMIDCollection(byteHex); }).to.throw(RangeError);
+            expect(function() { AMPParse.buildMIDCollection(byteHex); }).to.throw(RangeError, /MIDs but there were only/);
         });
 
 
