@@ -1,0 +1,92 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+    <script src="../../AMPSetup/AMPSetup.js"></script>
+    <script src="ampStructureTypes.js"></script>
+    <script src="midFlag.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Managed Identifiers model tests", function()
+    {
+
+        var byteHex;
+        var returnedObj;
+
+        test("OID of 0", function()
+        {
+            byteHex = new AMPHexConsumer("00");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(false);
+        });
+
+        test("OID of 1", function() {
+            byteHex = new AMPHexConsumer("40");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(false);
+        });
+
+        test("OID of 2", function() {
+            byteHex = new AMPHexConsumer("80");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(true);
+         });
+
+        test("OID of 3", function() {
+            byteHex = new AMPHexConsumer("C0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(true);
+        });
+
+        test("Has tag is read correctly", function()
+        {
+            byteHex = new AMPHexConsumer("E0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasTag).to.be.a("boolean").and.equal(true);
+
+            byteHex = new AMPHexConsumer("C0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasTag).to.be.a("boolean").and.equal(false);
+        });
+
+        test("Has issuer is read correctly", function()
+        {
+            byteHex = new AMPHexConsumer("D0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasIssuer).to.be.a("boolean").and.equal(true);
+
+            byteHex = new AMPHexConsumer("C0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasIssuer).to.be.a("boolean").and.equal(false);
+        });
+
+        // TODO: how do you get structure's with an enumeration above 15?
+        test("Structure ID edge cases", function()
+        {
+            var byteHex = new AMPHexConsumer("00");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.enclosedStructId).to.be.a("string").and.equal("Externally Defined Data");
+
+            var byteHex = new AMPHexConsumer("FF");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.enclosedStructId).to.be.a("string").and.equal("Double-Precision Floating Point");
+        });
+
+
+        test("throws ReferenceError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildMidFlag(); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildMidFlag(25); }).to.throw(ReferenceError);
+        });
+    });
+</script>
+</body>
+</html>
