@@ -110,7 +110,7 @@ AMPParse.buildOid = function(hexadecimal, isCompressed)
  * @param oidArr {array} Contains the full uncompressed OID tree path where the "extra info" string for the OID will be stored
  * @param label {string} What the "extra info" property is when this OID is looked up
  */
-var AMPParse.addOid = function(oidArr, label)
+AMPParse.addOid = function(oidArr, label)
 {
 	// Defensive programming
 	oidArr.forEach(function(item, index) {
@@ -152,10 +152,10 @@ var AMPParse.addOid = function(oidArr, label)
  *
  * @param rootArr {array} The oid root expressed as individual values in an array.
  */
-var AMPParse.setDefaultOidRoot = function(rootArr)
+AMPParse.setDefaultOidRoot = function(rootArr)
 {
 	// Defensive programming
-	oidArr.forEach(function(item, index) {
+	rootArr.forEach(function(item, index) {
 		if (isNaN(item))
 		{
 			throw new ReferenceError("Item at index " + index + "in OID array is not a number.");
