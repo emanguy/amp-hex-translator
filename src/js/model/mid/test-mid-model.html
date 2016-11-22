@@ -6,8 +6,9 @@
 
     <script src="../../AMPSetup/AMPSetup.js"></script>
     <script src="../sdnv/sdnv.js"></script>
-    <script src="ampStructureTypes.js"></script>
-    <script src="midFlag.js"></script>
+    <script src="../blob/blob.js"></script>
+    <script src="../blob/byte.js"></script>
+    <script src="../oid/oid.js"></script>
     <script src="mid.js"></script>
 </head>
 <body>
@@ -19,9 +20,6 @@
         var byteHex;
         var returnedObj;
 
-        /*********************************
-         * MID tests
-         *********************************/
         test("MID with issuer and tag", function()
         {
             //FF flag says we have an issuer and tag which are both 07
@@ -50,41 +48,38 @@
             expect(returnedObj.returnValue.tag).to.not.exist;
 
         });
+    });
 
-        /*********************************
-         * MID Flag tests
-         *********************************/
-        test("OID of 0", function()
-        {
+    suite("Managed Identifiers flag model tests", function() {
+        test("OID of 0", function () {
             byteHex = new AMPHexConsumer("00");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(false);
             expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(false);
         });
 
-        test("OID of 1", function() {
+        test("OID of 1", function () {
             byteHex = new AMPHexConsumer("40");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(true);
             expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(false);
         });
 
-        test("OID of 2", function() {
+        test("OID of 2", function () {
             byteHex = new AMPHexConsumer("80");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(false);
             expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(true);
         });
 
-        test("OID of 3", function() {
+        test("OID of 3", function () {
             byteHex = new AMPHexConsumer("C0");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(true);
             expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(true);
         });
 
-        test("Has tag is read correctly", function()
-        {
+        test("Has tag is read correctly", function () {
             byteHex = new AMPHexConsumer("E0");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.hasTag).to.be.a("boolean").and.equal(true);
@@ -94,8 +89,7 @@
             expect(returnedObj.returnValue.hasTag).to.be.a("boolean").and.equal(false);
         });
 
-        test("Has issuer is read correctly", function()
-        {
+        test("Has issuer is read correctly", function () {
             byteHex = new AMPHexConsumer("D0");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.hasIssuer).to.be.a("boolean").and.equal(true);
@@ -105,8 +99,7 @@
             expect(returnedObj.returnValue.hasIssuer).to.be.a("boolean").and.equal(false);
         });
 
-        test("Structure ID edge cases", function()
-        {
+        test("Structure ID edge cases", function () {
             var byteHex = new AMPHexConsumer("00");
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.enclosedStructId).to.be.a("string").and.equal("Externally Defined Data");
@@ -115,8 +108,9 @@
             returnedObj = AMPParse.buildMidFlag(byteHex);
             expect(returnedObj.returnValue.enclosedStructId).to.be.a("string").and.equal("Operator");
         });
+    });
 
-
+    suite("Managed Identifiers AMP Structure model tests", function() {
         test("return EDD for 0", function(){
             returnedObj = AMPParse.getStructTypeFromId(0);
             expect(returnedObj.name).to.equal("Externally Defined Data");
@@ -179,10 +173,10 @@
             expect(returnedObj.id).to.equal("OP");
             expect(returnedObj.enumeration).to.equal(8);
         });
+    });
 
-        /*********************************
-         * Mid Exception tests
-         *********************************/
+    suite("Managed Identifiers model tests", function()
+    {
         test("throws ReferenceError on bad parameters", function()
         {
             expect(function() { AMPParse.buildMid(26); }).to.throw(ReferenceError);

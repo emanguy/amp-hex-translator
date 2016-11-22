@@ -36,7 +36,7 @@ AMPParse.buildMid = function(hexadecimal) {
             returnValue.issuer = issuer;
         }
 
-        var value = AMPParse.buildObjectIdentifier(hexadecimal);
+        var value = AMPParse.buildOid(hexadecimal, header.returnValue.isCompressed);
         nibblesConsumed += value.nibblesConsumed;
         returnValue.value = value;
 
@@ -134,11 +134,6 @@ AMPParse.getStructTypeFromId = function(structureId) {
     ]
 
     return structureTypes[structureId];
-}
-
-// TODO: remove this stub method when the real implementation is ready
-AMPParse.buildObjectIdentifier = function(hexadecimal) {
-    return {returnValue: {type: "Object Identifier"}};
 }
 
 // TODO: remove this stub method when the real implementation is ready
