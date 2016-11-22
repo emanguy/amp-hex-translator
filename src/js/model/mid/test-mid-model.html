@@ -7,8 +7,9 @@
     <script src="../../AMPSetup/AMPSetup.js"></script>
     <script src="../sdnv/sdnv.js"></script>
     <script src="../blob/blob.js"></script>
-    <script src="../blob/byte.js"></script>
+    <script src="../byte/byte.js"></script>
     <script src="../oid/oid.js"></script>
+    <script src="../number/number.js"></script>
     <script src="mid.js"></script>
 </head>
 <body>
@@ -23,30 +24,34 @@
         test("MID with issuer and tag", function()
         {
             //FF flag says we have an issuer and tag which are both 07
-            //TODO:  Add OID and DC hex inbetween the issuer and tag
-            byteHex = new AMPHexConsumer("F80707");
+            //TODO:  Add DC hex before the tag
+            byteHex = new AMPHexConsumer("F80704010307");
             returnedObj = AMPParse.buildMid(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.issuer.returnValue.type).to.be.a("string").and.equal("Sdnv");
             expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
-            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Data Collection");
+            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Typed Data Collection");
             expect(returnedObj.returnValue.tag.returnValue.type).to.be.a("string").and.equal("Sdnv");
         });
 
-        test("MID without issuer and tag", function()
+        test("MID without issuer, tag or parameters", function()
         {
-            //00 flag says we do not have an issuer or tag
-            //TODO:  Add OID and DC hex
-            byteHex = new AMPHexConsumer("00");
+            //00 flag says we do not have an issuer, tag or parameters
+            byteHex = new AMPHexConsumer("00082B06010203030108");
             returnedObj = AMPParse.buildMid(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.issuer).to.not.exist;
             expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
-            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Data Collection");
+            expect(returnedObj.returnValue.parameters).to.not.exist;
             expect(returnedObj.returnValue.tag).to.not.exist;
 
+        });
+
+        test("MID with parameters", function()
+        {
+            //TODO: Add new test once TDC is ready
         });
     });
 

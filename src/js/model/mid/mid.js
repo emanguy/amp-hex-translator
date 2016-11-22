@@ -40,9 +40,11 @@ AMPParse.buildMid = function(hexadecimal) {
         nibblesConsumed += value.nibblesConsumed;
         returnValue.value = value;
 
-        var parameters = AMPParse.buildDataCollection(hexadecimal);
-        nibblesConsumed += parameters.nibblesConsumed;
-        returnValue.parameters = parameters;
+        if (header.returnValue.isParametrized) {
+            var parameters = AMPParse.buildTypedDataCollection(hexadecimal);
+            nibblesConsumed += parameters.nibblesConsumed;
+            returnValue.parameters = parameters;
+        }
 
         if (header.returnValue.hasTag) {
             var tag = AMPParse.buildSdnv(hexadecimal);
@@ -137,6 +139,6 @@ AMPParse.getStructTypeFromId = function(structureId) {
 }
 
 // TODO: remove this stub method when the real implementation is ready
-AMPParse.buildDataCollection = function(hexadecimal) {
-    return {returnValue: {type: "Data Collection"}};
+AMPParse.buildTypedDataCollection = function(hexadecimal) {
+    return {returnValue: {type: "Typed Data Collection"}};
 }
