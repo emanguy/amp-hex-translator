@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="../byte/byte.js"></script>
+		<script src="../sdnv/sdnv.js"></script>
+		<script src="../blob/blob.js"></script>
+		<script src="oid.js"></script>
+	</head>
+	<body>
+		<script>
+		
+suite("OID Model Constructor", function()
+{
+	test("can look up an OID", function()
+	{
+		var consumer = new AMPHexConsumer("082B06010203030108");
+		var returnedObj = AMPParse.buildOid(consumer, false);
+
+		expect(consumer.isEmpty).to.be.true;
+		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("1.3.6.1.2.3.3.1.8");
+		expect(returnedObj.returnValue.extraInfo).to.equal("Num Macros");
+		expect(returnedObj.returnValue).to.not.have.property("nickname");
+	});
+
+	test("can look up a compressed OID", function()
+	{
+		var consumer = new AMPHexConsumer("040103");
+		var returnedObj = AMPParse.buildOid(consumer, true);
+
+		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("3");
+		expect(returnedObj.returnValue.nickname).to.equal("[4]");
+		expect(returnedObj.returnValue.extraInfo).to.equal("List Variables");
+	});
+	
+	test("extra info is 'Unknown OID' when it does not exist in the tree", function()
+	{
+		var consumer = new AMPHexConsumer("042B060606");
+		var returnedObj = AMPParse.buildOid(consumer, false);
+
+		expect(returnedObj.returnValue.value).to.be.a("string").and.equal("1.3.6.6.6");
+		expect(returnedObj.returnValue.extraInfo).to.equal("Unknown OID");
+	});
+
+	test("fails on bad parameters", function()
+	{
+		var consumer = new AMPHexConsumer("082B06010203030000");
+		var badArray = [ 1, 3, "7", "ABC" ];
+		var goodArray = [1, 3, 6];
+
+		expect(function() { AMPParse.buildOid(); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.buildOid(consumer); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.addOid(badArray, "Bad OID"); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.addOid(goodArray); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.setDefaultOidRoot(badArray) }).to.throw(ReferenceError);
+	});
+
+	test("can add new OIDs", function()
+	{
+		var consumer = new AMPHexConsumer("042B060607");
+		AMPParse.addOid([1, 3, 6, 6, 7], "Custom OID");
+		var returnedObj = AMPParse.buildOid(consumer, false);
+
+		expect(returnedObj.returnValue.extraInfo).to.equal("Custom OID");
+	});
+
+	test("can change the OID root for compressed OIDs", function()
+	{
+		var consumer = new AMPHexConsumer("060107");
+		AMPParse.addOid([1, 3, 6, 6, 7], "Custom OID");
+		AMPParse.setDefaultOidRoot([1, 3, 6]);
+		var returnedObj = AMPParse.buildOid(consumer, true);
+
+		expect(returnedObj.returnValue.extraInfo).to.equal("Custom OID");
+	});
+});
+		</script>
+	</body>
+</html>
