@@ -16,10 +16,15 @@ AMPParse.buildSdnv = function(hexadecimal)
 	// Keep adding onto the result as long as there's a 1 in the most significant bit
 	do
 	{
+		// Check to make sure the SDNV actually terminates
+		if (hexadecimal.isEmpty)
+		{
+			throw new RangeError("The SDNV never terminated.");
+		}
+
 		// Get the value of the next byte and add it onto the hex representation
-		hexadecimal.consumeNibbles();
+		hexRepresentation += hexadecimal.consumeNibbles();
 		nextByte = hexadecimal.consumedHexInt;
-		hexRepresentation += hexadecimal.consumedHex;
 		consumedNibbles += 2;
 
 		// Shift the result left 7 bits and add the 7 least significant bits of the next byte
