@@ -3,9 +3,9 @@
 		<meta charset="utf-8">
 		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
 		<script src="sdnv.js"></script>
-
-
 	</head>
 	<body>
 		<script>
@@ -18,7 +18,7 @@ suite("SDNV Parser", function()
 	suiteSetup(function()
 			{
 				sampleHex = "A5A525ABCDEF";
-				returnedObj = AMPParse.buildSdnv(sampleHex);
+				returnedObj = AMPParse.buildSdnv(new AMPHexConsumer(sampleHex));
 			});
 
 	test("returns the correct value with a multiple-byte input", function()
@@ -36,14 +36,9 @@ suite("SDNV Parser", function()
 		expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(6);
 	});
 
-	test("returns the correct trailing hex", function()
-	{
-		expect(returnedObj.trailingHex).to.be.a("string").and.equal("ABCDEF");
-	});
-
 	test("returns the correct value with a single-byte input", function()
 	{
-		expect(AMPParse.buildSdnv("07").returnValue.value).to.be.a("number").and.equal(7);
+		expect(AMPParse.buildSdnv(new AMPHexConsumer("07")).returnValue.value).to.be.a("number").and.equal(7);
 	});
 
 	test("throws ReferenceError on bad parameters", function()
@@ -52,14 +47,9 @@ suite("SDNV Parser", function()
 		expect(function() { AMPParse.buildSdnv(25); }).to.throw(ReferenceError);
 	});
 
-	test("throws RangeError on short inputs", function()
+	test("throws RangeError if SDNV never terminates", function()
 	{
-		expect(function() { AMPParse.buildSdnv("A"); }).to.throw(RangeError);
-	});
-
-	test("throws RangeError on inputs with an odd number of nibbles", function()
-	{
-		expect(function() { AMPParse.buildSdnv("ABB"); }).to.throw(RangeError);
+		expect(function() { AMPParse.buildSdnv(new AMPHexConsumer("808080")); }).to.throw(RangeError);
 	});
 });
 		</script>
