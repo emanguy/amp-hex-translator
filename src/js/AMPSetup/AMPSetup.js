@@ -55,28 +55,25 @@ Object.defineProperties(AMPHexConsumer.prototype, {
  */
 AMPHexConsumer.prototype.consumeNibbles = function(nibbles)
 {
-	if (!this.isEmpty)
+	if (typeof nibbles === "undefined")
 	{
-		if (typeof nibbles === "undefined")
-		{
-			nibbles = 2;
-		}
-		if (isNaN(nibbles))
-		{
-			throw new ReferenceError("Nibbles is not a number.");
-		}
-		if (nibbles % 2 !== 0)
-		{
-			throw new Error("Consuming " + nibbles + " nibbles would cause the number to become misaligned.");
-		}
-		if (this.remainingNibbles < nibbles)
-		{
-			throw new RangeError("Cannot consume more than " + this.remainingNibbles + " nibbles!");
-		}
-
-		this.consumedHex = this.hexadecimal.substring(0, nibbles);
-		this.hexadecimal = this.hexadecimal.substring(nibbles);
+		nibbles = 2;
 	}
+	if (isNaN(nibbles))
+	{
+		throw new ReferenceError("Nibbles is not a number.");
+	}
+	if (nibbles % 2 !== 0)
+	{
+		throw new Error("Consuming " + nibbles + " nibbles would cause the number to become misaligned.");
+	}
+	if (this.remainingNibbles < nibbles)
+	{
+		throw new RangeError("Cannot consume more than " + this.remainingNibbles + " nibbles!");
+	}
+
+	this.consumedHex = this.hexadecimal.substring(0, nibbles);
+	this.hexadecimal = this.hexadecimal.substring(nibbles);
 
 	return this.consumedHex;
 }

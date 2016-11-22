@@ -46,6 +46,11 @@ suite("SDNV Parser", function()
 		expect(function() { AMPParse.buildSdnv(); }).to.throw(ReferenceError);
 		expect(function() { AMPParse.buildSdnv(25); }).to.throw(ReferenceError);
 	});
+
+	test("throws RangeError if SDNV never terminates", function()
+	{
+		expect(function() { AMPParse.buildSdnv(new AMPHexConsumer("808080")); }).to.throw(RangeError);
+	});
 });
 		</script>
 	</body>
