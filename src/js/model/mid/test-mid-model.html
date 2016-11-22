@@ -19,11 +19,14 @@
         var byteHex;
         var returnedObj;
 
+        /*********************************
+         * MID tests
+         *********************************/
         test("MID with issuer and tag", function()
         {
             //FF flag says we have an issuer and tag which are both 07
             //TODO:  Add OID and DC hex inbetween the issuer and tag
-            byteHex = new AMPHexConsumer("FF0707");
+            byteHex = new AMPHexConsumer("F80707");
             returnedObj = AMPParse.buildMid(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
@@ -48,10 +51,155 @@
 
         });
 
+        /*********************************
+         * MID Flag tests
+         *********************************/
+        test("OID of 0", function()
+        {
+            byteHex = new AMPHexConsumer("00");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(false);
+        });
+
+        test("OID of 1", function() {
+            byteHex = new AMPHexConsumer("40");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(false);
+        });
+
+        test("OID of 2", function() {
+            byteHex = new AMPHexConsumer("80");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(false);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(true);
+        });
+
+        test("OID of 3", function() {
+            byteHex = new AMPHexConsumer("C0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.isParametrized).to.be.a("boolean").and.equal(true);
+            expect(returnedObj.returnValue.isCompressed).to.be.a("boolean").and.equal(true);
+        });
+
+        test("Has tag is read correctly", function()
+        {
+            byteHex = new AMPHexConsumer("E0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasTag).to.be.a("boolean").and.equal(true);
+
+            byteHex = new AMPHexConsumer("C0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasTag).to.be.a("boolean").and.equal(false);
+        });
+
+        test("Has issuer is read correctly", function()
+        {
+            byteHex = new AMPHexConsumer("D0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasIssuer).to.be.a("boolean").and.equal(true);
+
+            byteHex = new AMPHexConsumer("C0");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.hasIssuer).to.be.a("boolean").and.equal(false);
+        });
+
+        test("Structure ID edge cases", function()
+        {
+            var byteHex = new AMPHexConsumer("00");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.enclosedStructId).to.be.a("string").and.equal("Externally Defined Data");
+
+            var byteHex = new AMPHexConsumer("F8");
+            returnedObj = AMPParse.buildMidFlag(byteHex);
+            expect(returnedObj.returnValue.enclosedStructId).to.be.a("string").and.equal("Operator");
+        });
+
+
+        test("return EDD for 0", function(){
+            returnedObj = AMPParse.getStructTypeFromId(0);
+            expect(returnedObj.name).to.equal("Externally Defined Data");
+            expect(returnedObj.id).to.equal("EDD");
+            expect(returnedObj.enumeration).to.equal(0);
+        });
+
+        test("return variable for 1", function(){
+            returnedObj = AMPParse.getStructTypeFromId(1);
+            expect(returnedObj.name).to.equal("Variable");
+            expect(returnedObj.id).to.equal("VAR");
+            expect(returnedObj.enumeration).to.equal(1);
+        });
+
+        test("return report for 2", function(){
+            returnedObj = AMPParse.getStructTypeFromId(2);
+            expect(returnedObj.name).to.equal("Report");
+            expect(returnedObj.id).to.equal("RPT");
+            expect(returnedObj.enumeration).to.equal(2);
+        });
+
+        test("return control for 3", function(){
+            returnedObj = AMPParse.getStructTypeFromId(3);
+            expect(returnedObj.name).to.equal("Control");
+            expect(returnedObj.id).to.equal("CTRL");
+            expect(returnedObj.enumeration).to.equal(3);
+        });
+
+        test("return state based rule for 4", function(){
+            returnedObj = AMPParse.getStructTypeFromId(4);
+            expect(returnedObj.name).to.equal("State-Based Rule");
+            expect(returnedObj.id).to.equal("SRL");
+            expect(returnedObj.enumeration).to.equal(4);
+        });
+
+        test("return time based rule for 5", function(){
+            returnedObj = AMPParse.getStructTypeFromId(5);
+            expect(returnedObj.name).to.equal("Time-Based Rule ");
+            expect(returnedObj.id).to.equal("TRL");
+            expect(returnedObj.enumeration).to.equal(5);
+        });
+
+        test("return macro for 6", function(){
+            returnedObj = AMPParse.getStructTypeFromId(6);
+            expect(returnedObj.name).to.equal("Macro");
+            expect(returnedObj.id).to.equal("MACRO");
+            expect(returnedObj.enumeration).to.equal(6);
+        });
+
+        test("return literal for 7", function(){
+            returnedObj = AMPParse.getStructTypeFromId(7);
+            expect(returnedObj.name).to.equal("Literal");
+            expect(returnedObj.id).to.equal("LIT");
+            expect(returnedObj.enumeration).to.equal(7);
+        });
+
+        test("return operator for 8", function(){
+            returnedObj = AMPParse.getStructTypeFromId(8);
+            expect(returnedObj.name).to.equal("Operator");
+            expect(returnedObj.id).to.equal("OP");
+            expect(returnedObj.enumeration).to.equal(8);
+        });
+
+        /*********************************
+         * Mid Exception tests
+         *********************************/
         test("throws ReferenceError on bad parameters", function()
         {
             expect(function() { AMPParse.buildMid(26); }).to.throw(ReferenceError);
             expect(function() { AMPParse.getStructTypeFromId("ABCD"); }).to.throw(ReferenceError);
+        });
+
+        test("throws ReferenceError on bad parameters", function()
+        {
+            expect(function() { AMPParse.getStructTypeFromId(-1); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.getStructTypeFromId(9); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.getStructTypeFromId("bad"); }).to.throw(ReferenceError);
+        });
+
+        test("throws ReferenceError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildMidFlag(); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildMidFlag(25); }).to.throw(ReferenceError);
         });
     });
 </script>
