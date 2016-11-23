@@ -20,32 +20,67 @@
 
 suite("Data Collection model", function()
 {
-	test("can successfully build a normal data collection", function()
+	suite("Normal data collections", function()
 	{
-		var consumer = new AMPHexConsumer("0301AA02AABB03AABBCC");
-		var dataCollection = AMPParse.buildDataCollection(consumer, false);
-
-		expect(dataCollection.returnValue.value).to.be.an("array");
-		expect(dataCollection.returnValue.value.length).to.equal(3);
-
-		dataCollection.returnValue.value.forEach(function (arrItem, index)
+		test("returns correct output", function()
 		{
-			expect(arrItem.type).to.equal("Blob");
-			expect(arrItem.value.length).to.equal(index + 1);
+			var consumer = new AMPHexConsumer("0301AA02AABB03AABBCC");
+			var dataCollection = AMPParse.buildDataCollection(consumer, false);
+
+			expect(dataCollection.returnValue.value).to.be.an("array");
+			expect(dataCollection.returnValue.value.length).to.equal(3);
+
+			dataCollection.returnValue.value.forEach(function (arrItem, index)
+			{
+				expect(arrItem.type).to.equal("Blob");
+				expect(arrItem.value.length).to.equal(index + 1);
+			});
 		});
 	});
 
-	test("can successfully build a typed data collection", function()
+	suite("Typed data collections", function() 
 	{
-		var consumer = new AMPHexConsumer("040309120901AA0348690001BB");
-		var dataCollection = AMPParse.buildDataCollection(consumer, true);
+		test("returns correct model according to spec", function()
+		{
+			var consumer = new AMPHexConsumer("040309120901AA0348690001BB");
+			var dataCollection = AMPParse.buildDataCollection(consumer, true);
 
-		expect(dataCollection.returnValue.value[0].type).to.equal("Byte");
-		expect(dataCollection.returnValue.value[1].type).to.equal("String");
-		expect(dataCollection.returnValue.value[2].type).to.equal("Byte");
+			expect(dataCollection.returnValue.value[0].type).to.equal("Byte");
+			expect(dataCollection.returnValue.value[1].type).to.equal("String");
+			expect(dataCollection.returnValue.value[2].type).to.equal("Byte");
 
-		expect(dataCollection.returnValue.value[1].value).to.be.a("string").and.equal("Hi");
+			expect(dataCollection.returnValue.value[1].value).to.be.a("string").and.equal("Hi");
+		});
+
+		test("throws errors on unknown types", function()
+		{
+			var consumer = new AMPHexConsumer("0403020202010001000100");
+			
+			expect(function() { AMPParse.buildDataCollection(consumer, true); }).to.throw(Error);
+		});
+
+		test("Throws errors on incorrect blob lengths", function()
+		{
+			var consumer = new AMPHexConsumer("020112034848484800");
+
+			expect(function() { AMPParse.buildDataCollection(consumer, true); }).to.throw(RangeError);
+		});
+
+		test("throws errors when there are fewer bytes than specified by the sdnv", function()
+		{
+			var consumer = new AMPHexConsumer("0605091209090901AA0348690001BB");
+
+			expect(function() { AMPParse.buildDataCollection(consumer, true); }).to.throw(RangeError);
+		});
+
+		test("throws errors when there are not enough types for the number of blobs", function()
+		{
+			var consumer = new AMPHexConsumer("0402091201AA0348690001BB");
+
+			expect(function() { AMPParse.buildDataCollection(consumer, true); }).to.throw(RangeError);
+		});
 	});
+
 });
 		</script>
 	</body>

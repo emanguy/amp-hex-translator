@@ -43,7 +43,13 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 			throw err;
 		}
 
-		console.log(types.returnValue);
+		// Test to see if we got types for all subsequent blobs
+		if (types.nibblesConsumed / 2 - 1 !== numBlobs - 1)
+		{
+			var err = new RangeError("Did not have types for all subsequent blobs");
+			err.nibblesConsumed += nibblesConsumed;
+			throw err;
+		}
 
 		nibblesConsumed += types.nibblesConsumed;
 		types = types.returnValue.value.map(function(arrItem) {
