@@ -43,6 +43,8 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 			throw err;
 		}
 
+		console.log(types.returnValue);
+
 		nibblesConsumed += types.nibblesConsumed;
 		types = types.returnValue.value.map(function(arrItem) {
 			return arrItem.value;
@@ -55,9 +57,9 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 		// For non typed we just make an array of byte readers
 		types = new Array(numBlobs);
 
-		for (var index in types)
+		for (var index = 0; index < numBlobs; index++)
 		{
-			types[index] = 9;
+			types[index] = 19;
 		}
 	}
 
@@ -87,15 +89,18 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 		
 		try
 		{
-			// Here I use numBlobs to specify how many bytes I expect to read
-			numBlobs = AMPParse.buildSdnv(hexadecimal);
-			nibblesConsumed += numBlobs.nibblesConsumed;
-			numBlobs = numBlobs.returnValue.value;
+			if (isTyped)
+			{
+				// Here I use numBlobs to specify how many bytes I expect to read
+				numBlobs = AMPParse.buildSdnv(hexadecimal);
+				nibblesConsumed += numBlobs.nibblesConsumed;
+				numBlobs = numBlobs.returnValue.value;
+			}
 
 			element = AMPParse[fnCall].apply(AMPParse[fnCall], parameters);
 			
 			// Check to see that the correct number of bytes was consumed
-			if (numBlobs !== element.nibblesConsumed / 2)
+			if (isTyped && numBlobs !== element.nibblesConsumed / 2)
 			{
 				throw new RangeError("SDNV lied about blob length");
 			}

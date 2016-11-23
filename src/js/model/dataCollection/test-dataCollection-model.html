@@ -4,47 +4,47 @@
 		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
 
-		<script src="byte.js"></script>
+		<!-- These are the only immediate dependencies for Data Collection -->
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="../byte/byte.js"></script>
+		<script src="../sdnv/sdnv.js"></script>
+		<script src="../blob/blob.js"></script>
+
+		<!-- This is just an addition -->
+		<script src="../string/string.js"></script>
+
+		<script src="dataCollection.js"></script>
 	</head>
 	<body>
 		<script>
 
-suite("Byte model constructor", function()
+suite("Data Collection model", function()
 {
-	var byteHex;
-	var returnedObj;
-
-	suiteSetup(function()
+	test("can successfully build a normal data collection", function()
 	{
-		bytehex = "1FABCDEF";
-		returnedObj = AMPParse.buildByte(bytehex);
+		var consumer = new AMPHexConsumer("0301AA02AABB03AABBCC");
+		var dataCollection = AMPParse.buildDataCollection(consumer, false);
+
+		expect(dataCollection.returnValue.value).to.be.an("array");
+		expect(dataCollection.returnValue.value.length).to.equal(3);
+
+		dataCollection.returnValue.value.forEach(function (arrItem, index)
+		{
+			expect(arrItem.type).to.equal("Blob");
+			expect(arrItem.value.length).to.equal(index + 1);
+		});
 	});
 
-	test("returns the correct value", function()
+	test("can successfully build a typed data collection", function()
 	{
-		expect(returnedObj.returnValue.value).to.be.a("number").and.equal(31);
-		expect(returnedObj.returnValue.binaryValue).to.be.a("string").and.equal("0b00011111");
-	});
+		var consumer = new AMPHexConsumer("040309120901AA0348690001BB");
+		var dataCollection = AMPParse.buildDataCollection(consumer, true);
 
-	test("returns correct trailing hexadecimal", function()
-	{
-		expect(returnedObj.trailingHex).to.equal("ABCDEF");
-	});
+		expect(dataCollection.returnValue.value[0].type).to.equal("Byte");
+		expect(dataCollection.returnValue.value[1].type).to.equal("String");
+		expect(dataCollection.returnValue.value[2].type).to.equal("Byte");
 
-	test("throws ReferenceError on bad parameters", function()
-	{
-		expect(function() { AMPParse.buildByte(); }).to.throw(ReferenceError);
-		expect(function() { AMPParse.buildByte(25); }).to.throw(ReferenceError);
-	});
-
-	test("throws RangeError on short inputs", function()
-	{
-		expect(function() { AMPParse.buildByte("A"); }).to.throw(RangeError);
-	});
-
-	test("throws RangeError on inputs with an odd number of characters", function()
-	{
-		expect(function() { AMPParse.buildByte("ABB"); }).to.throw(RangeError);
+		expect(dataCollection.returnValue.value[1].value).to.be.a("string").and.equal("Hi");
 	});
 });
 		</script>
