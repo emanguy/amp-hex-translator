@@ -28,7 +28,7 @@ suite("Blob model constructor", function()
 
 		expectedResults.forEach(function (currentValue, currentIndex)
 		{
-			expect(returnedObj.returnValue.value[currentIndex].returnValue.value).to.equal(currentValue);
+			expect(returnedObj.returnValue.value[currentIndex].value).to.equal(currentValue);
 		});
 	});
 
