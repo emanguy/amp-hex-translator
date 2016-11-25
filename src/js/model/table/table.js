@@ -71,7 +71,7 @@ AMPParse.buildTable = function (hexadecimal) {
     for (var i = 0; i < numRows; i++) {
         var row = colTypes.returnValue.value.map(function(typeByte) {
             try {
-                var obj = AMPParse.buildByEnum(hexadecimal, typeByte.returnValue.value);
+                var obj = AMPParse.buildByEnumeration(hexadecimal, typeByte.returnValue.value);
                 nibblesConsumed += obj.returnValue.nibblesConsumed;
             } catch(err) {
                 err.nibblesConsumed += nibblesConsumed;
@@ -94,55 +94,4 @@ AMPParse.buildTable = function (hexadecimal) {
         returnValue: returnValue,
         nibblesConsumed: nibblesConsumed
     }
-};
-
-// TODO: remove this stub methods when the real implementations are ready
-AMPParse.buildDataCollection = function(hexadecimal) {
-    return {returnValue: {type: "Data Collection"}};
-};
-
-AMPParse.buildTimestamp = function(hexadecimal) {
-    return {returnValue: {type: "Data Collection"}};
-};
-
-AMPParse.buildManagedIdentifier = function(hexadecimal) {
-    return {returnValue: {type: "Data Collection"}};
-};
-
-AMPParse.buildMIDCollection = function(hexadecimal) {
-    return {returnValue: {type: "Data Collection"}};
-};
-
-
-AMPParse.buildExpression = function(hexadecimal) {
-    return {returnValue: {type: "Data Collection"}};
-};
-
-AMPParse.buildByEnum = function(hexadecimal, enumeration) {
-    if (enumeration < 0 || enumeration > 25) {
-        throw new RangeError("Invalid enumeration: " + enumeration);
-    }
-
-    var functionMap = {
-        9: AMPParse.buildByte(hexadecimal),
-        10: AMPParse.buildBasicNumber(hexadecimal, "Integer", false),
-        11: AMPParse.buildBasicNumber(hexadecimal, "Integer", true),
-        12: AMPParse.buildBasicNumber(hexadecimal, "Vast", false),
-        13: AMPParse.buildBasicNumber(hexadecimal, "Vast", true),
-        14: AMPParse.buildFloatNumber(hexadecimal, "32"),
-        15: AMPParse.buildFloatNumber(hexadecimal, "64"),
-        16: AMPParse.buildSdnv(hexadecimal),
-        17: AMPParse.buildTimestamp(hexadecimal),
-        18: AMPParse.buildString(hexadecimal),
-        19: AMPParse.buildBlob(hexadecimal),
-        20: AMPParse.buildManagedIdentifier(hexadecimal),
-        21: AMPParse.buildMIDCollection(hexadecimal),
-        22: AMPParse.buildExpression(hexadecimal),
-        23: AMPParse.buildDataCollection(hexadecimal, false),
-        24: AMPParse.buildDataCollection(hexadecimal, true),
-        25: AMPParse.buildTable(hexadecimal)
-    };
-
-    return functionMap[enumeration];
-
 };
