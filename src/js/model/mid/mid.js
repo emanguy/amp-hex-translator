@@ -117,9 +117,10 @@ AMPParse.buildMidFlag = function(hexadecimal) {
 }
 
 AMPParse.getStructTypeFromId = function(structureId) {
-    if (isNaN(structureId) || structureId < 0 || structureId > 8) {
-        throw new TypeError("Invalid StructureId: " + structureId +
-            " StructureId must be a number between 0 and 25");
+    if (isNaN(structureId)) {
+        throw new TypeError("Structure ID must be between 0 and 8.  Structure Id " + structureId + " is invalid");
+    } else if(structureId < 0 || structureId > 8) {
+        throw new RangeError("Structure ID must be between 0 and 8.  Structure Id " + structureId + " is invalid");
     }
 
     var structureTypes = [

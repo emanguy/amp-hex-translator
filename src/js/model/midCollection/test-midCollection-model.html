@@ -7,10 +7,13 @@
     <script src="../../../../bower_components/long/dist/long.min.js"></script>
     <script src="../../AMPSetup/AMPSetup.js"></script>
     <script src="../sdnv/sdnv.js"></script>
-    <script src="../mid/ampStructureTypes.js"></script>
-    <script src="../mid/midFlag.js"></script>
-    <script src="../mid/mid.js"></script>
+    <script src="../blob/blob.js"></script>
+    <script src="../byte/byte.js"></script>
+    <script src="../oid/oid.js"></script>
     <script src="../number/number.js"></script>
+    <script src="../string/string.js"></script>
+    <script src="../dataCollection/dataCollection.js"></script>
+    <script src="../mid/mid.js"></script>
     <script src="midCollection.js"></script>
 </head>
 <body>
@@ -19,12 +22,8 @@
     suite("Basic Number model constructor", function()
     {
 
-        var hex;
+        var byteHex;
         var returnedObj;
-
-        suiteSetup(function()
-        {
-        });
 
         test("return empty MID collection", function()
         {
@@ -36,26 +35,23 @@
 
         test("return populated MID Collection", function()
         {
-            // TODO: update the hex value to include OID and DC when available
-            byteHex = new AMPHexConsumer("00000002FF070700");
+            byteHex = new AMPHexConsumer("0000000200082B0601020303010800082B06010203030108");
             returnedObj = AMPParse.buildMIDCollection(byteHex);
             expect(returnedObj.returnValue.midCount).to.equal(2);
             expect(returnedObj.returnValue.value).to.have.lengthOf(2);
         });
 
-        test("throws RangeError when more entries expected than passed in", function()
+        test("throws RangeError when two entries are expected but only one is passed in", function()
         {
-            // TODO: update the hex value to include OID and DC when available
-            // TODO: this should pass after the consumeNibbles always throws RangeError
-            byteHex = new AMPHexConsumer("00000002FF0707");
+            byteHex = new AMPHexConsumer("0000000200082B06010203030108");
             expect(function() { AMPParse.buildMIDCollection(byteHex); }).to.throw(RangeError, /MIDs but there were only/);
         });
 
 
-        test("throws ReferenceError on bad parameters", function()
+        test("throws TypeError on bad parameters", function()
         {
-            expect(function() { AMPParse.buildMIDCollection(); }).to.throw(ReferenceError);
-            expect(function() { AMPParse.buildMIDCollection("AAAAAAAAAAAAAAA"); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildMIDCollection(); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildMIDCollection("AAAAAAAAAAAAAAA"); }).to.throw(TypeError);
         });
 
         test("throws RangeError when UINT cannot be extracted", function(){
