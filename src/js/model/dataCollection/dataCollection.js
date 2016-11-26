@@ -72,26 +72,11 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 	// Build the array of contained values
 	var elementArray = [];
 	var element;
-	var parameters;
-	var fnCall;
 	var type;
 
 	while (!hexadecimal.isEmpty && types.length > 0)
 	{
-		try
-		{
-			type = types.shift();
-			parameters = AMPBuilders[type].slice(); // Creates a copy of the array
-		}
-		catch (err)
-		{
-			err.nibblesConsumed += nibblesConsumed;
-			err.message = "Unknown type: " + type;
-			throw err;
-		}
-
-		// Move the method name into fnCall and replace it with hexadecimal consumer
-		fnCall = parameters.splice(0, 1, hexadecimal)[0];
+		type = types.shift();
 		
 		try
 		{
@@ -102,8 +87,8 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 				nibblesConsumed += numBlobs.nibblesConsumed;
 				numBlobs = numBlobs.returnValue.value;
 			}
-
-			element = AMPParse[fnCall].apply(AMPParse[fnCall], parameters);
+			
+			element = AMPParse.buildUndeclaredType(hexadecimal, type);
 			
 			// Check to see that the correct number of bytes was consumed
 			if (isTyped && numBlobs !== element.nibblesConsumed / 2)
@@ -135,25 +120,4 @@ AMPParse.buildDataCollection = function (hexadecimal, isTyped)
 		},
 		nibblesConsumed: nibblesConsumed
 	};
-}
-
-// This is used so that inclusion order doesn't matter other than buildSdnv and buildBlob
-AMPBuilders = {
-	9: [ "buildByte" ],
-	10: [ "buildBasicNumber", "Integer", false ],
-	11: [ "buildBasicNumber", "Integer", true ],
-	12: [ "buildBasicNumber", "Vast", false ],
-	13: [ "buildBasicNumber", "Vast", true ],
-	14: [ "buildFloatNumber", "32" ],
-	15: [ "buildFloatNumber", "64" ],
-	16: [ "buildSdnv" ],
-	17: [ "buildTimestamp" ],
-	18: [ "buildString" ],
-	19: [ "buildBlob" ],
-	20: [ "buildManagedIdentifier" ],
-	21: [ "buildMIDCollection" ],
-	22: [ "buildExpression" ],
-	23: [ "buildDataCollection", false ],
-	24: [ "buildDataCollection", true ],
-	25: [ "buildTable" ]
 }
