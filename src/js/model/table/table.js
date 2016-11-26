@@ -95,7 +95,7 @@ AMPParse.buildTable = function (hexadecimal) {
 
         var row = colTypes.value.map(function(typeByte) {
             try {
-                var obj = AMPParse.buildByEnumeration(hexadecimal, typeByte.value);
+                var obj  = AMPParse.buildUndeclaredType(hexadecimal, typeByte.value);
                 nibblesConsumed += obj.returnValue.nibblesConsumed;
                 return obj.returnValue;
             } catch(err) {
