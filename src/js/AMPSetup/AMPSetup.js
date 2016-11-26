@@ -1,3 +1,4 @@
+// Define AMPParse if it is not already
 var AMPParse = AMPParse || {};
 
 // Add nibblesConsumed property to every error
@@ -81,6 +82,7 @@ AMPHexConsumer.prototype.consumeNibbles = function(nibbles)
 }
 
 /**
+<<<<<<< HEAD
  * Associative array which maps data type enumerations to their real names
  */
 AMPParse.typeTable = {
@@ -101,4 +103,66 @@ AMPParse.typeTable = {
 	23: "Data Collection",
 	24: "Typed Data Collection",
 	25: "Table"
+=======
+ * This method allows functions to use model constructors even if they were not included in the
+ * correct order in <script> tags.
+ *
+ * @param hexadecimal {AMPHexConsumer} The AMP hex consumer used for constructing the next value from the hexadecimal
+ * @param typeEnumberation {number} The enumeration which represents the data type as defined in the AMP spec.
+ *
+ * @return The constructed model based on the specified data type enumeration. Will have returnValue and nibblesConsumed properties.
+ */
+
+AMPParse.buildUndeclaredType = function(hexadecimal, typeEnumeration)
+{
+	if ( !(hexadecimal instanceof AMPHexConsumer) )
+	{
+		throw new TypeError("Did not receive an instance of AMPHexConsumer");
+	}
+	if (isNaN(typeEnumeration))
+	{
+		throw new TypeError("typeEnumeration is not a number");
+	}
+
+	var parameters;
+	var fnCall;
+	var element;
+
+	try
+	{
+		parameters = AMPBuilders[typeEnumeration].slice(); // Creates a copy of the array
+	}
+	catch (err)
+	{
+		err.message = "Unknown type: " + typeEnumeration;
+		throw err;
+	}
+
+	// Move the method name into fnCall and replace it with hexadecimal consumer
+	fnCall = parameters.splice(0, 1, hexadecimal)[0];
+	element = AMPParse[fnCall].apply(AMPParse[fnCall], parameters);
+	
+	return element;
+}
+
+// This is used so that inclusion order doesn't matter other than buildSdnv and buildBlob
+AMPBuilders = {
+	9: [ "buildByte" ],
+	10: [ "buildBasicNumber", "Integer", false ],
+	11: [ "buildBasicNumber", "Integer", true ],
+	12: [ "buildBasicNumber", "Vast", false ],
+	13: [ "buildBasicNumber", "Vast", true ],
+	14: [ "buildFloatNumber", "32" ],
+	15: [ "buildFloatNumber", "64" ],
+	16: [ "buildSdnv" ],
+	17: [ "buildTimestamp" ],
+	18: [ "buildString" ],
+	19: [ "buildBlob" ],
+	20: [ "buildManagedIdentifier" ],
+	21: [ "buildMIDCollection" ],
+	22: [ "buildExpression" ],
+	23: [ "buildDataCollection", false ],
+	24: [ "buildDataCollection", true ],
+	25: [ "buildTable" ]
+>>>>>>> tmaher1/dataCollection
 }
