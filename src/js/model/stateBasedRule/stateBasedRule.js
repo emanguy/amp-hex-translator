@@ -54,7 +54,7 @@ AMPParse.buildStateBasedRule = function(hexadecimal)
     // Now the number of times to execute the Rule
     try
     {
-        tempValue = AMPParse.buildBasicNumber(hexadecimal, "Integer", false);
+        tempValue = AMPParse.buildBasicNumber(hexadecimal, "Integer", true);
         consumedNibbles += tempValue.nibblesConsumed;
         returnValue.count = tempValue.returnValue;
     }
