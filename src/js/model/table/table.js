@@ -11,7 +11,7 @@ AMPParse.buildTable = function (hexadecimal) {
 
     try {
         columnNames = AMPParse.buildDataCollection(hexadecimal, false);
-        nibblesConsumed += columnNames.returnValue.nibblesConsumed;
+        nibblesConsumed += columnNames.nibblesConsumed;
     } catch (err) {
         err.nibblesConsumed = 0;
         err.message = "Could not extract column names for table: " + err.message;
@@ -46,7 +46,7 @@ AMPParse.buildTable = function (hexadecimal) {
     var colTypes;
     try {
         colTypes = AMPParse.buildBlob(hexadecimal);
-        nibblesConsumed += colTypes.returnValue.nibblesConsumed;
+        nibblesConsumed += colTypes.nibblesConsumed;
         colTypes = colTypes.returnValue;
     } catch (err) {
         err.nibblesConsumed = nibblesConsumed;
@@ -65,7 +65,7 @@ AMPParse.buildTable = function (hexadecimal) {
     var numRows = 0;
     try {
         numRows = AMPParse.buildSdnv(hexadecimal);
-        nibblesConsumed += numRows.returnValue.nibblesConsumed;
+        nibblesConsumed += numRows.nibblesConsumed;
         numRows = numRows.returnValue.value;
     } catch (err) {
         err.nibblesConsumed += nibblesConsumed;
@@ -96,7 +96,7 @@ AMPParse.buildTable = function (hexadecimal) {
         var row = colTypes.value.map(function(typeByte) {
             try {
                 var obj  = AMPParse.buildUndeclaredType(hexadecimal, typeByte.value);
-                nibblesConsumed += obj.returnValue.nibblesConsumed;
+                nibblesConsumed += obj.nibblesConsumed;
                 return obj.returnValue;
             } catch(err) {
                 err.nibblesConsumed += nibblesConsumed;

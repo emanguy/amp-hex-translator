@@ -78,6 +78,8 @@
             expect(returnedObj.returnValue.value[2][1].value).to.be.a("string").and.equal("6");
             expect(returnedObj.returnValue.value[2][2].value).to.be.a("string").and.equal("30");
 
+            // Make sure nibblesConsumed is correct
+            expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(128);
         });
 
         test("Column name count does not match column type count", function () {
