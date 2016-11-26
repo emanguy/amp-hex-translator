@@ -25,9 +25,7 @@
 
         test("MID with issuer and tag", function()
         {
-            //FF flag says we have an issuer and tag which are both 07
-            //TODO:  Add DC hex before the tag
-//            byteHex = new AMPHexConsumer("F80704010307");
+            //TODO:  This test will fail until Mid Collections are merged in
             byteHex = new AMPHexConsumer("c304010903021517050182030100020100");
             returnedObj = AMPParse.buildMid(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
