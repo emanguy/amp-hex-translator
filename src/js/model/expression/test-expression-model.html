@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<meta charset="utf8">
+
+		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="../byte/byte.js"></script>
+		<script src="../number/number.js"></script>
+		<script src="../sdnv/sdnv.js"></script>
+		<script src="../dataCollection/dataCollection.js"></script>
+		<script src="../mid/mid.js"></script>
+		<script src="../midCollection/midCollection.js"></script>
+		<script src="expression.js"></script>
+	</head>
+	<body>
+		<script>
+		
+suite("Expression model constructor", function()
+{
+	test("Gets the correct type", function()
+	{
+		var consumer = new AMPHexConsumer("090000000188070100");
+		var expr = AMPParse.buildExpression(consumer);
+
+		expect(expr.returnValue.returnType).to.be.a("string").and.equal("Byte");
+	});
+
+	// Everything else is tested in the MID collection tests
+});
+		</script>
+	</body>
+</html>
