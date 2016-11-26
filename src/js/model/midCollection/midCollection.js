@@ -24,7 +24,7 @@ AMPParse.buildMIDCollection = function(hexadecimal)
     var mids = [];
     for (var i = 0; i < midCount; i++) {
         try {
-            var mid = AMPParse.buildMid(hexadecimal);
+            var mid = AMPParse.buildManagedIdentifier(hexadecimal);
             nibblesUsed += mid.nibblesConsumed;
             mids.push(mid.returnValue);
         } catch (err) {

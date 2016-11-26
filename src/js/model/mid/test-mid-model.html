@@ -28,7 +28,7 @@
         test("MID with compressed OID and parameters", function()
         {
             byteHex = new AMPHexConsumer("c304010903021517080000000182030100020100");
-            returnedObj = AMPParse.buildMid(byteHex);
+            returnedObj = AMPParse.buildManagedIdentifier(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
@@ -40,7 +40,7 @@
         {
             //00 flag says we do not have an issuer, tag or parameters
             byteHex = new AMPHexConsumer("00082B06010203030108");
-            returnedObj = AMPParse.buildMid(byteHex);
+            returnedObj = AMPParse.buildManagedIdentifier(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.issuer).to.not.exist;
@@ -54,7 +54,7 @@
         {
             //FF flag says we have an issuer and tag which are both 07
             byteHex = new AMPHexConsumer("F807040103010007");
-            returnedObj = AMPParse.buildMid(byteHex);
+            returnedObj = AMPParse.buildManagedIdentifier(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.issuer.returnValue.type).to.be.a("string").and.equal("Sdnv");
@@ -194,7 +194,7 @@
     {
         test("throws TypeError on bad parameters", function()
         {
-            expect(function() { AMPParse.buildMid(26); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildManagedIdentifier(26); }).to.throw(TypeError);
             expect(function() { AMPParse.getStructTypeFromId("ABCD"); }).to.throw(TypeError);
         });
 

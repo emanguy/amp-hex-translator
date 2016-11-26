@@ -13,7 +13,7 @@
 
 var AMPParse = AMPParse || {};
 
-AMPParse.buildMid = function(hexadecimal) {
+AMPParse.buildManagedIdentifier = function(hexadecimal) {
 
     if (!(hexadecimal instanceof AMPHexConsumer)) {
         throw new TypeError("Did not receive an AMPHexConsumer");
