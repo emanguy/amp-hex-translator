@@ -28,8 +28,6 @@ AMPParse.buildBlob = function(hexadecimal)
 	var nibblesConsumed = blobLength.nibblesConsumed;
 	blobLength = blobLength.returnValue.value;
 
-	console.log("blobLength: " + blobLength);
-
 	// Repeatedly read in bytes
 	for (var i = 0; i < blobLength; i++)
 	{
@@ -43,7 +41,7 @@ AMPParse.buildBlob = function(hexadecimal)
 			nextByte = AMPParse.buildByte(hexadecimal);
 			nibblesConsumed += nextByte.nibblesConsumed;
 
-			returnValue.value.push(nextByte);
+			returnValue.value.push(nextByte.returnValue);
 		}
 		catch(err)
 		{

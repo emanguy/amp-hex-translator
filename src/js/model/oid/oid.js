@@ -54,7 +54,7 @@ AMPParse.buildOid = function(hexadecimal, isCompressed)
 
 	consumedNibbles += heirarchy.nibblesConsumed;
 	heirarchy = heirarchy.returnValue.value.map(function(byteOutput) {
-		return byteOutput.returnValue.value;
+		return byteOutput.value;
 	});
 
 	// Turn the first byte into the first two indices if the OID is uncompressed, otherwise prepend nickname
