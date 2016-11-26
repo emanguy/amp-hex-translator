@@ -128,65 +128,47 @@
     suite("Managed Identifiers AMP Structure model tests", function() {
         test("return EDD for 0", function(){
             returnedObj = AMPParse.getStructTypeFromId(0);
-            expect(returnedObj.name).to.equal("Externally Defined Data");
-            expect(returnedObj.id).to.equal("EDD");
-            expect(returnedObj.enumeration).to.equal(0);
+            expect(returnedObj).to.equal("Externally Defined Data");
         });
 
         test("return variable for 1", function(){
             returnedObj = AMPParse.getStructTypeFromId(1);
-            expect(returnedObj.name).to.equal("Variable");
-            expect(returnedObj.id).to.equal("VAR");
-            expect(returnedObj.enumeration).to.equal(1);
+            expect(returnedObj).to.equal("Variable");
         });
 
         test("return report for 2", function(){
             returnedObj = AMPParse.getStructTypeFromId(2);
-            expect(returnedObj.name).to.equal("Report");
-            expect(returnedObj.id).to.equal("RPT");
-            expect(returnedObj.enumeration).to.equal(2);
+            expect(returnedObj).to.equal("Report");
         });
 
         test("return control for 3", function(){
             returnedObj = AMPParse.getStructTypeFromId(3);
-            expect(returnedObj.name).to.equal("Control");
-            expect(returnedObj.id).to.equal("CTRL");
-            expect(returnedObj.enumeration).to.equal(3);
+            expect(returnedObj).to.equal("Control");
         });
 
         test("return state based rule for 4", function(){
             returnedObj = AMPParse.getStructTypeFromId(4);
-            expect(returnedObj.name).to.equal("State-Based Rule");
-            expect(returnedObj.id).to.equal("SRL");
-            expect(returnedObj.enumeration).to.equal(4);
+            expect(returnedObj).to.equal("State-Based Rule");
         });
 
         test("return time based rule for 5", function(){
             returnedObj = AMPParse.getStructTypeFromId(5);
-            expect(returnedObj.name).to.equal("Time-Based Rule ");
-            expect(returnedObj.id).to.equal("TRL");
-            expect(returnedObj.enumeration).to.equal(5);
+            expect(returnedObj).to.equal("Time-Based Rule ");
         });
 
         test("return macro for 6", function(){
             returnedObj = AMPParse.getStructTypeFromId(6);
-            expect(returnedObj.name).to.equal("Macro");
-            expect(returnedObj.id).to.equal("MACRO");
-            expect(returnedObj.enumeration).to.equal(6);
+            expect(returnedObj).to.equal("Macro");
         });
 
         test("return literal for 7", function(){
             returnedObj = AMPParse.getStructTypeFromId(7);
-            expect(returnedObj.name).to.equal("Literal");
-            expect(returnedObj.id).to.equal("LIT");
-            expect(returnedObj.enumeration).to.equal(7);
+            expect(returnedObj).to.equal("Literal");
         });
 
         test("return operator for 8", function(){
             returnedObj = AMPParse.getStructTypeFromId(8);
-            expect(returnedObj.name).to.equal("Operator");
-            expect(returnedObj.id).to.equal("OP");
-            expect(returnedObj.enumeration).to.equal(8);
+            expect(returnedObj).to.equal("Operator");
         });
     });
 
