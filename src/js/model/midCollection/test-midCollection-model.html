@@ -39,6 +39,8 @@
             returnedObj = AMPParse.buildMIDCollection(byteHex);
             expect(returnedObj.returnValue.midCount).to.equal(2);
             expect(returnedObj.returnValue.value).to.have.lengthOf(2);
+
+            expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(48);
         });
 
         test("throws RangeError when two entries are expected but only one is passed in", function()
