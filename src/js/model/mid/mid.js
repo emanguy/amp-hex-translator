@@ -16,7 +16,7 @@ var AMPParse = AMPParse || {};
 AMPParse.buildMid = function(hexadecimal) {
 
     if (!(hexadecimal instanceof AMPHexConsumer)) {
-        throw new ReferenceError("Did not receive an AMPHexConsumer");
+        throw new TypeError("Did not receive an AMPHexConsumer");
     }
 
     var nibblesConsumed = 0;
@@ -41,7 +41,7 @@ AMPParse.buildMid = function(hexadecimal) {
         returnValue.value = value;
 
         if (header.returnValue.isParametrized) {
-            var parameters = AMPParse.buildTypedDataCollection(hexadecimal);
+            var parameters = AMPParse.buildDataCollection(hexadecimal, true);
             nibblesConsumed += parameters.nibblesConsumed;
             returnValue.parameters = parameters;
         }
@@ -66,7 +66,7 @@ AMPParse.buildMid = function(hexadecimal) {
 AMPParse.buildMidFlag = function(hexadecimal) {
 
     if (!(hexadecimal instanceof AMPHexConsumer)) {
-        throw new ReferenceError("Did not receive an AMPHexConsumer");
+        throw new TypeError("Did not receive an AMPHexConsumer");
     }
 
     hexadecimal.consumeNibbles();
@@ -76,7 +76,6 @@ AMPParse.buildMidFlag = function(hexadecimal) {
     var hasTag = ((byteValue & 32) >> 5) === 1;
     var hasIssuer = ((byteValue & 16) >> 4) === 1;
 
-    // TODO: verify this is right, sturctures go up to 25 so why only 4 bits?
     var structureId = byteValue & 15;
 
     var isCompressed, isParametrized = false;
@@ -119,7 +118,7 @@ AMPParse.buildMidFlag = function(hexadecimal) {
 
 AMPParse.getStructTypeFromId = function(structureId) {
     if (isNaN(structureId) || structureId < 0 || structureId > 8) {
-        throw new ReferenceError("Invalid StructureId: " + structureId +
+        throw new TypeError("Invalid StructureId: " + structureId +
             " StructureId must be a number between 0 and 25");
     }
 
@@ -136,9 +135,4 @@ AMPParse.getStructTypeFromId = function(structureId) {
     ]
 
     return structureTypes[structureId];
-}
-
-// TODO: remove this stub method when the real implementation is ready
-AMPParse.buildTypedDataCollection = function(hexadecimal) {
-    return {returnValue: {type: "Typed Data Collection"}};
 }

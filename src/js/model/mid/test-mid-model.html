@@ -10,6 +10,8 @@
     <script src="../byte/byte.js"></script>
     <script src="../oid/oid.js"></script>
     <script src="../number/number.js"></script>
+    <script src="../string/string.js"></script>
+    <script src="../dataCollection/dataCollection.js"></script>
     <script src="mid.js"></script>
 </head>
 <body>
@@ -25,13 +27,14 @@
         {
             //FF flag says we have an issuer and tag which are both 07
             //TODO:  Add DC hex before the tag
-            byteHex = new AMPHexConsumer("F80704010307");
+//            byteHex = new AMPHexConsumer("F80704010307");
+            byteHex = new AMPHexConsumer("c304010903021517050182030100020100");
             returnedObj = AMPParse.buildMid(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.issuer.returnValue.type).to.be.a("string").and.equal("Sdnv");
             expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
-            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Typed Data Collection");
+            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Data Collection");
             expect(returnedObj.returnValue.tag.returnValue.type).to.be.a("string").and.equal("Sdnv");
         });
 
@@ -49,9 +52,18 @@
 
         });
 
-        test("MID with parameters", function()
+        test("MID with issuer and tag", function()
         {
-            //TODO: Add new test once TDC is ready
+            //FF flag says we have an issuer and tag which are both 07
+            byteHex = new AMPHexConsumer("F807040103010007");
+            returnedObj = AMPParse.buildMid(byteHex);
+            expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
+            expect(returnedObj.returnValue.header).to.exist;
+            expect(returnedObj.returnValue.issuer.returnValue.type).to.be.a("string").and.equal("Sdnv");
+            expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
+            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Data Collection");
+            expect(returnedObj.returnValue.tag.returnValue.type).to.be.a("string").and.equal("Sdnv");
+
         });
     });
 
@@ -182,23 +194,23 @@
 
     suite("Managed Identifiers model tests", function()
     {
-        test("throws ReferenceError on bad parameters", function()
+        test("throws TypeError on bad parameters", function()
         {
-            expect(function() { AMPParse.buildMid(26); }).to.throw(ReferenceError);
-            expect(function() { AMPParse.getStructTypeFromId("ABCD"); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildMid(26); }).to.throw(TypeError);
+            expect(function() { AMPParse.getStructTypeFromId("ABCD"); }).to.throw(TypeError);
         });
 
-        test("throws ReferenceError on bad parameters", function()
+        test("throws TypeError on bad parameters", function()
         {
-            expect(function() { AMPParse.getStructTypeFromId(-1); }).to.throw(ReferenceError);
-            expect(function() { AMPParse.getStructTypeFromId(9); }).to.throw(ReferenceError);
-            expect(function() { AMPParse.getStructTypeFromId("bad"); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.getStructTypeFromId(-1); }).to.throw(TypeError);
+            expect(function() { AMPParse.getStructTypeFromId(9); }).to.throw(TypeError);
+            expect(function() { AMPParse.getStructTypeFromId("bad"); }).to.throw(TypeError);
         });
 
-        test("throws ReferenceError on bad parameters", function()
+        test("throws TypeError on bad parameters", function()
         {
-            expect(function() { AMPParse.buildMidFlag(); }).to.throw(ReferenceError);
-            expect(function() { AMPParse.buildMidFlag(25); }).to.throw(ReferenceError);
+            expect(function() { AMPParse.buildMidFlag(); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildMidFlag(25); }).to.throw(TypeError);
         });
     });
 </script>
