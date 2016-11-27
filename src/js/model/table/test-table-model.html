@@ -1,0 +1,131 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+    <script src="../../../../bower_components/long/dist/long.min.js"></script>
+    <script src="../../AMPSetup/AMPSetup.js"></script>
+    <script src="../sdnv/sdnv.js"></script>
+    <script src="../blob/blob.js"></script>
+    <script src="../byte/byte.js"></script>
+    <script src="../number/number.js"></script>
+    <script src="../string/string.js"></script>
+    <script src="../dataCollection/dataCollection.js"></script>
+    <script src="table.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Table model tests", function() {
+
+        var byteHex;
+        var returnedObj;
+
+        test("Correct table is returned", function () {
+            /*
+             DC for column names
+             {
+                Count = 03
+                Month = {06, [4d 6f 6e 74 68 00]}
+                Ord = {04, [4f 72 64 00]}
+                Days = {05, [44 61 79 73 00]}
+             },
+             Blob for column types
+             {
+                types = {03, [12 0B 0B]}
+             },
+             numRows
+             {03},
+             rows
+             [
+                { {4a 61 6e 00}, {00000001}, {0000001F} }
+                { {4f 63 74 00}, {0000000A}, {0000001F} }
+                { {4a 75 6e 65 00}, {00000006}, {0000001E} }
+             ]
+             */
+
+            var dcHex = "03064d6f6e746800044f726400054461797300";
+            var colTypeHex = "03120B0B";
+            var numRowHex = "03";
+            var rowOneHex = "034a616e00000000010000001F";
+            var rowTwoHex = "034f6374000000000A0000001F";
+            var rowThreeHex ="034a756e6500000000060000001E";
+
+            var allHex = dcHex + colTypeHex + numRowHex + rowOneHex + rowTwoHex + rowThreeHex;
+            byteHex = new AMPHexConsumer(allHex);
+            returnedObj = AMPParse.buildTable(byteHex);
+
+            // Verify the column names were correctly converted to strings
+            expect(returnedObj.returnValue.columnNames).to.have.lengthOf(3);
+            var expectedColumnNames = ["Month", "Ord", "Days"];
+            expectedColumnNames.forEach(function(name, index) {
+                expect(returnedObj.returnValue.columnNames[index].value).to.equal(name);
+            });
+
+            // Verify we all the rows were returned with the correct data types and values
+            expect(returnedObj.returnValue.value).to.have.lengthOf(3);
+            expect(returnedObj.returnValue.value[0][0].value).to.be.a("string").and.equal("Jan");
+            expect(returnedObj.returnValue.value[0][1].value).to.be.a("string").and.equal("1");
+            expect(returnedObj.returnValue.value[0][2].value).to.be.a("string").and.equal("31");
+
+            expect(returnedObj.returnValue.value[1][0].value).to.be.a("string").and.equal("Oct");
+            expect(returnedObj.returnValue.value[1][1].value).to.be.a("string").and.equal("10");
+            expect(returnedObj.returnValue.value[1][2].value).to.be.a("string").and.equal("31");
+
+
+            expect(returnedObj.returnValue.value[2][0].value).to.be.a("string").and.equal("June");
+            expect(returnedObj.returnValue.value[2][1].value).to.be.a("string").and.equal("6");
+            expect(returnedObj.returnValue.value[2][2].value).to.be.a("string").and.equal("30");
+
+            // Make sure nibblesConsumed is correct
+            expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(128);
+        });
+
+        test("Column name count does not match column type count", function () {
+            var dcHex = "03064d6f6e746800044f726400054461797300";
+            var colTypeHex = "03120B0B0B"; // extra column type of 0B
+            var numRowHex = "03";
+            var rowOneHex = "034a616e00000000010000001F";
+            var rowTwoHex = "034f6374000000000A0000001F";
+            var rowThreeHex ="034a756e6500000000060000001E";
+
+            var allHex = dcHex + colTypeHex + numRowHex + rowOneHex + rowTwoHex + rowThreeHex;
+            byteHex = new AMPHexConsumer(allHex);
+            expect(function() { AMPParse.buildTable(byteHex); }).to.throw(RangeError);
+        });
+
+        test("Expected more rows", function () {
+            var dcHex = "03064d6f6e746800044f726400054461797300";
+            var colTypeHex = "03120B0B";
+            var numRowHex = "04";
+            var rowOneHex = "034a616e00000000010000001F";
+            var rowTwoHex = "034f6374000000000A0000001F";
+            var rowThreeHex ="034a756e6500000000060000001E";
+
+            var allHex = dcHex + colTypeHex + numRowHex + rowOneHex + rowTwoHex + rowThreeHex;
+            byteHex = new AMPHexConsumer(allHex);
+            expect(function() { AMPParse.buildTable(byteHex); }).to.throw(RangeError);
+        });
+
+        test("Row expects wrong number of objects", function(){
+            var dcHex = "03064d6f6e746800044f726400054461797300";
+            var colTypeHex = "03120B0B";
+            var numRowHex = "03";
+            var rowOneHex = "044a616e00000000010000001F"; // set row object to 4 instead of 3
+            var rowTwoHex = "034f6374000000000A0000001F";
+            var rowThreeHex ="034a756e6500000000060000001E";
+
+            var allHex = dcHex + colTypeHex + numRowHex + rowOneHex + rowTwoHex + rowThreeHex;
+            byteHex = new AMPHexConsumer(allHex);
+            expect(function() { AMPParse.buildTable(byteHex); }).to.throw(RangeError);
+        });
+
+        test("throws ReferenceError on bad parameters", function () {
+            expect(function() { AMPParse.buildTable(); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildTable("25"); }).to.throw(TypeError);
+        });
+    });
+</script>
+</body>
+</html>
