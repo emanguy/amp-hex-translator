@@ -33,8 +33,6 @@ AMPParse.buildMessage = function (hexadecimal) {
     var value = {};
     try {
         value = opCodes[opCodeValue].function.apply(this, [hexadecimal]);
-        nibblesConsumed += value.nibblesConsumed;
-        value = value.returnValue;
     } catch (err) {
         err.message = "Failed to get message body: " + err.message;
         err.nibblesConsumed += nibblesConsumed;
@@ -59,10 +57,9 @@ AMPParse.buildRegisterAgent = function(hexadecimal) {
 
     registerAgentBlob = AMPParse.buildBlob(hexadecimal);
     this.nibblesConsumed = registerAgentBlob.nibblesConsumed;
-    registerAgentBlob = registerAgentBlob.returnValue;
-
-    return  registerAgentBlob;
-
+    return {
+        agentId: registerAgentBlob.returnValue
+    };
 };
 
 AMPParse.buildDataReport = function(hexadecimal) {
@@ -94,18 +91,15 @@ AMPParse.buildDataReport = function(hexadecimal) {
         }
     }
 
-    var returnValue = {
+    return {
         time: timestamp,
         receiverName: receiverName,
         entries: entries
     };
-
-    return  returnValue;
 };
 
 AMPParse.buildPerformControl = function(hexadecimal) {
-    return {ran: "buildPerformControl"}; // TODO: remove this when buildTimestamp is merged
-    var startTime = AMPParse.buildTimestamp(hexadecimal);
+    var startTime = AMPParse.buildSdnv(hexadecimal);  // TODO: change this when buildTimestamp is merged
     this.nibblesConsumed += startTime.nibblesConsumed;
     startTime = startTime.returnValue;
 
@@ -113,11 +107,8 @@ AMPParse.buildPerformControl = function(hexadecimal) {
     this.nibblesConsumed += controls.nibblesConsumed;
     controls = controls.returnValue;
 
-    var returnValue = {
+    return {
         startTime: startTime,
         controls: controls
     };
-
-    return  returnValue;
-
 };

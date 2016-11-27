@@ -28,7 +28,7 @@
 
         test("returns correct header", function()
         {
-            byteHex = new AMPHexConsumer("1a0001c304010903021517080000000182030100020100");
+            byteHex = new AMPHexConsumer("1a0000000001c304010903021517080000000182030100020100");
             returnedObj = AMPParse.buildMessage(byteHex);
             expect(returnedObj.returnValue.header.hasTrailer).to.equal(false);
             expect(returnedObj.returnValue.header.negativeAcknowledgement).to.equal(false);
@@ -45,7 +45,17 @@
 
         test("Message is a register agent type", function()
         {
+            byteHex = new AMPHexConsumer("00088899AABBCCDDEEFFABCDEF");
+            returnedObj = AMPParse.buildMessage(byteHex);
 
+            expect(returnedObj.returnValue.value.agentId).to.exist;
+
+            var expectedResults = [ 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff ];
+
+            expectedResults.forEach(function (currentValue, currentIndex)
+            {
+                expect(returnedObj.returnValue.value.agentId.value[currentIndex].value).to.equal(currentValue);
+            });
         });
         test("Message is a data report type", function()
         {
@@ -54,7 +64,12 @@
 
         test("Message is a perform control model", function()
         {
-
+            byteHex = new AMPHexConsumer("1a0000000001c304010903021517080000000182030100020100");
+            returnedObj = AMPParse.buildMessage(byteHex);
+            var value = returnedObj.returnValue.value;
+            expect(value.startTime).to.exist;
+            expect(value.controls.value).to.have.lengthOf(1);
+            expect(value.controls.value[0].parameters.value).to.have.lengthOf(2);
         });
 
         test("throws TypeError on bad parameters", function()
