@@ -28,7 +28,7 @@ AMPParse.buildManagedIdentifier = function(hexadecimal) {
 
         var header = AMPParse.buildMidFlag(hexadecimal);
         nibblesConsumed += header.nibblesConsumed;
-        returnValue.header = header;
+        returnValue.header = header.returnValue;
 
         if (header.returnValue.hasIssuer) {
             var issuer = AMPParse.buildSdnv(hexadecimal);
