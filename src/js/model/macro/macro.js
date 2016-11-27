@@ -15,12 +15,12 @@ AMPParse.buildMacro = function(hexadecimal) {
         nibblesConsumed += tempValue.nibblesConsumed;
         returnValue.identifier = tempValue.returnValue;
     } catch(err) {
-        err.message = "Failed to get the identifier: " + err.message;
+        err.message = "Failed to get the identifier for a macro: " + err.message;
         throw err;
     }
 
     if (returnValue.identifier.header.isParametrized) {
-        var err = new Error("A Macro cannot contain parameterized OID");
+        var err = new Error("A macro identifier cannot contain parameterized OID");
         err.nibblesConsumed += nibblesConsumed;
         throw err;
     }
