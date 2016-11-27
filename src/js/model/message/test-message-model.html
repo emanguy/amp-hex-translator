@@ -37,6 +37,12 @@
             expect(returnedObj.returnValue.header.opcodeName).to.equal("Perform Control");
         });
 
+        test("throws error on unknown opcode", function()
+        {
+            byteHex = new AMPHexConsumer("020001c304010903021517080000000182030100020100");
+            expect(function() { AMPParse.buildMessage(byteHex) }).to.throw(TypeError);
+           });
+
         test("Message is a register agent type", function()
         {
 

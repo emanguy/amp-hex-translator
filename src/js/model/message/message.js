@@ -18,6 +18,10 @@ AMPParse.buildMessage = function (hexadecimal) {
 
     var opCodeValue = rawInt & 31;
 
+    if (!opCodes[opCodeValue]) {
+        throw new TypeError("Opcode must be 0, 18 or 26. Invalid value was " + opCodeValue);
+    }
+
     var header = {
         hasTrailer: (rawInt & 128) === 1,
         negativeAcknowledgement: (rawInt & 64) === 1,
@@ -32,8 +36,8 @@ AMPParse.buildMessage = function (hexadecimal) {
         nibblesConsumed += value.nibblesConsumed;
         value = value.returnValue;
     } catch (err) {
-        err.nibblesConsumed += nibblesConsumed;
         err.message = "Failed to get message body: " + err.message;
+        err.nibblesConsumed += nibblesConsumed;
         throw err;
     }
 
