@@ -33,6 +33,8 @@ AMPParse.buildMessage = function (hexadecimal) {
     var value = {};
     try {
         value = opCodes[opCodeValue].function.apply(this, [hexadecimal]);
+        nibblesConsumed += value.nibblesConsumed;
+        value = value.returnValue;
     } catch (err) {
         err.message = "Failed to get message body: " + err.message;
         err.nibblesConsumed += nibblesConsumed;
@@ -56,59 +58,78 @@ AMPParse.buildRegisterAgent = function(hexadecimal) {
     var registerAgentBlob;
 
     registerAgentBlob = AMPParse.buildBlob(hexadecimal);
-    this.nibblesConsumed = registerAgentBlob.nibblesConsumed;
+    var nibblesConsumed = registerAgentBlob.nibblesConsumed;
     return {
-        agentId: registerAgentBlob.returnValue
+        returnValue: {agentId: registerAgentBlob.returnValue},
+        nibblesConsumed: nibblesConsumed
     };
 };
 
+// TODO: remove this when report entry code is merged in
+AMPParse.buildReportEntry = function(hexadecimal) {
+    return {
+        returnValue: {type: "Report Entry"},
+        nibblesConsumed: 0
+    };
+}
+
 AMPParse.buildDataReport = function(hexadecimal) {
-    var timestamp = AMPParse.buildTimestamp(hexadecimal);
-    this.nibblesConsumed += timestamp.nibblesConsumed;
+    var timestamp = AMPParse.buildSdnv(hexadecimal);// TODO: change this when buildTimestamp is merged
+    var nibblesConsumed = timestamp.nibblesConsumed;
     timestamp = timestamp.returnValue;
 
     var receiverName = AMPParse.buildBlob(hexadecimal);
-    this.nibblesConsumed += receiverName.nibblesConsumed;
+    nibblesConsumed += receiverName.nibblesConsumed;
     receiverName = receiverName.returnValue;
 
     var entryCount = AMPParse.buildSdnv(hexadecimal);
-    this.nibblesConsumed += entryCount.nibblesConsumed;
-    entryCount = entryCount.returnValue;
+    nibblesConsumed += entryCount.nibblesConsumed;
+    entryCount = entryCount.returnValue.value;
 
     var entries = [];
     for (var i = 0; i < entryCount; i++) {
         try {
             var entry = AMPParse.buildReportEntry(hexadecimal);
-            this.nibblesConsumed += entry.nibblesConsumed;
+            nibblesConsumed += entry.nibblesConsumed;
             entry = entry.returnValue;
             entries.push(entry);
         } catch (err) {
             if (err instanceof RangeError) {
                 err.message = "Expected " + entryCount + " entry reports but only had enough bytes for " + i;
             }
-            err.nibblesConsumed += this.nibblesConsumed;
+            err.nibblesConsumed += nibblesConsumed;
             throw err;
         }
     }
 
-    return {
+    var returnValue = {
         time: timestamp,
         receiverName: receiverName,
         entries: entries
     };
+
+    return {
+        returnValue: returnValue,
+        nibblesConsumed: nibblesConsumed
+    }
 };
 
 AMPParse.buildPerformControl = function(hexadecimal) {
     var startTime = AMPParse.buildSdnv(hexadecimal);  // TODO: change this when buildTimestamp is merged
-    this.nibblesConsumed += startTime.nibblesConsumed;
+    var nibblesConsumed = startTime.nibblesConsumed;
     startTime = startTime.returnValue;
 
     var controls = AMPParse.buildMIDCollection(hexadecimal);
-    this.nibblesConsumed += controls.nibblesConsumed;
+    nibblesConsumed += controls.nibblesConsumed;
     controls = controls.returnValue;
 
-    return {
+    var returnValue = {
         startTime: startTime,
         controls: controls
     };
+
+    return {
+        returnValue: returnValue,
+        nibblesConsumed: nibblesConsumed
+    }
 };

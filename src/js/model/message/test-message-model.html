@@ -41,11 +41,11 @@
         {
             byteHex = new AMPHexConsumer("020001c304010903021517080000000182030100020100");
             expect(function() { AMPParse.buildMessage(byteHex) }).to.throw(TypeError);
-           });
+        });
 
         test("Message is a register agent type", function()
         {
-            byteHex = new AMPHexConsumer("00088899AABBCCDDEEFFABCDEF");
+            byteHex = new AMPHexConsumer("00088899AABBCCDDEEFF");
             returnedObj = AMPParse.buildMessage(byteHex);
 
             expect(returnedObj.returnValue.value.agentId).to.exist;
@@ -56,10 +56,23 @@
             {
                 expect(returnedObj.returnValue.value.agentId.value[currentIndex].value).to.equal(currentValue);
             });
+
+            expect(returnedObj.nibblesConsumed).to.equal(20);
         });
+
         test("Message is a data report type", function()
         {
+            //TODO: add on entry report hex at the end
+            byteHex = new AMPHexConsumer("1200088899AABBCCDDEEFF02");
+            returnedObj = AMPParse.buildMessage(byteHex);
 
+            var value = returnedObj.returnValue.value;
+
+            expect(value.time).to.exist;
+            expect(value.receiverName).to.exist;
+            expect(value.entries).to.have.lengthOf(2);
+
+            expect(returnedObj.nibblesConsumed).to.equal(24);
         });
 
         test("Message is a perform control model", function()
@@ -70,6 +83,8 @@
             expect(value.startTime).to.exist;
             expect(value.controls.value).to.have.lengthOf(1);
             expect(value.controls.value[0].parameters.value).to.have.lengthOf(2);
+
+            expect(returnedObj.nibblesConsumed).to.equal(52);
         });
 
         test("throws TypeError on bad parameters", function()
