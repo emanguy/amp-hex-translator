@@ -82,7 +82,6 @@ AMPHexConsumer.prototype.consumeNibbles = function(nibbles)
 }
 
 /**
-<<<<<<< HEAD
  * Associative array which maps data type enumerations to their real names
  */
 AMPParse.typeTable = {
@@ -103,7 +102,8 @@ AMPParse.typeTable = {
 	23: "Data Collection",
 	24: "Typed Data Collection",
 	25: "Table"
-=======
+}
+/*
  * This method allows functions to use model constructors even if they were not included in the
  * correct order in <script> tags.
  *
@@ -141,7 +141,7 @@ AMPParse.buildUndeclaredType = function(hexadecimal, typeEnumeration)
 	// Move the method name into fnCall and replace it with hexadecimal consumer
 	fnCall = parameters.splice(0, 1, hexadecimal)[0];
 	element = AMPParse[fnCall].apply(AMPParse[fnCall], parameters);
-	
+
 	return element;
 }
 
@@ -164,5 +164,4 @@ AMPBuilders = {
 	23: [ "buildDataCollection", false ],
 	24: [ "buildDataCollection", true ],
 	25: [ "buildTable" ]
->>>>>>> tmaher1/dataCollection
 }
