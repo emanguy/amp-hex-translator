@@ -43,7 +43,6 @@ AMPParse.buildMIDCollection = function(hexadecimal)
 
     var returnValue = {
         type: "Managed Identifier Collection",
-        midCount: midCount,
         value: mids
     }
 
