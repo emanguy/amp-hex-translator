@@ -31,7 +31,7 @@ AMPParse.buildExpression = function(hexadecimal)
 	// Get expression operation
 	try
 	{
-		tempStorage = AMPParse.buildMidCollection(hexadecimal);
+		tempStorage = AMPParse.buildMIDCollection(hexadecimal);
 		consumedNibbles += tempStorage.nibblesConsumed;
 		returnValue.value = tempStorage.returnValue;
 	}
