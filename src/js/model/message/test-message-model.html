@@ -4,11 +4,17 @@
     <script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../../../bower_components/web-component-tester/browser.js"></script>
 
+    <script src="../../../../bower_components/long/dist/long.min.js"></script>
     <script src="../../AMPSetup/AMPSetup.js"></script>
-    <script src="../byte/byte.js"></script>
     <script src="../sdnv/sdnv.js"></script>
     <script src="../blob/blob.js"></script>
+    <script src="../byte/byte.js"></script>
+    <script src="../oid/oid.js"></script>
+    <script src="../number/number.js"></script>
     <script src="../string/string.js"></script>
+    <script src="../dataCollection/dataCollection.js"></script>
+    <script src="../mid/mid.js"></script>
+    <script src="../midCollection/midCollection.js"></script>
 
     <script src="message.js"></script>
 </head>
@@ -22,7 +28,7 @@
 
         test("returns correct header", function()
         {
-            byteHex = new AMPHexConsumer("1a0001c304010903021517050182030100020100");
+            byteHex = new AMPHexConsumer("1a0001c304010903021517080000000182030100020100");
             returnedObj = AMPParse.buildMessage(byteHex);
             expect(returnedObj.returnValue.header.hasTrailer).to.equal(false);
             expect(returnedObj.returnValue.header.negativeAcknowledgement).to.equal(false);
