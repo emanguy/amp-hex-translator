@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+    <script src="../../AMPSetup/AMPSetup.js"></script>
+    <script src="../byte/byte.js"></script>
+    <script src="../sdnv/sdnv.js"></script>
+    <script src="../blob/blob.js"></script>
+    <script src="../string/string.js"></script>
+
+    <script src="message.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Message model", function()
+    {
+        var byteHex;
+        var returnedObj;
+
+        test("returns correct header", function()
+        {
+            byteHex = new AMPHexConsumer("1a0001c304010903021517050182030100020100");
+            returnedObj = AMPParse.buildMessage(byteHex);
+            expect(returnedObj.returnValue.header.hasTrailer).to.equal(false);
+            expect(returnedObj.returnValue.header.negativeAcknowledgement).to.equal(false);
+            expect(returnedObj.returnValue.header.acknowledgement).to.equal(false);
+            expect(returnedObj.returnValue.header.opcodeValue).to.equal(26);
+            expect(returnedObj.returnValue.header.opcodeName).to.equal("Perform Control");
+        });
+
+        test("Message is a register agent type", function()
+        {
+
+        });
+        test("Message is a data report type", function()
+        {
+
+        });
+
+        test("Message is a perform control model", function()
+        {
+
+        });
+
+        test("throws TypeError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildMessage(); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildMessage("AAAAAAAAAAAAAAA"); }).to.throw(TypeError);
+        });
+    });
+</script>
+</body>
+</html>
