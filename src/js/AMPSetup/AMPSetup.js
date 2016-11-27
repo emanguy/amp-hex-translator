@@ -82,6 +82,28 @@ AMPHexConsumer.prototype.consumeNibbles = function(nibbles)
 }
 
 /**
+ * Associative array which maps data type enumerations to their real names
+ */
+AMPParse.typeTable = {
+	9: "Byte",
+	10: "Integer",
+	11: "Unsigned Integer",
+	12: "Vast",
+	13: "Unsigned Vast",
+	14: "Real (32)",
+	15: "Real (64)",
+	16: "SDNV",
+	17: "Timestamp",
+	18: "String",
+	19: "Blob",
+	20: "Managed Identifier",
+	21: "MID Collection",
+	22: "Expression",
+	23: "Data Collection",
+	24: "Typed Data Collection",
+	25: "Table"
+}
+/*
  * This method allows functions to use model constructors even if they were not included in the
  * correct order in <script> tags.
  *

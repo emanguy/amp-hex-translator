@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta charset="utf8">
+
+		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="../../../../bower_components/long/dist/long.min.js"></script>
+		<script src="../byte/byte.js"></script>
+		<script src="../number/number.js"></script>
+		<script src="../sdnv/sdnv.js"></script>
+		<script src="../dataCollection/dataCollection.js"></script>
+		<script src="../blob/blob.js"></script>
+		<script src="../oid/oid.js"></script>
+		<script src="../mid/mid.js"></script>
+		<script src="../midCollection/midCollection.js"></script>
+		<script src="../expression/expression.js"></script>
+		<script src="variable.js"></script>
+	</head>
+	<body>
+		<script>
+suite("Variable model constructor", function()
+{
+	var consumer;
+	var variable;
+
+	setup(function() 
+	{
+		consumer = new AMPHexConsumer("910104012309090000000188070100");
+		variable = AMPParse.buildVariable(consumer);
+	});
+
+	test("gets the right mid", function()
+	{
+		expect(variable.nibblesConsumed).to.equal(30);
+		expect(variable.returnValue.id.header.hasIssuer).to.be.true;
+		expect(variable.returnValue.id.issuer.value).to.equal(1);
+	});
+	
+	test("gets the right variable type", function()
+	{
+		expect(variable.returnValue.variableType).to.equal("Byte");
+	});
+});
+		</script>
+	</body>
+</html>

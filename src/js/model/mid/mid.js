@@ -28,28 +28,28 @@ AMPParse.buildManagedIdentifier = function(hexadecimal) {
 
         var header = AMPParse.buildMidFlag(hexadecimal);
         nibblesConsumed += header.nibblesConsumed;
-        returnValue.header = header;
+        returnValue.header = header.returnValue;
 
         if (header.returnValue.hasIssuer) {
             var issuer = AMPParse.buildSdnv(hexadecimal);
             nibblesConsumed += issuer.nibblesConsumed;
-            returnValue.issuer = issuer;
+            returnValue.issuer = issuer.returnValue;
         }
 
         var value = AMPParse.buildOid(hexadecimal, header.returnValue.isCompressed);
         nibblesConsumed += value.nibblesConsumed;
-        returnValue.value = value;
+        returnValue.value = value.returnValue;
 
         if (header.returnValue.isParametrized) {
             var parameters = AMPParse.buildDataCollection(hexadecimal, true);
             nibblesConsumed += parameters.nibblesConsumed;
-            returnValue.parameters = parameters;
+            returnValue.parameters = parameters.returnValue;
         }
 
         if (header.returnValue.hasTag) {
             var tag = AMPParse.buildSdnv(hexadecimal);
             nibblesConsumed += tag.nibblesConsumed;
-            returnValue.tag = tag;
+            returnValue.tag = tag.returnValue;
         }
 
     } catch (err) {
