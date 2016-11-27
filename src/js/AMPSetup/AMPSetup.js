@@ -141,7 +141,7 @@ AMPParse.buildUndeclaredType = function(hexadecimal, typeEnumeration)
 	// Move the method name into fnCall and replace it with hexadecimal consumer
 	fnCall = parameters.splice(0, 1, hexadecimal)[0];
 	element = AMPParse[fnCall].apply(AMPParse[fnCall], parameters);
-	
+
 	return element;
 }
 
