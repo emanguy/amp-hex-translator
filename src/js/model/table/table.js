@@ -9,39 +9,23 @@ AMPParse.buildTable = function (hexadecimal) {
     var nibblesConsumed = 0;
     var columnNames = [];
 
-    try {
-        columnNames = AMPParse.buildDataCollection(hexadecimal, false);
-        nibblesConsumed += columnNames.nibblesConsumed;
-    } catch (err) {
-        err.nibblesConsumed = 0;
-        err.message = "Could not extract column names for table: " + err.message;
-        throw err;
-    }
+    var numBlobs = AMPParse.buildSdnv(hexadecimal);
+    nibblesConsumed = numBlobs.nibblesConsumed;
+    numBlobs = numBlobs.returnValue.value;
 
+    for (var i = 0; i < numBlobs; i++) {
+        var blobLength = AMPParse.buildSdnv(hexadecimal);
+        nibblesConsumed += blobLength.nibblesConsumed;
 
-    // Convert the column names from blobs to an array of AMP strings
-    var columnNames = columnNames.returnValue.value.map(function(blob){
-        var blobHex = blob.value.map(function(byte){
-            // convert the byte int value back to hex
-            var asHex = byte.value.toString(16);
-            // need leading 0's to stay aligned properly
-            return asHex.length === 1 ? "0" + asHex : asHex;
-        });
+        var columnName = AMPParse.buildString(hexadecimal);
+        nibblesConsumed += columnName.nibblesConsumed;
 
-        //join the hex array into a single string
-        blobHex = blobHex.join("");
-
-        // create consumer so we can pass it to buildString
-        try {
-            var consume = new AMPHexConsumer(blobHex);
-            var colName = AMPParse.buildString(consume);
-            return colName.returnValue;
-        } catch (err) {
-            err.nibblesConsumed = nibblesConsumed;
-            err.message = "Could not convert " +blobHex + " to a column name string";
-            throw err;
+        if (blobLength.returnValue.value != (columnName.nibblesConsumed/2)) {
+            throw new RangeError("SDNV lied about blob length");
         }
-    });
+
+        columnNames.push(columnName.returnValue);
+    }
 
     var colTypes;
     try {
