@@ -32,7 +32,7 @@ AMPParse.buildVariable = function(hexadecimal)
 	}
 	catch (err)
 	{
-		err.nibblesConsumed += nibblesConsumed;
+		err.nibblesConsumed += consumedNibbles;
 		throw err;
 	}
 
@@ -50,7 +50,7 @@ AMPParse.buildVariable = function(hexadecimal)
 	// Build the expression necessary for initializing the variable
 	try
 	{
-		tempValue = AMPParse.buildMidCollection(hexadecimal);
+		tempValue = AMPParse.buildExpression(hexadecimal);
 		consumedNibbles += tempValue.nibblesConsumed;
 		returnValue.value = tempValue.returnValue;
 	}
