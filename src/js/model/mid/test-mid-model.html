@@ -31,8 +31,8 @@
             returnedObj = AMPParse.buildManagedIdentifier(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
-            expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
-            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Data Collection");
+            expect(returnedObj.returnValue.value.type).to.be.a("string").and.equal("Object Identifier");
+            expect(returnedObj.returnValue.parameters.type).to.be.a("string").and.equal("Data Collection");
             expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(40);
         });
 
@@ -44,7 +44,7 @@
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
             expect(returnedObj.returnValue.issuer).to.not.exist;
-            expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
+            expect(returnedObj.returnValue.value.type).to.be.a("string").and.equal("Object Identifier");
             expect(returnedObj.returnValue.parameters).to.not.exist;
             expect(returnedObj.returnValue.tag).to.not.exist;
             expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(20);
@@ -57,10 +57,10 @@
             returnedObj = AMPParse.buildManagedIdentifier(byteHex);
             expect(returnedObj.returnValue.type).to.be.a("string").and.equal("Managed Identifier");
             expect(returnedObj.returnValue.header).to.exist;
-            expect(returnedObj.returnValue.issuer.returnValue.type).to.be.a("string").and.equal("Sdnv");
-            expect(returnedObj.returnValue.value.returnValue.type).to.be.a("string").and.equal("Object Identifier");
-            expect(returnedObj.returnValue.parameters.returnValue.type).to.be.a("string").and.equal("Data Collection");
-            expect(returnedObj.returnValue.tag.returnValue.type).to.be.a("string").and.equal("Sdnv");
+            expect(returnedObj.returnValue.issuer.type).to.be.a("string").and.equal("Sdnv");
+            expect(returnedObj.returnValue.value.type).to.be.a("string").and.equal("Object Identifier");
+            expect(returnedObj.returnValue.parameters.type).to.be.a("string").and.equal("Data Collection");
+            expect(returnedObj.returnValue.tag.type).to.be.a("string").and.equal("Sdnv");
             expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(16);
         });
     });
