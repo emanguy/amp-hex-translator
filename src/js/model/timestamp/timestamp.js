@@ -3,7 +3,7 @@ var AMPParse = AMPParse || {};
 AMPParse.buildTimestamp = function (hexadecimal)
 {
 	// Defensive programming
-    if (typeof hexadecimal !== "AMPHexConsumer") {
+    if (!(hexadecimal instanceof AMPHexConsumer)) {
 		throw new ReferenceError("Provided parameter does not exist or is not an AMPHexConsumer");
     }
 
