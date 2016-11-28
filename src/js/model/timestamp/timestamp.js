@@ -3,13 +3,16 @@ var AMPParse = AMPParse || {};
 AMPParse.buildTimestamp = function (hexadecimal)
 {
 	// Defensive programming
-    if (typeof hexadecimal === "undefined" || typeof hexadecimal !== "string")
-    {
-	throw new ReferenceError("Provided parameter does not exist or is not a string");
+    if (typeof hexadecimal !== "AMPHexconsumer") {
+		throw new ReferenceError("Provided parameter does not exist or is not an AMPHexconsumer");
     }
 
     //SDNV PARSER GOES HERE
     sdnvReturn = AMPParse.buildSdnv(hexadecimal);
+
+    if (sdnvReturn.nibblesConsumed < 1) {
+        throw new RangeError("Provided parameter is of too small a size");
+    }
     
     // Snag the relevant bytes and build return value object
     var ampEpoch = new Date(0);
