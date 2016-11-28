@@ -38,8 +38,8 @@ suite("String model constructor", function()
 
 	test("throws ReferenceError on bad parameters", function()
 	{
-		expect(function() { AMPParse.buildString(); }).to.throw(TypeError, /Did not receive an instance of AMPHexConsumer/);
-		expect(function() { AMPParse.buildString(25); }).to.throw(TypeError, /Did not receive an instance of AMPHexConsumer/);
+		expect(function() { AMPParse.buildString(); }).to.throw(TypeError, "Did not receive an instance of AMPHexConsumer");
+		expect(function() { AMPParse.buildString(25); }).to.throw(TypeError, "Did not receive an instance of AMPHexConsumer");
 	});
 });
 		</script>
