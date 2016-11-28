@@ -8,7 +8,7 @@ AMPParse.buildString = function (hexadecimal) {
     
     // Defensive programming
     if ( !(hexadecimal instanceof AMPHexConsumer) ) {
-		throw new ReferenceError("");
+		throw new TypeError("Did not receive an instance of AMPHexConsumer");
     }
     
 	while (!hexadecimal.isEmpty && hexadecimal.consumeNibbles() !== "00")
