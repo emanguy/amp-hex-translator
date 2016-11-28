@@ -3,8 +3,8 @@ var AMPParse = AMPParse || {};
 AMPParse.buildTimestamp = function (hexadecimal)
 {
 	// Defensive programming
-    if (typeof hexadecimal !== "AMPHexconsumer") {
-		throw new ReferenceError("Provided parameter does not exist or is not an AMPHexconsumer");
+    if (typeof hexadecimal !== "AMPHexConsumer") {
+		throw new ReferenceError("Provided parameter does not exist or is not an AMPHexConsumer");
     }
 
     //SDNV PARSER GOES HERE

@@ -19,7 +19,7 @@ suite("Timestamp model constructor", function()
 	suiteSetup(function()
 	{
 		timestampHex = "85bf82ec7f0123";
-		returnedObj = AMPParse.buildTimestamp(new AMPHexProducer(timestampHex));
+		returnedObj = AMPParse.buildTimestamp(new AMPHexConsumer(timestampHex));
 		trueDate = new Date(0);
 		trueDate.setUTCSeconds(1474344575);
 	});
