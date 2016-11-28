@@ -49,6 +49,19 @@
             expect(error.nibblesConsumed).to.equal(40);
         });
 
+        test("throws an error when external macro does not have an issuer", function()
+        {
+            byteHex = new AMPHexConsumer("00042B060606");
+            expect(function() { AMPParse.buildMacro(byteHex); }).to.throw(Error, /An externally defined macro must contain an issuer/);
+        });
+
+        test("throws an error when internal macro has an issuer or tag", function()
+        {
+            byteHex = new AMPHexConsumer("1007082B060102030301080000000200082B0601020303010800082B06010203030108"); // has issuer
+            expect(function() { AMPParse.buildMacro(byteHex); }).to.throw(Error, /A macro that is defined in an ADM must not have an/);
+            byteHex = new AMPHexConsumer("20082B060102030301080000000200082B0601020303010800082B06010203030108"); // has tag
+            expect(function() { AMPParse.buildMacro(byteHex); }).to.throw(Error, /A macro that is defined in an ADM must not have an/);
+        });
 
         test("throws TypeError on bad parameters", function()
         {
