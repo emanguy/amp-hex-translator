@@ -18,13 +18,8 @@ AMPParse.buildTimestamp = function (hexadecimal)
     var returnData = new Date(0);
     returnData.setUTCSeconds(sdnvReturn.returnValue.value);
 
-    relative = false;
-    if (returnData < ampEpoch) {
-	relavite = true;
-    }
-    else {
-	relative = false;
-    }
+    relative = returnData.getTime() < ampEpoch.getTime();
+
     var returnValue = {
 	type: "Timestamp",
 	value: returnData,
