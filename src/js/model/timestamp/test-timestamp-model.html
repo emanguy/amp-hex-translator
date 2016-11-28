@@ -18,7 +18,7 @@ suite("Timestamp model constructor", function()
 
 	suiteSetup(function()
 	{
-		timestampHex = "85bf82ec7f0123";
+		timestampHex = "85bf82ec7f";
 		returnedObj = AMPParse.buildTimestamp(new AMPHexConsumer(timestampHex));
 		trueDate = new Date(0);
 		trueDate.setUTCSeconds(1474344575);
@@ -28,11 +28,6 @@ suite("Timestamp model constructor", function()
 	{
 		expect(returnedObj.returnValue.value).to.be.a("Date");
 		expect(returnedObj.returnValue.value.getTime()).to.be.equal(trueDate.getTime());
-	});
-
-	test("returns correct trailing hexadecimal", function()
-	{
-		expect(returnedObj.trailingHex).to.equal("0123");
 	});
 
 	test("throws ReferenceError on bad parameters", function()
