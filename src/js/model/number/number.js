@@ -5,17 +5,17 @@ var AMPParse = AMPParse || {};
  * @param hexadecimal  - hexadecimal string to be parsed
  * @param precision - Integer for 32 bit or Vast for 64 bit
  * @param unsigned - true for unsigned value, false for unsigened
- * @returns {{returnValue: {type: string, value: string, precision: *, isSigned: boolean, binaryValue: string, hexValue: string}, nibblesConsumed: *, trailingHex: string}}
+ * @returns {{returnValue: {type: string, value: string, precision: *, isSigned: boolean, binaryValue: string,, hexValue: string}, nibblesConsumed: *}}
  */
 AMPParse.buildBasicNumber = function (hexadecimal, precision, unsigned)
 {
     var Long = dcodeIO.Long;
 
     // Defensive programming
-    if (typeof hexadecimal === "undefined" || typeof hexadecimal !== "string")
-    {
-        throw new ReferenceError("Provided hexadecimal parameter does not exist or is not a string");
-    }
+	if ( !(hexadecimal instanceof AMPHexConsumer) )
+	{
+		throw new ReferenceError("Did not receive a hex consumer");
+	}
 
     if (typeof unsigned === "undefined" || typeof unsigned !== "boolean")
     {
@@ -33,7 +33,7 @@ AMPParse.buildBasicNumber = function (hexadecimal, precision, unsigned)
         throw new ReferenceError("Provided precision is invalid: " + precision);
     }
 
-    if (hexadecimal.length < nibbles)
+    if (hexadecimal.remainingNibbles < nibbles)
     {
         throw new RangeError("The provided hex is too short to contain a " + precision + ".");
     }
@@ -43,8 +43,8 @@ AMPParse.buildBasicNumber = function (hexadecimal, precision, unsigned)
     var hexValue = "";
 
     // Get the next 8 bytes and convert them to a decimal
-    var highChars = hexadecimal.substr(0, 8);
-    var highValue = parseInt(highChars, 16);
+    var highChars = hexadecimal.consumeNibbles(8);
+    var highValue = hexadecimal.consumedHexInt;
 
     if (nibbles === 8) {
         binaryValue = "0b" + highValue.toString(2);
@@ -55,8 +55,8 @@ AMPParse.buildBasicNumber = function (hexadecimal, precision, unsigned)
         }
         decimalValue = highValue.toString();
     } else {
-        var lowChars = hexadecimal.substr(8, 8);
-        lowValue = parseInt(lowChars, 16);
+        var lowChars = hexadecimal.consumeNibbles(8);
+        lowValue = hexadecimal.consumedHexInt;
 
         // get unsigned version to get proper bit and hex strings
         var rawLong = new Long(lowValue, highValue, true);
@@ -83,7 +83,6 @@ AMPParse.buildBasicNumber = function (hexadecimal, precision, unsigned)
     // Return object according to spec
     return {
         returnValue: returnValue,
-        nibblesConsumed: nibbles,
-        trailingHex: hexadecimal.substr(nibbles)
+        nibblesConsumed: nibbles
     };
 }

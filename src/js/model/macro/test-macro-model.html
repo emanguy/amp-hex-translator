@@ -1,0 +1,61 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+    <script src="../../../../bower_components/long/dist/long.min.js"></script>
+    <script src="../../AMPSetup/AMPSetup.js"></script>
+    <script src="../sdnv/sdnv.js"></script>
+    <script src="../blob/blob.js"></script>
+    <script src="../byte/byte.js"></script>
+    <script src="../oid/oid.js"></script>
+    <script src="../number/number.js"></script>
+    <script src="../string/string.js"></script>
+    <script src="../dataCollection/dataCollection.js"></script>
+    <script src="../mid/mid.js"></script>
+    <script src="../midCollection/midCollection.js"></script>
+    <script src="macro.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Macro model constructor", function()
+    {
+
+        var byteHex;
+        var returnedObj;
+
+        test("return a populated macro", function()
+        {
+            byteHex = new AMPHexConsumer("00082B060102030301080000000200082B0601020303010800082B06010203030108");
+            returnedObj = AMPParse.buildMacro(byteHex);
+            expect(returnedObj.returnValue.identifier.type).to.be.a("string").and.equal("Managed Identifier");
+            expect(returnedObj.returnValue.value.type).to.be.a("string").and.equal("Managed Identifier Collection");
+            expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(68);
+        });
+
+        test("throws an error when the identifier has parameters", function()
+        {
+            byteHex = new AMPHexConsumer("c3040109030215170800000001820301000201000000000200082B0601020303010800082B06010203030108");
+            var error;
+
+            try {
+                AMPParse.buildMacro(byteHex);
+            } catch(err) {
+                error = err;
+            }
+            expect(error).is.a("error");
+            expect(error.nibblesConsumed).to.equal(40);
+        });
+
+
+        test("throws TypeError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildMacro(); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildMacro("AAAAAAAAAAAAAAA"); }).to.throw(TypeError);
+        });
+    });
+</script>
+</body>
+</html>

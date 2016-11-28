@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="AMPSetup.js"></script>
+	</head>
+	<body>
+		<script>
+		
+suite("AMP setup actions", function()
+{
+	var consumer;
+
+	setup(function()
+	{
+		consumer = new AMPHexConsumer("ABABCDEFA1234567");
+	});
+
+	test("all common error types have the nibblesConsumed property", function()
+	{
+		var err = new Error();
+		var refErr = new ReferenceError();
+		var rngErr = new RangeError();
+
+		expect(err).to.have.property("nibblesConsumed");
+		expect(refErr).to.have.property("nibblesConsumed");
+		expect(rngErr).to.have.property("nibblesConsumed");
+	});
+
+	test("consuming hex works as expected", function() 
+	{
+		consumer.consumeNibbles(); // Consumes 2 nibbles by default
+
+		expect(consumer instanceof AMPHexConsumer).to.be.true;
+		expect(consumer.consumedHex).to.be.a("string").and.equal("AB");
+		expect(consumer.consumedHexInt).to.be.a("number").and.equal(171);
+		expect(consumer.isEmpty).to.be.a("boolean").and.be.false;
+		expect(consumer.remainingNibbles).to.be.a("number").and.equal(14);
+		expect(consumer.hexadecimal).to.be.a("string").and.equal("ABCDEFA1234567");
+	});
+
+	test("consumeNibbles throws RangeError if it is called when isEmpty is true", function()
+	{
+		consumer.consumeNibbles(16);
+
+		expect(consumer.consumedHex).to.equal("ABABCDEFA1234567");
+		expect(consumer.isEmpty).to.be.true;
+		expect(consumer.remainingNibbles).to.equal(0);
+		expect( function() { consumer.consumeNibbles();; } ).to.throw(RangeError);
+    });
+
+	test("throws error on bad inputs", function() 
+	{
+		expect( function() { new AMPHexConsumer(25); } ).to.throw(ReferenceError);
+		expect( function() { new AMPHexConsumer(); } ).to.throw(ReferenceError);
+		expect( function() { new AMPHexConsumer("ABC"); } ).to.throw(RangeError);
+	});
+});
+		</script>
+	</body>
+</html>

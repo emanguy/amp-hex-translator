@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="../sdnv/sdnv.js"></script>
+		<script src="../byte/byte.js"></script>
+		<script src="blob.js"></script>
+	</head>
+	<body>
+		<script>
+		
+suite("Blob model constructor", function()
+{
+	var returnedObj;
+
+	suiteSetup(function()
+	{
+		returnedObj = AMPParse.buildBlob(new AMPHexConsumer("088899AABBCCDDEEFFABCDEF"));
+	});
+
+	test("returns the correct array of values", function()
+	{
+		expect(returnedObj.returnValue.value).to.be.an("array");
+		var expectedResults = [ 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff ];
+
+		expectedResults.forEach(function (currentValue, currentIndex)
+		{
+			expect(returnedObj.returnValue.value[currentIndex].value).to.equal(currentValue);
+		});
+	});
+
+	test("returns the correct number of nibbles consumed", function()
+	{
+		expect(returnedObj.nibblesConsumed).to.equal(18);
+	});
+
+	test("fails when the length SDNV lies", function()
+	{
+		expect(function() { AMPParse.buildBlob(new AMPHexConsumer("08AA")); }).to.throw(RangeError);
+	});
+});
+		</script>
+	</body>
+</html>
