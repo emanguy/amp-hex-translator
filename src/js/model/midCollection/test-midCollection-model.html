@@ -29,7 +29,6 @@
         {
             byteHex = new AMPHexConsumer("00000000");
             returnedObj = AMPParse.buildMIDCollection(byteHex);
-            expect(returnedObj.returnValue.midCount).to.equal(0);
             expect(returnedObj.returnValue.value).to.be.empty;
         });
 
@@ -37,7 +36,6 @@
         {
             byteHex = new AMPHexConsumer("0000000200082B0601020303010800082B06010203030108");
             returnedObj = AMPParse.buildMIDCollection(byteHex);
-            expect(returnedObj.returnValue.midCount).to.equal(2);
             expect(returnedObj.returnValue.value).to.have.lengthOf(2);
 
             expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(48);
