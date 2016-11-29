@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Validator demo</title>
+
+        <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="../../../bower_components/polymer/polymer.html">
+        <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+        <link rel="import" href="amp-validate.html">
+
+        <style>
+            demo-snippet
+            {
+                width: 700px;
+                margin-left: calc(50% - 350px);
+            }
+        </style>
+    </head>
+
+    <body unresolved>
+        <h1>You can only enter valid hex.</h1>
+
+        <demo-snippet>
+            <template>
+                <template is="dom-bind">
+                    <paper-input value="{{myinput}}"></paper-input>
+
+                    <span hidden$="{{invalid}}">Good hex</span>
+                    <span hidden$="{{!invalid}}">Bad hex</span>
+                    <amp-validate raw-input="{{myinput}}" invalid="{{invalid}}"></amp-validate>
+                </template>
+            </template>
+        </demo-snippet>
+    </body>
+</html>

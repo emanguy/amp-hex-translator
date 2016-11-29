@@ -1,0 +1,43 @@
+<link href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../js/AMPSetup/AMPSetup.js"></script>
+<script src="../../js/validation/has0x/validateHas0x.js"></script>
+<script src="../../js/validation/isHex/validateIsHex.js"></script>
+
+<!--
+    #<amp-validate> 
+
+    Does basic validation on a hexadecimal input to verify that it's the correct format for parsing.
+
+    @demo validate-demo.html
+    -->
+<dom-module id="amp-validate">
+    <script>
+    Polymer({
+        is: "amp-validate",
+        properties: {
+            /** The user's input to be validated */
+            rawInput: {
+                type: String,
+                observer: "_determineIsValid"
+            },
+            /** Whether or not the user's input is valid. Updated after the user hasn't made a keypress in 250ms */
+            invalid: {
+                type: Boolean,
+                value: false
+            }
+        },
+
+        _determineIsValid: function(newValue)
+        {
+            this.debounce("input changes", function()
+            {
+                this.invalid = !AMPParse.validateHas0x(this.rawInput) || !AMPParse.validateIsHex(this.rawInput);
+
+                // This is only necessary because I debounced the property change
+                this.async(function() { this.notifyPath('invalid'); });
+            }, 250);
+        }
+    })
+    </script>
+</dom-module>
