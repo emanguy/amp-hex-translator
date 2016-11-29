@@ -10,15 +10,9 @@ AMPParse.buildMessage = function (hexadecimal) {
     var rawInt = hexadecimal.consumedHexInt;
     var nibblesConsumed = 2;
 
-    var opCodes = {
-        0: {name: "Register Agent", function: AMPParse.buildRegisterAgent},
-        18: {name: "Data Report", function: AMPParse.buildDataReport},
-        26: {name: "Perform Control", function: AMPParse.buildPerformControl}
-    };
-
     var opCodeValue = rawInt & 31;
 
-    if (!opCodes[opCodeValue]) {
+    if (!AMPOpcodes[opCodeValue]) {
         throw new TypeError("Opcode must be 0, 18 or 26. Invalid value was " + opCodeValue);
     }
 
@@ -27,12 +21,12 @@ AMPParse.buildMessage = function (hexadecimal) {
         negativeAcknowledgement: (rawInt & 64) === 1,
         acknowledgement: (rawInt & 32) === 1,
         opcodeValue: opCodeValue,
-        opcodeName: opCodes[opCodeValue].name
+        opcodeName: AMPOpcodes[opCodeValue].name
     };
 
     var value = {};
     try {
-        value = opCodes[opCodeValue].function.apply(this, [hexadecimal]);
+        value = AMPOpcodes[opCodeValue].function.apply(this, [hexadecimal]);
         nibblesConsumed += value.nibblesConsumed;
         value = value.returnValue;
     } catch (err) {
@@ -124,4 +118,10 @@ AMPParse.buildPerformControl = function(hexadecimal) {
         returnValue: returnValue,
         nibblesConsumed: nibblesConsumed
     }
+};
+
+AMPOpcodes = {
+    0: {name: "Register Agent", function: AMPParse.buildRegisterAgent},
+    18: {name: "Data Report", function: AMPParse.buildDataReport},
+    26: {name: "Perform Control", function: AMPParse.buildPerformControl}
 };
