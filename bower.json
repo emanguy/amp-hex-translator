@@ -17,7 +17,9 @@
   ],
   "dependencies": {
     "polymer": "Polymer#^1.7.0",
-    "long": "dcodeIO/long.js#~3.2.0"
+    "long": "dcodeIO/long.js#~3.2.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.5",
+    "paper-input": "PolymerElements/paper-input#~1.1.22"
   },
   "devDependencies": {
     "web-component-tester": "^5.0.0",
