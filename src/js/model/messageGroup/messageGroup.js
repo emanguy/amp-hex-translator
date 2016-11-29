@@ -13,7 +13,7 @@ AMPParse.buildMessageGroup = function (hexadecimal) {
 
 
     try {
-        var messageCount = AMPParse.buildSdnv(hexadecimal);
+        messageCount = AMPParse.buildSdnv(hexadecimal);
         nibblesConsumed += messageCount.nibblesConsumed;
         messageCount = messageCount.returnValue.value;
     } catch (err) {
