@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="../../../../bower_components/web-component-tester/browser.js"></script>
+		<link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+		<script src="../../AMPSetup/AMPSetup.js"></script>
+		<script src="../sdnv/sdnv.js"></script>
+		<script src="timestamp.js"></script>
+	</head>
+	<body>
+		<script>
+
+suite("Timestamp model constructor", function()
+{
+	var timestampHex;
+	var returnedObj;
+
+	suiteSetup(function()
+	{
+		timestampHex = "85bf82ec7f";
+		returnedObj = AMPParse.buildTimestamp(new AMPHexConsumer(timestampHex));
+		trueDate = new Date(0);
+		trueDate.setUTCSeconds(1474344575);
+	});
+
+	test("returns the correct value", function()
+	{
+		expect(returnedObj.returnValue.value).to.be.a("Date");
+		expect(returnedObj.returnValue.value.getTime()).to.be.equal(trueDate.getTime());
+	});
+
+	test("throws ReferenceError on bad parameters", function()
+	{
+		expect(function() { AMPParse.buildTimestamp(); }).to.throw(ReferenceError);
+		expect(function() { AMPParse.buildTimestamp(25); }).to.throw(ReferenceError);
+	});
+});
+		</script>
+	</body>
+</html>

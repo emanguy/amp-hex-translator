@@ -25,12 +25,11 @@ AMPParse.buildMacro = function(hexadecimal) {
         throw err;
     }
 
-    /*
-    TODO: how do we know if the macro is defined outside the ADM
+
     var header = returnValue.identifier.header;
-    if (returnValue.identifier.value.isExternal) {
+    if (returnValue.identifier.value.extraInfo === "Unknown OID") {
         if (header.hasIssuer === false) {
-            var err = new Error("An externally defined Macro must contain an issuer");
+            var err = new Error("An externally defined macro must contain an issuer");
             err.nibblesConsumed += nibblesConsumed;
             throw err;
         }
@@ -41,7 +40,7 @@ AMPParse.buildMacro = function(hexadecimal) {
             err.nibblesConsumed += nibblesConsumed;
             throw err;
         }
-    }*/
+    }
 
     try {
         tempValue = AMPParse.buildMIDCollection(hexadecimal);
