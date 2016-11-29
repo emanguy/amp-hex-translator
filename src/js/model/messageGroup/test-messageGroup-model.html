@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+    <link rel="import" href="../../../../bower_components/webcomponentsjs/webcomponents-lite.js">
+
+    <script src="../../../../bower_components/long/dist/long.min.js"></script>
+    <script src="../../AMPSetup/AMPSetup.js"></script>
+    <script src="../sdnv/sdnv.js"></script>
+    <script src="../blob/blob.js"></script>
+    <script src="../byte/byte.js"></script>
+    <script src="../oid/oid.js"></script>
+    <script src="../number/number.js"></script>
+    <script src="../string/string.js"></script>
+    <script src="../timestamp/timestamp.js"></script>
+    <script src="../reportEntry/reportEntry.js"></script>
+    <script src="../dataCollection/dataCollection.js"></script>
+    <script src="../mid/mid.js"></script>
+    <script src="../midCollection/midCollection.js"></script>
+    <script src="../message/message.js"></script>
+    <script src="messageGroup.js"></script>
+</head>
+<body>
+<script>
+
+    suite("Message Group model constructor", function()
+    {
+
+        var byteHex;
+        var returnedObj;
+
+        test("return empty Message group", function()
+        {
+            byteHex = new AMPHexConsumer("0000");
+            returnedObj = AMPParse.buildMessageGroup(byteHex);
+            expect(returnedObj.returnValue.timestamp.type).to.equal("Timestamp");
+            expect(returnedObj.returnValue.value).to.be.empty;
+        });
+
+        test("return populated Message group", function()
+        {
+            var timestamp = "85bf82ec7f";
+            var message1 = "1a0000000001c304010903021517080000000182030100020100";
+            var message2 = "00088899AABBCCDDEEFF";
+            byteHex = new AMPHexConsumer("02" + timestamp + message1 + message2);
+            returnedObj = AMPParse.buildMessageGroup(byteHex);
+            expect(returnedObj.returnValue.timestamp.type).to.equal("Timestamp");
+            expect(returnedObj.returnValue.value).to.have.lengthOf(2);
+            expect(returnedObj.nibblesConsumed).to.be.a("number").and.equal(84);
+        });
+
+        test("throws RangeError when two entries are expected but only one is passed in", function()
+        {
+            var timestamp = "85bf82ec7f";
+            var message1 = "1a0000000001c304010903021517080000000182030100020100";
+            byteHex = new AMPHexConsumer("02" + timestamp + message1);
+            expect(function() { AMPParse.buildMessageGroup(byteHex); }).to.throw(RangeError, /messages but there were only/);
+        });
+
+
+        test("throws TypeError on bad parameters", function()
+        {
+            expect(function() { AMPParse.buildMessageGroup(); }).to.throw(TypeError);
+            expect(function() { AMPParse.buildMessageGroup("AAAAAAAAAAAAAAA"); }).to.throw(TypeError);
+        });
+    });
+</script>
+</body>
+</html>
