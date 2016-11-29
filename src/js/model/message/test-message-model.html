@@ -12,6 +12,8 @@
     <script src="../oid/oid.js"></script>
     <script src="../number/number.js"></script>
     <script src="../string/string.js"></script>
+    <script src="../timestamp/timestamp.js"></script>
+    <script src="../reportEntry/reportEntry.js"></script>
     <script src="../dataCollection/dataCollection.js"></script>
     <script src="../mid/mid.js"></script>
     <script src="../midCollection/midCollection.js"></script>
@@ -62,8 +64,10 @@
 
         test("Message is a data report type", function()
         {
-            //TODO: add on entry report hex at the end
-            byteHex = new AMPHexConsumer("1200088899AABBCCDDEEFF02");
+            var mid = "F807040103010007"
+            var tdc = "040309120901AA0348690001BB"
+            var reportEntry = mid + tdc;
+            byteHex = new AMPHexConsumer("1200088899AABBCCDDEEFF02" + reportEntry + reportEntry);
             returnedObj = AMPParse.buildMessage(byteHex);
 
             var value = returnedObj.returnValue.value;
@@ -72,7 +76,7 @@
             expect(value.receiverName).to.exist;
             expect(value.entries).to.have.lengthOf(2);
 
-            expect(returnedObj.nibblesConsumed).to.equal(24);
+            expect(returnedObj.nibblesConsumed).to.equal(108);
         });
 
         test("Message is a perform control model", function()

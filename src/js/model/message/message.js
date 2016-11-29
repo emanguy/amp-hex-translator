@@ -65,16 +65,8 @@ AMPParse.buildRegisterAgent = function(hexadecimal) {
     };
 };
 
-// TODO: remove this when report entry code is merged in
-AMPParse.buildReportEntry = function(hexadecimal) {
-    return {
-        returnValue: {type: "Report Entry"},
-        nibblesConsumed: 0
-    };
-}
-
 AMPParse.buildDataReport = function(hexadecimal) {
-    var timestamp = AMPParse.buildSdnv(hexadecimal);// TODO: change this when buildTimestamp is merged
+    var timestamp = AMPParse.buildTimestamp(hexadecimal);
     var nibblesConsumed = timestamp.nibblesConsumed;
     timestamp = timestamp.returnValue;
 
@@ -115,7 +107,7 @@ AMPParse.buildDataReport = function(hexadecimal) {
 };
 
 AMPParse.buildPerformControl = function(hexadecimal) {
-    var startTime = AMPParse.buildSdnv(hexadecimal);  // TODO: change this when buildTimestamp is merged
+    var startTime = AMPParse.buildTimestamp(hexadecimal);
     var nibblesConsumed = startTime.nibblesConsumed;
     startTime = startTime.returnValue;
 
