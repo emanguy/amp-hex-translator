@@ -1,7 +1,6 @@
 <link href="../../../bower_components/polymer/polymer.html">
 
 <script src="../../js/AMPSetup/AMPSetup.js"></script>
-<script src="../../js/validation/has0x/validateHas0x.js"></script>
 <script src="../../js/validation/isHex/validateIsHex.js"></script>
 
 <!--
@@ -32,7 +31,14 @@
         {
             this.debounce("input changes", function()
             {
-                this.invalid = !AMPParse.validateHas0x(this.rawInput) || !AMPParse.validateIsHex(this.rawInput);
+                try
+                {
+                    this.invalid = !AMPParse.validateIsHex(this.rawInput);
+                }
+                catch (err)
+                {
+                    this.invalid = true;
+                }
 
                 // This is only necessary because I debounced the property change
                 this.async(function() { this.notifyPath('invalid'); });
