@@ -23,7 +23,8 @@
             /** Whether or not the user's input is valid. Updated after the user hasn't made a keypress in 250ms */
             invalid: {
                 type: Boolean,
-                value: false
+                value: false,
+                notify: true
             }
         },
 
@@ -39,9 +40,6 @@
                 {
                     this.invalid = true;
                 }
-
-                // This is only necessary because I debounced the property change
-                this.async(function() { this.notifyPath('invalid'); });
             }, 250);
         }
     })
