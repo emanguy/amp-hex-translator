@@ -1,9 +1,11 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
 
 <!-- 
     ##<amp-hex-input>
@@ -23,8 +25,9 @@
             :host
             {
                 display: inline-block;
-                margin-left: 25%;
-                margin-right: 25%;
+                height: 32px;
+                margin-right: 16px; /* Hack compensating for padding */
+                margin-bottom: 16px; /* Hack compensating for padding */
             }
 
             paper-material
@@ -34,30 +37,42 @@
                 height: 100%;
                 padding: 8px;
                 @apply(--layout-horizontal);
+                @apply(--layout-center);
+            }
+
+            paper-material[invalid]
+            {
+                background: var(--paper-red-100);
+            }
+
+            #innerwrapper
+            {
+                @apply(--layout-flex);
+                @apply(--layout-horizontal);
+                @apply(--layout-end-justified);
             }
 
             input
             {
                 outline: none;
                 border: none;
+                background: none;
                 height: 100%;
                 width: 75%;
             }
 
-            input[invalid]
-            {
-                background: var(--paper-red-100);
-            }
-
             paper-button
             {
-                @apply(--layout-end-justified);
+                color: var(--accent-color);
             }
         </style>
 
-        <paper-material>
-            <input is="iron-input" invalid="{{invalid}}" bind-value="{{rawInput}}"></input>
-            <paper-button id="go"></paper-button>
+        <paper-material id="container" animated>
+            <iron-icon icon="chevron-right"></iron-icon>
+            <input is="iron-input" on-focus="_raiseMaterial" on-blur="_lowerMaterial" bind-value="{{rawInput}}"></input>
+            <div id="innerwrapper">
+                <paper-button id="go">Go</paper-button>
+            </div>
         </paper-material>
 
     </template>
@@ -70,23 +85,38 @@
             /** The value of the input field */
             rawInput: {
                 type: String,
-                readOnly: true,
                 notify: true
             },
             /** Changed by an external validator to specify whether or not the value in the text field is valid. */
             invalid: {
                 type: Boolean,
-                value: false
+                value: false,
+                observer: "_invalidChangeHandler"
             }
         },
 
         listeners: {
-            "go.tap": "_firePressedEvent"
+            "go.tap": "_firePressedEvent",
+        },
+
+        _invalidChangeHandler: function(invalidValue)
+        {
+            this.toggleAttribute("invalid", invalidValue, this.$.container);
         },
 
         _firePressedEvent: function()
         {
             this.fire("amp-go-pressed");
+        },
+
+        _raiseMaterial: function()
+        {
+            this.$.container.elevation = 2;
+        },
+
+        _lowerMaterial: function()
+        {
+            this.$.container.elevation = 1;
         }
 
         /**
