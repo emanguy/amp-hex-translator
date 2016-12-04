@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+        <script src="../../AMPSetup/AMPSetup.js"></script>
+        <script src="validateIsHex.js"></script>
+
+    </head>
+
+    <body>
+        <script>
+suite("Hexadecimal digit validation", function()
+{
+    test("works for a valid string", function()
+    {
+        expect(AMPParse.validateIsHex("0x0123456789abcdefABCDEF")).to.be.true;
+    });
+
+    test("fails if one out-of-range character is added", function()
+    {
+        expect(AMPParse.validateIsHex("0x0123456789ZabcdefABCDEF")).to.be.false;
+    });
+});
+        </script>
+    </body>
+</html>
