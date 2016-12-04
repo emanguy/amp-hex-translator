@@ -10,38 +10,14 @@
 
     @demo validate-demo.html
     -->
-<dom-module id="amp-validate">
-    <script>
+<script>
     Polymer({
         is: "amp-validate",
-        properties: {
-            /** The user's input to be validated */
-            rawInput: {
-                type: String,
-                observer: "_determineIsValid"
-            },
-            /** Whether or not the user's input is valid. Updated after the user hasn't made a keypress in 250ms */
-            invalid: {
-                type: Boolean,
-                value: false,
-                notify: true
-            }
-        },
+        behaviors: [ "iron-validator-behavior"],
 
-        _determineIsValid: function(newValue)
+        validate: function(newValue)
         {
-            this.debounce("input changes", function()
-            {
-                try
-                {
-                    this.invalid = !AMPParse.validateIsHex(this.rawInput);
-                }
-                catch (err)
-                {
-                    this.invalid = true;
-                }
-            }, 250);
+            return AMPParse.validateIsHex(newValue);
         }
     })
-    </script>
-</dom-module>
+</script>
