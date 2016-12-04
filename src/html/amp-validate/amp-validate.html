@@ -3,6 +3,8 @@
 <script src="../../js/AMPSetup/AMPSetup.js"></script>
 <script src="../../js/validation/isHex/validateIsHex.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-validator-behavior/iron-validator-behavior.html">
+
 <!--
     #<amp-validate> 
 
@@ -13,7 +15,7 @@
 <script>
     Polymer({
         is: "amp-validate",
-        behaviors: [ "iron-validator-behavior"],
+        behaviors: [ Polymer.IronValidatorBehavior ],
 
         validate: function(newValue)
         {

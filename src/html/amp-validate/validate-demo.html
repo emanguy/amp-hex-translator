@@ -23,11 +23,11 @@
         <demo-snippet>
             <template>
                 <template is="dom-bind">
-                    <paper-input value="{{myinput}}"></paper-input>
+                    <amp-validate></amp-validate>
+                    <paper-input invalid="{{invalid}}" auto-validate validator="amp-validate" label="Try to enter some hex"></paper-input>
 
                     <span hidden$="{{invalid}}">Good hex</span>
                     <span hidden$="{{!invalid}}">Bad hex</span>
-                    <amp-validate raw-input="{{myinput}}" invalid="{{invalid}}"></amp-validate>
                 </template>
             </template>
         </demo-snippet>
