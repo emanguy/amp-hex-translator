@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Hex input demo</title>
+
+        <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+        
+        <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="amp-hex-input.html">
+
+        <style is="custom-style">
+            demo-snippet 
+            {
+                width: 1000px;
+                margin-left: calc(50% - 500px);
+            }
+
+            amp-hex-input
+            {
+                width: 90%;
+                --accent-color: #009999;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Hex input</h1>
+
+        <demo-snippet>
+            <template>
+                <template is="dom-bind">
+                    <amp-hex-input raw-input="{{input}}"></amp-hex-input>
+                    <br>
+                    <p>You typed: {{input}}</p>
+                </template>
+            </template>
+        </demo-snippet>
+
+        <br>
+
+        <demo-snippet>
+            <template>
+                <amp-hex-input invalid></amp-hex-input>
+            </template>
+        </demo-snippet>
+    </body>
+</html>
