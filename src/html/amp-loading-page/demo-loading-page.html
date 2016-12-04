@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Hex spinner demo</title>
+
+    <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+
+    <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="amp-loading-page.html">
+
+    <style is="custom-style">
+        demo-snippet
+        {
+            width: 1000px;
+            margin-left: calc(50% - 500px);
+        }
+
+        amp-loading-page
+        {
+            width: 90%;
+            --accent-color: #009999;
+        }
+    </style>
+</head>
+
+<body>
+<h1>AMP Loading Page</h1>
+
+<demo-snippet>
+    <template>
+        <template is="dom-bind">
+            <amp-loading-page></amp-loading-page>
+            <amp-loading-page spinning></amp-loading-page>
+        </template>
+    </template>
+</demo-snippet>
+</body>
+</html>

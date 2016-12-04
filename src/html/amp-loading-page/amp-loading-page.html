@@ -1,0 +1,59 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+
+<!--
+    ##<amp-hex-input>
+
+    <amp-loading-page> wrapper around the paper-spinner
+
+    Setting the "spinning" property will cause the spinner to spin.
+    -->
+<dom-module id="amp-loading-page">
+    <template>
+        <style>
+            :host
+            {
+                display: inline-block;
+                height: 50px;
+                margin-right: 16px; /* Hack compensating for padding */
+                margin-bottom: 16px; /* Hack compensating for padding */
+            }
+
+            paper-material
+            {
+                background: white;
+                width: 100%;
+                height: 100%;
+                padding: 8px;
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+            }
+
+            paper-spinner {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
+
+        <paper-material id="container" animated>
+                <paper-spinner active$="{{spinning}}"></paper-spinner>
+        </paper-material>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-loading-page",
+
+            properties: {
+                spinning: {
+                    type: Boolean,
+                    notify: true
+                }
+            }
+        });
+    </script>
+</dom-module>
