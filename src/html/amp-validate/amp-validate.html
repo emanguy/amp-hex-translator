@@ -1,0 +1,25 @@
+<link href="../../../bower_components/polymer/polymer.html">
+
+<script src="../../js/AMPSetup/AMPSetup.js"></script>
+<script src="../../js/validation/isHex/validateIsHex.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-validator-behavior/iron-validator-behavior.html">
+
+<!--
+    #<amp-validate> 
+
+    Does basic validation on a hexadecimal input to verify that it's the correct format for parsing.
+
+    @demo validate-demo.html
+    -->
+<script>
+    Polymer({
+        is: "amp-validate",
+        behaviors: [ Polymer.IronValidatorBehavior ],
+
+        validate: function(newValue)
+        {
+            return AMPParse.validateIsHex(newValue);
+        }
+    })
+</script>
