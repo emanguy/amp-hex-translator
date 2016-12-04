@@ -13,30 +13,21 @@
             :host
             {
                 display: inline-block;
-                height: 75px;
-                margin-right: 16px; /* Hack compensating for padding */
-                margin-bottom: 16px; /* Hack compensating for padding */
             }
             paper-material
             {
                 background: white;
-                width: 100%;
-                height: 100%;
                 padding: 8px;
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
             }
         </style>
 
         <paper-material id="container">
-            <pre>
-                Enter your hexadecimal string in the input box above and hit "GO"
-                to convert the string into a human readable representation.
+            <h1>Instructions</h1>
 
-                For details about the Asynchronous Management Protocol (AMP) specification
-                visit the links located at the top right of this page.
-            </pre>
-
+                <p>Enter your hexadecimal string in the input box above and hit "GO"
+                to convert the string into a human readable representation.</p>
+                <p>For details about the Asynchronous Management Protocol (AMP) specification
+                visit the links located at the top right of this page.</p>
         </paper-material>
 
     </template>
