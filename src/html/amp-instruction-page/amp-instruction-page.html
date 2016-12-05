@@ -1,0 +1,40 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+
+<!--
+    ##<amp-instruction-page>
+    <amp-instruction-page> is a static page that gives the user instructions
+    for using the page.
+    -->
+<dom-module id="amp-instruction-page">
+    <template>
+        <style>
+            :host
+            {
+                display: inline-block;
+            }
+            paper-material
+            {
+                background: white;
+                padding: 8px;
+            }
+        </style>
+
+        <paper-material id="container">
+            <h1>Instructions</h1>
+
+                <p>Enter your hexadecimal string in the input box above and hit "GO"
+                to convert the string into a human readable representation.</p>
+                <p>For details about the Asynchronous Management Protocol (AMP) specification
+                visit the links located at the top right of this page.</p>
+        </paper-material>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-instruction-page"
+        });
+    </script>
+</dom-module>
