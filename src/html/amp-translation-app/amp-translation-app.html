@@ -5,7 +5,9 @@
 <link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../../bower_components/neon-animation/animations/scale-down-animation.html">
+<link rel="import" href="../../../bower_components/neon-animation/animations/slide-from-top-animation.html">
 <link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
@@ -29,6 +31,8 @@
             #container
             {
                 padding: 16px;
+                margin-bottom: none;
+                @apply(--layout-fit);
                 @apply(--layout-vertical);
                 @apply(--layout-center);
             }
@@ -37,6 +41,21 @@
             {
                 width: 50%;
                 margin-bottom: 32px;
+                z-index: 1;
+            }
+
+            neon-animated-pages
+            {
+                width: 75%;
+                z-index: 0;
+            }
+
+            /* TODO get rid of this rule */
+            neon-animated-pages > *
+            {
+                height: 500px;
+                border: 1px solid black;
+                background: green;
             }
 
             @media screen and (max-width: 768px)
@@ -45,17 +64,22 @@
                 {
                     width: 90%;
                 }
+
+                neon-animated-pages
+                {
+                    width: 90%;
+                }
             }
         </style>
 
-        <app-header-layout>
+        <app-header-layout has-scrolling-region>
 
             <!-- Title bar -->
             <app-header fixed reveals>
                 <app-toolbar>
                     <div main-title>AMP Hex Translator</div>
                     
-                    <a href="https://tools.ietf.org/html/draft-birrane-dtn-amp-03" tabindex="-1">
+                    <a href="https://tools.ietf.org/html/draft-birrane-dtn-amp-03" target="_blank" tabindex="-1">
                         <paper-tooltip for="dochelp" position="bottom" offset="1">AMP Specification</paper-tooltip>
                         <paper-icon-button id="dochelp" icon="help"></paper-icon-button>
                     </a>
@@ -69,12 +93,15 @@
 
                 <amp-construct-model id="modelctor" hex-input="[[input]]" model="{{model}}"></amp-construct-model>
 
-                <iron-pages attr-for-selected="pagename" selected="[[state]]"> 
-                    <p pagename="instruction">Instruction page</p>
-                    <p pagename="processing">Processing page</p>
-                    <p pagename="error">Error page</p>
-                    <p pagename="translation">Translation page</p>
-                </iron-pages>
+                <!-- TODO replace placeholders -->
+                <neon-animated-pages attr-for-selected="pagename" selected="[[state]]"
+                    entry-animation="slide-from-top-animation"
+                    exit-animation="scale-down-animation"> 
+                    <div pagename="instruction">Instruction page</div>
+                    <div pagename="processing">Processing page</div>
+                    <div pagename="error">Error page</div>
+                    <div pagename="translation">Translation page</div>
+                </neon-animated-pages>
             </div>
         </app-header-layout>
 
@@ -114,7 +141,7 @@
             if (!this.$.hexInput.invalid)
             {
                 this._setState("processing");
-                this.$.modelCtor.buildModel();
+                this.$.modelctor.buildModel();
             }
         },
 
