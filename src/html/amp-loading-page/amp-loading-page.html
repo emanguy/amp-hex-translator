@@ -2,7 +2,7 @@
 
 <link rel="import" href="../../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <!--
     ##<amp-hex-input>
@@ -16,13 +16,17 @@
         <style>
             :host
             {
-                display: inline-block;
+                display: block;
             }
 
-            paper-spinner {
-                left: 50%;
-                transform: translateX(-50%);
+            paper-material
+            {
+                height: 100%;
+                @apply(--layout-vertical);
+                @apply(--layout-center);
+                @apply(--layout-center-justified);
             }
+
         </style>
 
         <paper-material id="container" animated>
@@ -36,10 +40,7 @@
             is: "amp-loading-page",
 
             properties: {
-                spinning: {
-                    type: Boolean,
-                    notify: true
-                }
+                spinning: Boolean 
             }
         });
     </script>
