@@ -21,6 +21,19 @@
 <link rel="import" href="amp-message-model.html">
 <link rel="import" href="amp-message-group-model.html">
 
+
+<!--
+    ##<amp-datatype-standin>
+
+    This element is used in cases where the elements of a model renderer's value array
+    are not homogenous such as in data collection. This element takes a model of any type
+    and stamps that model's type into its DOM. This way you can still use a dom-repeat template
+    to render the value property of things like data collection and table.
+
+        <template is="dom-repeat" items="{{model.value}}">
+            <amp-datatype-standin model="{{item}}"></amp-datatype-standin>
+        </template>
+-->
 <dom-module id="amp-datatype-standin">
     <template>
         <style>
@@ -37,6 +50,7 @@
             is: "amp-datatype-standin",
 
             properties: {
+                /** A model of any type */
                 model: {
                     type: Object,
                     value: function() { return {
@@ -76,7 +90,7 @@
                 }
             },
 
-            _stampChild: function(newModel, oldModel)
+            _stampChild: function(newModel)
             {
                 if (newModel.type !== "none")
                 {
@@ -88,6 +102,11 @@
 
                     try
                     {
+                        if (typeof this._typeToElement[newModel.type] === "undefined")
+                        {
+                            throw new ReferenceError("Type " + newModel.type + " does not exist");
+                        }
+
                         var child = this.create(this._typeToElement[newModel.type], { model: newModel });
                         Polymer.dom(this.$.elementContainer).appendChild(child);
                     }
