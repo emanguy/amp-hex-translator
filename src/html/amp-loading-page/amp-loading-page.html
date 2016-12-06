@@ -1,6 +1,6 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
@@ -17,6 +17,7 @@
             :host
             {
                 display: block;
+                background-color: white;
             }
 
             paper-material
@@ -27,18 +28,15 @@
                 @apply(--layout-center-justified);
             }
 
-            paper-spinner
+            paper-spinner-lite
             {
-                --paper-spinner-layer-1-color: var(--primary-color);
-                --paper-spinner-layer-2-color: var(--accent-color);
-                --paper-spinner-layer-3-color: var(--primary-color);
-                --paper-spinner-layer-4-color: var(--accent-color);
+                --paper-spinner-color: var(--accent-color);
             }
 
         </style>
 
         <paper-material id="container" animated>
-                <paper-spinner active="{{spinning}}"></paper-spinner>
+                <paper-spinner-lite active="{{spinning}}"></paper-spinner-lite>
         </paper-material>
 
     </template>
