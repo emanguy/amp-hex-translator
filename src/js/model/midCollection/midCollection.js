@@ -31,7 +31,7 @@ AMPParse.buildMIDCollection = function(hexadecimal)
             // RangeError indicates there were not enough bytes to create the expected amount of MIDs
             if (err instanceof RangeError) {
                 err.message = "Expected " + midCount + " MIDs but there were only" +
-                    " enough bytes for " + i;
+                    " enough bytes for " + i + ". Enclosed error message: " + err.message;
             } else {
                 err.messsage = "Failed to build MID in MID Collection: " + err.message;
             }
