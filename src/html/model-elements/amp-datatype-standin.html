@@ -1,0 +1,105 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-byte-model.html">
+<link rel="import" href="amp-number-model.html">
+<link rel="import" href="amp-float-model.html">
+<link rel="import" href="amp-string-model.html">
+<link rel="import" href="amp-sdnv-model.html">
+<link rel="import" href="amp-blob-model.html">
+<link rel="import" href="amp-oid-model.html">
+<link rel="import" href="amp-data-collection-model.html">
+<link rel="import" href="amp-timestamp-model.html">
+<link rel="import" href="amp-mid-model.html">
+<link rel="import" href="amp-mid-collection-model.html">
+<link rel="import" href="amp-expression-model.html">
+<link rel="import" href="amp-variable-model.html">
+<link rel="import" href="amp-macro-model.html">
+<link rel="import" href="amp-report-entry-model.html">
+<link rel="import" href="amp-state-based-rule-model.html">
+<link rel="import" href="amp-time-based-rule-model.html">
+<link rel="import" href="amp-table-model.html">
+<link rel="import" href="amp-message-model.html">
+<link rel="import" href="amp-message-group-model.html">
+
+<dom-module id="amp-datatype-standin">
+    <template>
+        <style>
+            :host
+            {
+                display: block;
+            }
+        </style>
+
+        <div id="elementContainer"></div>
+    </template>
+    <script>
+        Polymer({
+            is: "amp-datatype-standin",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() { return {
+                            type: "none"
+                        }
+                    },
+                    observer: "_stampChild"
+                },
+
+                _typeToElement: {
+                    type: Object,
+                    readOnly: true,
+                    value: function() {
+                        return {
+                            "Basic Number": "amp-number-model",
+                            "Byte": "amp-byte-model",
+                            "Real": "amp-float-model",
+                            "Sdnv": "amp-sdnv-model",
+                            "String": "amp-string-model",
+                            "Timestamp": "amp-timestamp-model",
+                            "Object Identifier": "amp-oid-model",
+                            "Blob": "amp-blob-model",
+                            "Data Collection": "amp-data-collection-model",
+                            "Table": "amp-table-model",
+                            "Managed Identifier Collection": "amp-mid-collection-model",
+                            "Managed Identifier": "amp-mid-model",
+                            "Expression": "amp-expression-model",
+                            "Variable": "amp-variable-model",
+                            "Report Entry": "amp-report-entry-model",
+                            "State Based Rule": "amp-state-based-rule-model",
+                            "Time Based Rule": "amp-time-based-rule-model",
+                            "Macro": "amp-macro-model",
+                            "AMP Message": "amp-message-model",
+                            "Message Group": "amp-message-group-model"
+                        }
+                    }
+                }
+            },
+
+            _stampChild: function(newModel, oldModel)
+            {
+                if (newModel.type !== "none")
+                {
+                    if (Polymer.dom(this.$.elementContainer).childNodes.length > 0)
+                    {
+                        var child = Polymer.dom(this.$.elementContainer).firstElementChild;
+                        Polymer.dom(this.$.elementContainer).removeChild(child);
+                    }
+
+                    try
+                    {
+                        var child = this.create(this._typeToElement[newModel.type], { model: newModel });
+                        Polymer.dom(this.$.elementContainer).appendChild(child);
+                    }
+                    catch(err)
+                    {
+                        console.log(err);
+                        var child = document.createElement("p");
+                        child.innerHTML = "Error creating type " + newModel.type + "! See console for details.";
+                        Polymer.dom(this.$.elementContainer).appendChild(child);
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
