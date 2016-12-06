@@ -17,6 +17,7 @@
 <link rel="import" href="../amp-instruction-page/amp-instruction-page.html">
 <link rel="import" href="../amp-loading-page/amp-loading-page.html">
 <link rel="import" href="../amp-translation-page/amp-translation-page.html">
+<link rel="import" href="../amp-error-page/amp-error-page.html">
 
 
 <dom-module id="amp-translation-app">
@@ -105,13 +106,12 @@
 
                 <amp-construct-model id="modelctor" hex-input="[[input]]" model="{{model}}"></amp-construct-model>
 
-                <!-- TODO replace placeholders -->
                 <neon-animated-pages attr-for-selected="pagename" selected="[[state]]"
                     entry-animation="slide-from-top-animation"
                     exit-animation="scale-down-animation"> 
                     <amp-instruction-page pagename="instruction"></amp-instruction-page>
                     <amp-loading-page pagename="processing" spinning="[[processing]]"></amp-loading-page>
-                    <div pagename="error">Error page</div>
+                    <amp-error-page pagename="error" error="[[error]]" input-hex="[[input]]"></amp-error-page>
                     <amp-translation-page pagename="translation" model="[[model]]"></amp-translation-page>
                 </neon-animated-pages>
             </div>
