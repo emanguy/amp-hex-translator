@@ -1,0 +1,51 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+
+<!--
+    ##<amp-translation-page>
+
+    <amp-translation-page> takes a computed model object and renders its contents. Its only property,
+    model, is all it requires for rendering.
+    -->
+<dom-module id="amp-translation-page">
+    <template>
+        <style>
+            paper-material
+            {
+                padding: 8px;
+            }
+        </style>
+        <paper-material>
+            <h3>Translated Message</h3>
+
+            <pre>{{_formattedModel}}</pre>
+        </paper-material>
+    </template>
+
+    <script>
+    Polymer({
+        is: "amp-translation-page",
+
+        properties: {
+            /** The model which the page needs to represent */
+            model: {
+                type: Object,
+                value: function() { return {}; }
+            },
+
+            /** Computed property which formats the model for display on the page */
+            _formattedModel: {
+                type: String,
+                computed: "_stringifyModel(model)"
+            }
+        },
+
+        _stringifyModel: function(model)
+        {
+            return JSON.stringify(model, null, 4);
+        }
+    });
+    </script>
+</dom-module>

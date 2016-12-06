@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>AMP Hexadecimal Translator</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="bower_components/polymer/polymer.html">
+        <link rel="import" href="bower_components/paper-styles/paper-styles.html">
+        <link rel="import" href="bower_components/font-roboto/roboto.html">
+        <link rel="import" href="src/html/amp-translation-app/amp-translation-app.html">
+
+
+        <style is="custom-style">
+            :root
+            {
+                @apply(--paper-font-common-base);
+
+                --primary-color: var(--paper-indigo-500);
+                --light-primary-color: var(--paper-indigo-100);
+                --dark-primary-color: var(--paper-indigo-700);
+
+                --accent-color: var(--paper-deep-orange-300);
+                --light-accent-color: var(--paper-deep-orange-100);
+                --dark-accent-color: var(--paper-deep-orange-500);
+
+                --primary-text-color: black;
+                --secondary-text-color: white;
+
+                color: var(--primary-text-color);
+            }
+
+            body
+            {
+                background-color: var(--paper-grey-200);
+            }
+
+            h1
+            {
+                @apply(--paper-font-display2);
+            }
+
+            h2
+            {
+                @apply(--paper-font-display1);
+            }
+
+            h3
+            {
+                @apply(--paper-font-headline);
+            }
+
+            h4
+            {
+                @apply(--paper-font-title);
+            }
+
+            h5
+            {
+                @apply(--paper-font-subheading);
+            }
+
+            p
+            {
+                @apply(--paper-font-body-1);
+            }
+        </style>
+
+    </head>
+
+    <body unresolved class="fullbleed">
+        <amp-translation-app></amp-translation-app>
+    </body>
+</html>

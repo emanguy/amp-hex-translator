@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Translation Page Demo</title>
+
+        <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="amp-translation-page.html">
+
+        <style is="custom-style">
+            demo-snippet
+            {
+                width: 1000px;
+                margin-left: calc(50% - 500px);
+            }
+        </style>
+    </head>
+
+    <body unresolved>
+        <h1>Translation Page Demo</h1>
+        <demo-snippet>
+            <template>
+                <amp-translation-page model=
+'{"returnValue":{"type":"Message Group","timestamp":{"type":"Timestamp","value":"2016-09-20T04:09:35.000Z","isRelative":false},"value":[{"type":"AMP Message","header":{"hasTrailer":false,"negativeAcknowledgement":false,"acknowledgement":false,"opcodeValue":0,"opcodeName":"Register Agent"},"value":{"agentId":{"type":"Blob","value":[{"type":"Byte","value":136,"binaryValue":"0b10001000"},{"type":"Byte","value":153,"binaryValue":"0b10011001"},{"type":"Byte","value":170,"binaryValue":"0b10101010"},{"type":"Byte","value":187,"binaryValue":"0b10111011"},{"type":"Byte","value":204,"binaryValue":"0b11001100"},{"type":"Byte","value":221,"binaryValue":"0b11011101"},{"type":"Byte","value":238,"binaryValue":"0b11101110"},{"type":"Byte","value":255,"binaryValue":"0b11111111"}]}}},{"type":"AMP Message","header":{"hasTrailer":false,"negativeAcknowledgement":false,"acknowledgement":false,"opcodeValue":26,"opcodeName":"Perform Control"},"value":{"startTime":{"type":"Timestamp","value":"1970-01-01T00:00:00.000Z","isRelative":true},"controls":{"type":"Managed Identifier Collection","value":[{"type":"Managed Identifier","header":{"isCompressed":true,"isParametrized":true,"hasTag":false,"hasIssuer":false,"enclosedStructId":"Control"},"value":{"type":"Object Identifier","nickname":"[4]","extraInfo":"Generate Reports","value":"9"},"parameters":{"type":"Data Collection","value":[{"type":"Managed Identifier Collection","value":[{"type":"Managed Identifier","header":{"isCompressed":true,"isParametrized":false,"hasTag":false,"hasIssuer":false,"enclosedStructId":"Report"},"value":{"type":"Object Identifier","nickname":"[3]","extraInfo":"Full Report","value":"0"}}]},{"type":"Data Collection","value":[{"type":"Blob","value":[]}],"isTyped":false}],"isTyped":true}}]}}}]},"nibblesConsumed":84}'></amp-translation-page>
+            </template>
+        </demo-snippet>
+    </body>
+</html>

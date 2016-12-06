@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Model Constructor Demo</title>
+
+        <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="../../../bower_components/polymer/polymer.html">
+        <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+        <link rel="import" href="amp-construct-model.html">
+
+    </head>
+
+    <body unresolved>
+
+        <dom-module id="model-construct-demo">
+            <template>
+                <h1>Model constructor demo</h1>
+
+                <paper-button raised on-tap="_constructModel">Construct model</paper-button>
+                <amp-construct-model id="modelbuilder" hex-input="0285bf82ec7f00088899AABBCCDDEEFF1a0000000001c304010903021517080000000182030100020100" model="{{model}}"></amp-construct-model>
+
+                <pre>{{formattedModel}}</pre>
+
+                <p>{{errorMsg}}</p>
+            </template>
+
+            <script>
+                Polymer({
+                    is: "model-construct-demo",
+
+                    properties: {
+                        model: {
+                            type: Object,
+                            value: function() { return {}; }
+                        },
+                        formattedModel: {
+                            type: String,
+                            computed: "_convertModel(model)"
+                        },
+                        errorMsg: String
+                    },
+
+                    listeners: {
+                        "amp-error": "_catchError"
+                    },
+
+                    _constructModel: function()
+                    {
+                        this.$.modelbuilder.buildModel();
+                    },
+
+                    _convertModel: function(model)
+                    {
+                        return JSON.stringify(model, null, 4);
+                    },
+
+                    _catchError: function(event)
+                    {
+                        this.errorMsg = event.detail.attachedError.message;
+                    }
+                });
+            </script>
+        </dom-module>
+
+        <model-construct-demo ></model-construct-demo>
+    </body>
+</html>

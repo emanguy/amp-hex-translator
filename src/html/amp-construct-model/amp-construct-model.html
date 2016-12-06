@@ -1,0 +1,89 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<!-- Here we defer the execution of all JS files until the HTML is fully parsed -->
+<script defer src="../../js/AMPSetup/AMPSetup.js"></script>
+<script defer src="../../../bower_components/long/dist/long.min.js"></script>
+<script defer src="../../js/model/byte/byte.js"></script>
+<script defer src="../../js/model/number/number.js"></script>
+<script defer src="../../js/model/number/float.js"></script>
+<script defer src="../../js/model/string/string.js"></script>
+<script defer src="../../js/model/sdnv/sdnv.js"></script>
+<script defer src="../../js/model/blob/blob.js"></script>
+<script defer src="../../js/model/oid/oid.js"></script>
+<script defer src="../../js/model/dataCollection/dataCollection.js"></script>
+<script defer src="../../js/model/timestamp/timestamp.js"></script>
+<script defer src="../../js/model/mid/mid.js"></script>
+<script defer src="../../js/model/midCollection/midCollection.js"></script>
+<script defer src="../../js/model/expression/expression.js"></script>
+<script defer src="../../js/model/variable/variable.js"></script>
+<script defer src="../../js/model/macro/macro.js"></script>
+<script defer src="../../js/model/reportEntry/reportEntry.js"></script>
+<script defer src="../../js/model/stateBasedRule/stateBasedRule.js"></script>
+<script defer src="../../js/model/timeBasedRule/timeBasedRule.js"></script>
+<script defer src="../../js/model/table/table.js"></script>
+<script defer src="../../js/model/message/message.js"></script>
+<script defer src="../../js/model/messageGroup/messageGroup.js"></script>
+
+<script>
+    /**
+     * ##<amp-construct-model>
+     * 
+     * This element simply takes the raw hexadecimal input and spits out an object which represents
+     * the contents of the AMP transaction. This is done in accordance with the [JavaScript Object Specification](https://github.com/emanguy/amp-hex-translator/wiki/JavaScript-Object-Specification)
+     */
+    Polymer({
+        is: "amp-construct-model",
+
+        properties: {
+            /** The hexadecimal to parse. */
+            hexInput: String,
+
+            /** The resulting model built from the parsed hex. */
+            model: {
+                type: Object,
+                value: function() { return {}; },
+                readOnly: true,
+                notify: true
+            }
+        },
+
+        /** Due to the amount of work that needs to be done to convert the hex to the model, this function must be called to initiate the conversion. */
+        buildModel()
+        {
+            var mutableHexInput = this.hexInput;
+
+            // Trim the 0x if necessary
+            if ( /^0[xX]/.test(mutableHexInput.substring(0, 2)))
+            {
+                mutableHexInput = mutableHexInput.substring(2);
+            }
+
+            this.async(function()
+            {
+                try
+                {
+                    var result = AMPParse.buildMessageGroup(new AMPHexConsumer(mutableHexInput));
+                    this._setModel(result);
+                    this.fire("amp-model-complete");
+                }
+                catch (err)
+                {
+                    this.fire("amp-error", { attachedError: err });
+                }
+            }, 150);
+        }
+
+        /**
+         * Fired when model construction is finished.
+         * 
+         * @event amp-model-complete
+         */
+
+        /**
+         * Fired when a parse error occurs.
+         * 
+         * @event amp-error
+         * @param {Error} attachedError The error thrown during parsing. Has a nibblesConsumed attribute saying where the parse failed.
+         */
+    });
+</script>
