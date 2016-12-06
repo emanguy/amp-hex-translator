@@ -63,7 +63,7 @@
                 try
                 {
                     var result = AMPParse.buildMessageGroup(new AMPHexConsumer(mutableHexInput));
-                    this._setModel(result);
+                    this._setModel(result.returnValue);
                     this.fire("amp-model-complete");
                 }
                 catch (err)

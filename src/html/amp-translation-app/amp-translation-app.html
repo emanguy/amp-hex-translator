@@ -13,6 +13,11 @@
 
 <link rel="import" href="../amp-hex-input/amp-hex-input.html">
 <link rel="import" href="../amp-validate/amp-validate.html">
+<link rel="import" href="../amp-construct-model/amp-construct-model.html">
+<link rel="import" href="../amp-instruction-page/amp-instruction-page.html">
+<link rel="import" href="../amp-loading-page/amp-loading-page.html">
+<link rel="import" href="../amp-translation-page/amp-translation-page.html">
+
 
 <dom-module id="amp-translation-app">
     <template>
@@ -32,7 +37,6 @@
             {
                 padding: 16px;
                 margin-bottom: none;
-                @apply(--layout-fit);
                 @apply(--layout-vertical);
                 @apply(--layout-center);
             }
@@ -44,18 +48,22 @@
                 z-index: 1;
             }
 
+            amp-loading-page
+            {
+                height: 500px;
+            }
+
             neon-animated-pages
             {
                 width: 75%;
                 z-index: 0;
             }
 
-            /* TODO get rid of this rule */
             neon-animated-pages > *
             {
-                height: 500px;
-                border: 1px solid black;
-                background: green;
+                top: auto;
+                bottom: auto;
+                margin-bottom: 32px;
             }
 
             @media screen and (max-width: 768px)
@@ -75,10 +83,14 @@
         <app-header-layout has-scrolling-region>
 
             <!-- Title bar -->
-            <app-header fixed reveals>
+            <app-header condenses reveals>
                 <app-toolbar>
                     <div main-title>AMP Hex Translator</div>
                     
+                    <a href="https://tools.ietf.org/html/draft-birrane-dtn-adm-agent-02" target="_blank" tabindex="-1">
+                        <paper-tooltip for="admhelp" position="bottom" offset="1">Application Data Model</paper-tooltip>
+                        <paper-icon-button id="admhelp" icon="info"></paper-icon-button>
+                    </a>
                     <a href="https://tools.ietf.org/html/draft-birrane-dtn-amp-03" target="_blank" tabindex="-1">
                         <paper-tooltip for="dochelp" position="bottom" offset="1">AMP Specification</paper-tooltip>
                         <paper-icon-button id="dochelp" icon="help"></paper-icon-button>
@@ -97,10 +109,10 @@
                 <neon-animated-pages attr-for-selected="pagename" selected="[[state]]"
                     entry-animation="slide-from-top-animation"
                     exit-animation="scale-down-animation"> 
-                    <div pagename="instruction">Instruction page</div>
-                    <div pagename="processing">Processing page</div>
+                    <amp-instruction-page pagename="instruction"></amp-instruction-page>
+                    <amp-loading-page pagename="processing" spinning="[[processing]]"></amp-loading-page>
                     <div pagename="error">Error page</div>
-                    <div pagename="translation">Translation page</div>
+                    <amp-translation-page pagename="translation" model="[[model]]"></amp-translation-page>
                 </neon-animated-pages>
             </div>
         </app-header-layout>
@@ -147,13 +159,15 @@
 
         _showModel: function()
         {
-            this._setState("translation");
+            this.async(function() {this._setState("translation") }, 1000);
         },
 
         _showError: function(event)
         {
-            this._setError(event.detail.attachedError);
-            this._setState("error");
+            this.async(function() {
+                this._setError(event.detail.attachedError);
+                this._setState("error");
+            }, 1000);
         },
 
         _isProcessing: function(state)
