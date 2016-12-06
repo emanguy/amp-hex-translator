@@ -1,0 +1,33 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-byte-model.html">
+
+<dom-module id="amp-blob-model">
+    <template>
+        <style include="amp-model-style"></style>
+
+        <h2>Binary Large Object</h2>
+
+        <p>Bytes:</p>
+        <template is="dom-repeat" items="{{model.value}}">
+            <amp-byte-model model="{{item}}"></amp-byte-model>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-blob-model",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            value: []
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>

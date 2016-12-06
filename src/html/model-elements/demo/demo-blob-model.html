@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Blob Model Demo</title>
+
+        <script src="../../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="../../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../amp-blob-model.html">
+    </head>
+
+    <body unresolved>
+        <h1>Blob Model Demo</h1>
+
+        <script>
+            Polymer({
+                is: "blob-the-builder",
+
+                properties: {
+                    model: {
+                        notify: true,
+                        type: Object,
+                        value: function() {
+                            return {
+                                value: [
+                                    {
+                                        type: "Byte",
+                                        value: 10,
+                                        binaryValue: "0b00001010"
+                                    },
+                                    {
+                                        type: "Byte",
+                                        value: 15,
+                                        binaryValue: "0b00001111"
+                                    },
+                                    {
+                                        type: "Byte",
+                                        value: 12,
+                                        binaryValue: "0b00001100"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <demo-snippet>
+            <template is="dom-bind">
+                <amp-blob-model model="[[passedmodel]]"></amp-blob-model>
+                <blob-the-builder model="{{passedmodel}}"></blob-the-builder>
+            </template>
+        </demo-snippet>
+    </body>
+</html>

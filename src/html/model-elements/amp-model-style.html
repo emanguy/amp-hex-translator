@@ -1,0 +1,43 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<!--
+    This is a style module which you can include in model elements.
+
+        <link rel="import" href="amp-model-style.html">
+        ...
+        <dom-module id="...">
+            <template>
+                <style include="amp-model-style"></style>
+                ...
+    -->
+<dom-module id="amp-model-style">
+    <template>
+        <style>
+            :host
+            {
+                display: block;
+                border-left: 2px solid black;
+
+                padding-left: 8px;
+                padding-bottom: 16px;
+                margin-left: 8px;
+            }
+
+            h1, h2, h3, h4, h5, h6
+            {
+                margin-top: 0;
+            }
+
+            table
+            {
+                border-collapse: collapse;
+            }
+
+            td, th
+            {
+                border: 1px solid black;
+                padding: 8px;
+            }
+        </style>
+    </template>
+</dom-module>
