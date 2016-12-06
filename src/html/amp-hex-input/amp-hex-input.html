@@ -18,6 +18,8 @@
     Setting the "invalid" property will cause the background of the hex to become red.
 
       <amp-hex-input invalid></amp-hex-input>
+
+   @demo demo/demo-hex-input.html
     -->
 <dom-module id="amp-hex-input">
     <template>
@@ -69,7 +71,8 @@
 
         <paper-material id="container" animated>
             <iron-icon icon="chevron-right"></iron-icon>
-            <input is="iron-input" on-focus="_raiseMaterial" on-blur="_lowerMaterial" bind-value="{{rawInput}}"></input>
+            <input is="iron-input" id="textinput" on-focus="_raiseMaterial" on-blur="_lowerMaterial" 
+                validator="{{validator}}" invalid="{{invalid}}" bind-value="{{rawInput}}"></input>
             <div id="innerwrapper">
                 <paper-button id="go">Go</paper-button>
             </div>
@@ -85,14 +88,18 @@
             /** The value of the input field */
             rawInput: {
                 type: String,
-                notify: true
+                notify: true,
+                observer: "_inputValidCheck"
             },
             /** Changed by an external validator to specify whether or not the value in the text field is valid. */
             invalid: {
                 type: Boolean,
-                value: false,
+                notify: true,
                 observer: "_invalidChangeHandler"
-            }
+            },
+
+            /** Which validator to use for input validation. Must be something implementing the iron-validator-behavior */
+            validator: String
         },
 
         listeners: {
@@ -102,6 +109,17 @@
         _invalidChangeHandler: function(invalidValue)
         {
             this.toggleAttribute("invalid", invalidValue, this.$.container);
+        },
+
+        _inputValidCheck: function()
+        {
+            if (this.$.textinput.hasValidator())
+            {
+                this.debounce("input validity check", function()
+                {
+                    this.$.textinput.validate();
+                }, 250);
+            }
         },
 
         _firePressedEvent: function()

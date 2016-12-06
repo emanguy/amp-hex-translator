@@ -2,10 +2,11 @@
     <head>
         <title>Hex input demo</title>
 
-        <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+        <script src="../../../../bower_components/webcomponentsjs/webcomponents.js"></script>
         
-        <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html">
-        <link rel="import" href="amp-hex-input.html">
+        <link rel="import" href="../../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="false-validator.html">
+        <link rel="import" href="../amp-hex-input.html">
 
         <style is="custom-style">
             demo-snippet 
@@ -39,7 +40,8 @@
 
         <demo-snippet>
             <template>
-                <amp-hex-input invalid></amp-hex-input>
+                <false-validator></false-validator>
+                <amp-hex-input validator="false-validator"></amp-hex-input>
             </template>
         </demo-snippet>
     </body>
