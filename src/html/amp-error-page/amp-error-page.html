@@ -1,0 +1,103 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+
+<!--
+    ##<amp-error-page>
+    
+    The <amp-error-page> element displays the text from an error that has a **nibblesConsumed** property.
+    The raw error is applied to the **error** attribute, and the element will use the nibblesConsumed property
+    to show where parsing failed and why.
+    -->
+<dom-module id="amp-error-page">
+    <template>
+        <style>
+            :host
+            {
+                display: block;
+            }
+
+            paper-material
+            {
+                padding: 8px;
+                background-color: white;
+            }
+
+            .container
+            {
+                @apply(--layout-vertical);
+                @apply(--layout-center);
+            }
+
+            .correct
+            {
+                background-color: var(--paper-green-500);
+            }
+
+            .incorrect
+            {
+                background-color: var(--paper-red-300);
+            }
+
+            hr
+            {
+                width: 100%;
+                height: 1px;
+                border: none;
+                background-color: var(--divider-color);
+            }
+        </style>
+
+        <paper-material>
+            <h3>Parse Error</h3>
+
+            <div class="container">
+                <h1>0x<span class="correct">{{_goodPart}}</span><span class="incorrect">{{_badPart}}</span></h1>
+
+                <h2>Cause of error: <em>{{error.message}}</em></h2>
+                <hr>
+                <h3>Call stack</h3>
+                <pre>{{error.stack}}</pre>
+            </div>
+        </paper-material>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-error-page",
+
+            properties: {
+                /** The error to display */
+                error: {
+                    type: Object,
+                    value: function() { return new Error(); }
+                },
+
+                /** The raw input */
+                inputHex: {
+                    type: String,
+                    value: ""
+                },
+
+                /** The hexadecimal successfully parsed */
+                _goodPart: String,
+                /** The hexadecimal after the failure point */
+                _badPart: String
+            },
+
+            observers: [
+                "_updateParts(error, inputHex)"
+            ],
+
+            _updateParts: function(newError, newHex)
+            {
+                // Trim the 0x if it's there
+                var hex = /^0[xX]/.test(newHex) ? newHex.substring(2) : newHex;
+                this._goodPart = hex.substring(0, newError.nibblesConsumed).toUpperCase();
+                this._badPart = hex.substring(newError.nibblesConsumed).toUpperCase();
+            }
+        })
+    </script>
+</dom-module>
