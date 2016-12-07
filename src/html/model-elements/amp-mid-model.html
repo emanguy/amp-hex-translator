@@ -39,14 +39,17 @@
 
         <p>Enclosed ADM member:</p>
         <amp-oid-model model={{model.value}}></amp-oid-model>
+
         <template is="dom-if" if="{{model.header.hasIssuer}}">
             <p>Issuer:</p>
             <amp-sdnv-model model="{{model.issuer}}"></amp-sdnv-model>
         </template>
+
         <template is="dom-if" if="{{model.header.isParametrized}}">
             <p>Parameters:</p>
             <amp-data-collection-model model="{{model.parameters}}"></amp-dc-model>
         </template>
+
         <template is="dom-if" if="{{model.header.hasTag}}">
             <p>Tag:</p>
             <amp-sdnv-model model="{{model.tag}}"></amp-sdnv-model>
