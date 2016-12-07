@@ -51,15 +51,6 @@
 
             properties: {
                 /** A model of any type */
-                model: {
-                    type: Object,
-                    value: function() { return {
-                            type: "none"
-                        }
-                    },
-                    observer: "_stampChild"
-                },
-
                 _typeToElement: {
                     type: Object,
                     readOnly: true,
@@ -87,7 +78,16 @@
                             "Message Group": "amp-message-group-model"
                         }
                     }
-                }
+                },
+
+                model: {
+                    type: Object,
+                    value: function() { return {
+                            type: "none"
+                        }
+                    },
+                    observer: "_stampChild"
+                },
             },
 
             _stampChild: function(newModel)
