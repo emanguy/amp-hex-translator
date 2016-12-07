@@ -1,0 +1,67 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+
+<!--
+    ##amp-oid-model
+
+    This element displays the properties of the OID model provided to it.
+    -->
+<dom-module id="amp-oid-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2>Object Identifier</h2>
+
+        <!--TODO: tried to binding to function to determine if nickname should be shown but it is always displayed-->
+        <!--
+        <div hidden$="[[!_noNickname(model.nickname)]]">
+            <p>{{model.nickname}} is {{model.extraInfo}}</p>
+        </div>
+        <div hidden$="[[_noNickname(model.nickname)]]">
+            <p>{{model.value}} is {{model.extraInfo}}</p>
+        </div>
+        -->
+
+        <table>
+            <tr>
+                <th>Value</th>
+                <th>Nickname</th>
+                <th>Extra Info</th>
+            </tr>
+            <tr>
+                <td>{{model.value}}</td>
+                <td>{{model.nickname}}</td>
+                <td>{{model.extraInfo}}</td>
+            </tr>
+        </table>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-oid-model",
+
+            properties: {
+                /** The oid model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "Object Identifier",
+                            "value": "",
+                            "nickname": "",
+                            "extraInfo": ""
+                        };
+                    }
+                }
+            },
+
+            _hasNickname: function(nickname) {
+                return nickname === "";
+            }
+        });
+    </script>
+</dom-module>
