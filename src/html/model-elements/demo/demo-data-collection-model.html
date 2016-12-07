@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <title>Data Collection Demo</title>
+
+        <script src="../../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+
+        <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+        <link rel="import" href="../../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../amp-data-collection-model.html">
+    </head>
+
+    <body unresolved>
+        <h1>Data Collection Demo</h1>
+
+        <script>
+            Polymer({
+                is: "data-collection-builder",
+
+                properties: {
+                    model: {
+                        type: Object,
+                        notify: true,
+                        value: function () {
+                            return {
+                                type: "Data Collection",
+                                isTyped: false,
+                                value: [
+                                    {
+                                        type: "Blob",
+                                        value: [
+                                            {
+                                                type: "Byte",
+                                                value: 10,
+                                                binaryValue: "0b00001010"
+                                            },
+                                            {
+                                                type: "Byte",
+                                                value: 11,
+                                                binaryValue: "0b00001011"
+                                            },
+                                            {
+                                                type: "Byte",
+                                                value: 12,
+                                                binaryValue: "0b00001100"
+                                            }
+                                        ],
+                                    },
+                                    {
+                                        type: "Blob",
+                                        value: [
+                                            {
+                                                type: "Byte",
+                                                value: 13,
+                                                binaryValue: "0b00001101"
+                                            },
+                                            {
+                                                type: "Byte",
+                                                value: 14,
+                                                binaryValue: "0b00001110"
+                                            },
+                                            {
+                                                type: "Byte",
+                                                value: 15,
+                                                binaryValue: "0b00001111"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            };
+                        }
+                    }
+                }
+            });
+
+            Polymer({
+                is: "typed-data-collection-builder",
+
+                properties: {
+                    model: {
+                        type: Object,
+                        notify: true,
+                        value: function() {
+                            return {
+                                type: "Data Collection",
+                                isTyped: true,
+                                value: [
+                                    { 
+                                        type: "String",
+                                        value: "Hello world"
+                                    },
+                                    {
+                                        type: "String",
+                                        value: "Hello again"
+                                    },
+                                    {
+                                        type: "String",
+                                        value: "Hello from the other side"
+                                    }
+                                ]
+                            };
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <demo-snippet>
+            <template is="dom-bind">
+                <amp-data-collection-model model="[[passedmodel]]"></amp-data-collection-model>
+                <data-collection-builder model="{{passedmodel}}"></data-collection-builder>
+            </template>
+        </demo-snippet>
+
+        <demo-snippet>
+            <template is="dom-bind">
+                <amp-data-collection-model model="[[passedmodel]]"></amp-data-collection-model>
+                <typed-data-collection-builder model="{{passedmodel}}"></typed-data-collection-builder>
+            </template>
+        </demo-snippet>
+    </body>
+</html>

@@ -50,15 +50,6 @@
             is: "amp-datatype-standin",
 
             properties: {
-                /** A model of any type */
-                model: {
-                    type: Object,
-                    value: function() { return {
-                            type: "none"
-                        }
-                    },
-                    observer: "_stampChild"
-                },
 
                 _typeToElement: {
                     type: Object,
@@ -87,6 +78,16 @@
                             "Message Group": "amp-message-group-model"
                         }
                     }
+                },
+
+                /** A model of any type */
+                model: {
+                    type: Object,
+                    value: function() { return {
+                            type: "none"
+                        }
+                    },
+                    observer: "_stampChild"
                 }
             },
 
