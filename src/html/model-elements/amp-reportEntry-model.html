@@ -17,11 +17,11 @@
 
         <!-- Figure out a layouasdasdt which would make sense to display the object -->
             <h2>Report Entry</h2>
+
             <p> Identifier </p>
-
             <amp-mid-model model={{model.identifier}}></amp-mid-model>
-            <p> Report Entries </p>
 
+            <p> Report Entries </p>
             <amp-data-collection-model model={{model.value}}></amp-data-collection-model>
 
     </template>
@@ -38,19 +38,12 @@
                         // You need to provide default values for each property of the model you intend to bind to
                         return {
                             "type": "Report Entry",
-                            "identifier": {
-                               
-                            },
+                            "identifier": {},
                             "value": {}
                             
                         }
                     }
                 }
-            },
-
-            _yesOrNo: function(boolValue)
-            {
-                return boolValue ? "Yes" : "No"
             }
         });
     </script>
