@@ -1,0 +1,93 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-sdnv-model.html">
+<link rel="import" href="amp-oid-model.html">
+<link rel="import" href="amp-data-collection-model.html">
+
+<!--
+    ##amp-mid-model
+
+    This element displays the properties of the mid model provided to it.
+    -->
+<dom-module id="amp-mid-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2>Managed Identifier</h2>
+
+        <p>Header:</p>
+        <table>
+            <tr>
+                <th>Compressed OID?</th>
+                <th>Parametrized OID?</th>
+                <th>Has Tag?</th>
+                <th>Has Issuer?</th>
+                <th>Enclosed Structure</th>
+            </tr>
+
+            <tr>
+                <td>{{_yesOrNo(model.header.isCompressed)}}</td>
+                <td>{{_yesOrNo(model.header.isParametrized)}}</td>
+                <td>{{_yesOrNo(model.header.hasTag)}}</td>
+                <td>{{_yesOrNo(model.header.hasIssuer)}}</td>
+                <td>{{model.header.enclosedStructId}}</td>
+            </tr>
+        </table>
+
+        <p>Enclosed ADM member:</p>
+        <amp-oid-model model={{model.value}}></amp-oid-model>
+
+        <template is="dom-if" if="{{model.header.hasIssuer}}">
+            <p>Issuer:</p>
+            <amp-sdnv-model model="{{model.issuer}}"></amp-sdnv-model>
+        </template>
+
+        <template is="dom-if" if="{{model.header.isParametrized}}">
+            <p>Parameters:</p>
+            <amp-data-collection-model model="{{model.parameters}}"></amp-dc-model>
+        </template>
+
+        <template is="dom-if" if="{{model.header.hasTag}}">
+            <p>Tag:</p>
+            <amp-sdnv-model model="{{model.tag}}"></amp-sdnv-model>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-mid-model",
+
+            properties: {
+                /** The MID model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "Managed Identifier",
+                            "header": {
+                                "isCompressed": true,
+                                "isParametrized": true,
+                                "hasTag": true,
+                                "hasIssuer": true,
+                                "enclosedStructId": ""
+                            },
+                            "issuer": {},
+                            "value": {},
+                            "parameters": {},
+                            "tag": {}
+                        }
+                    }
+                }
+            },
+
+            _yesOrNo: function(boolValue)
+            {
+                return boolValue ? "Yes" : "No"
+            }
+        });
+    </script>
+</dom-module>

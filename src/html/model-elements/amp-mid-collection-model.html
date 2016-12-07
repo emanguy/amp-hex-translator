@@ -1,0 +1,36 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-mid-model.html">
+
+<dom-module id="amp-mid-collection-model">
+    <template>
+        <style include="amp-model-style"></style>
+
+        <h2>Managed Identifier Collection</h2>
+        <p>Enclosed MIDs:</p>
+
+        <template is="dom-repeat" items="[[model.value]]">
+            <amp-mid-model model="{{item}}"></amp-mid-model>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-mid-collection-model",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function()
+                    {
+                        return {
+                            type: "Managed Identifier Collection",
+                            value: []
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>

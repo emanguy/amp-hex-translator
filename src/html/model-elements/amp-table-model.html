@@ -1,0 +1,63 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-string-model.html">
+<link rel="import" href="amp-datatype-standin.html">
+
+<dom-module id="amp-table-model">
+    <template>
+        <style include="amp-model-style">
+            p
+            {
+                text-decoration: underline;
+            }
+        </style>
+
+        <h2>Table</h2>
+
+        <table>
+            <tr>
+                <template is="dom-repeat" items="[[model.columnNames]]">
+                    <th>
+                        <p>Column {{_plusOne(index)}}:</p>
+                        <amp-string-model model="{{item}}"></amp-string-model>
+                    </th>
+                </template>
+            </tr>
+
+            <template is="dom-repeat" items="[[model.value]]" as="row">
+                <tr>
+                    <template is="dom-repeat" items="{{row}}" as="columnItem">
+                        <td>
+                            <amp-datatype-standin model="{{columnItem}}"></amp-datatype-standin>
+                        </td>
+                    </template>
+                </tr>
+            </template>
+        </table>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-table-model",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            type: "Table",
+                            columnNames: [],
+                            value: [ [] ]
+                        };
+                    }
+                }
+            },
+
+            _plusOne: function(value)
+            {
+                return value + 1;
+            }
+        });
+    </script>
+</dom-module>
