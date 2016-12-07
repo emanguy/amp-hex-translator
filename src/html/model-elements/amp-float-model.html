@@ -18,13 +18,11 @@
         <table>
             <tr>
                 <th>Decimal</th>
-                <th>Fraction</th>
-                <th>Exponent</th>
+                <th>Scientific Notation</th>
             </tr>
             <tr>
                 <td>{{model.value}}</td>
-                <td>{{model.fraction}}</td>
-                <td>{{model.exponent}}</td>
+                <td>{{model.fraction}} * 2<sup>{{model.exponent}}</sup></td>
             </tr>
         </table>
     </template>
