@@ -1,0 +1,38 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-mid-collection-model.html">
+
+<!--
+    ##<amp-expression-model>
+
+    This element renders the contents of a model that represents an expression.
+    -->
+<dom-module id="amp-expression-model">
+    <template>
+        <style include="amp-model-style"></style>
+
+        <h2>Expression - Returns {{model.returnType}}</h2>
+        <p>Enclosed equation:</p>
+        <amp-mid-collection model="{{model.value}}"></amp-mid-collection>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-expression-model",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            type: "Expression",
+                            returnType: "",
+                            value: {}
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
