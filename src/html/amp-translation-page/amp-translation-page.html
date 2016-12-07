@@ -2,6 +2,7 @@
 
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../model-elements/amp-message-group-model.html">
 
 <!--
     ##<amp-translation-page>
@@ -24,8 +25,7 @@
         </style>
         <paper-material>
             <h3>Translated Message</h3>
-
-            <pre>{{_formattedModel}}</pre>
+            <amp-message-group-model model="{{model}}"></amp-message-group-model>
         </paper-material>
     </template>
 
@@ -38,18 +38,7 @@
             model: {
                 type: Object,
                 value: function() { return {}; }
-            },
-
-            /** Computed property which formats the model for display on the page */
-            _formattedModel: {
-                type: String,
-                computed: "_stringifyModel(model)"
             }
-        },
-
-        _stringifyModel: function(model)
-        {
-            return JSON.stringify(model, null, 4);
         }
     });
     </script>
