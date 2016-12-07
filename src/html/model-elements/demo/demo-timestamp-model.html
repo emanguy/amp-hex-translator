@@ -21,7 +21,25 @@
                     return {
                         type: "Timestamp",
                         value: new Date(),
-                        relative: false
+                        isRelative: false
+                    };
+                },
+                notify: true
+            }
+        }
+    });
+
+    Polymer({
+        is: "model-builder-2",
+
+        properties: {
+            model: {
+                type: Object,
+                value: function() {
+                    return {
+                        type: "Timestamp",
+                        value: new Date(19500000),
+                        isRelative: true
                     };
                 },
                 notify: true
@@ -29,6 +47,7 @@
         }
     });
 </script>
+
 <demo-snippet>
     <template is="dom-bind">
         <amp-timestamp-model model="[[passedmodel]]"></amp-timestamp-model>
@@ -36,5 +55,11 @@
     </template>
 </demo-snippet>
 
+<demo-snippet>
+    <template is="dom-bind">
+        <amp-timestamp-model model="[[passedmodel]]"></amp-timestamp-model>
+        <model-builder-2 model="{{passedmodel}}"></model-builder-2>
+    </template>
+</demo-snippet>
 </body>
 </html>

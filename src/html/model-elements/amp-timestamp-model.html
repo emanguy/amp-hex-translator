@@ -13,18 +13,10 @@
         <style include="amp-model-style"></style>
 
         <!-- Figure out a layout which would make sense to display the object -->
-        <h2>Timestamp</h2>
+        <h2><span hidden$="[[!model.isRelative]]">Relative</span> Timestamp</h2>
 
-        <table>
-            <tr>
-                <th>Relative</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>{{model.relative}}</td>
-                <td>{{model.value}}</td>
-            </tr>
-        </table>
+        <p hidden$="[[model.isRelative]]">Time: {{_computedTime(model)}}</p>
+        <p hidden$="[[!model.isRelative]]">Offset: + {{_computedTime(model)}}</p>
     </template>
 
     <script>
@@ -43,6 +35,20 @@
                             "isRelative": true
                         }
                     }
+                }
+            },
+
+            _computedTime: function(model)
+            {
+                if (!model.isRelative)
+                {
+                    return model.value.toUTCString();
+                }
+                else
+                {
+                    return "" + (model.value.getUTCFullYear() - 1970) + " years, " + model.value.getUTCMonth() + " months, " + (model.value.getUTCDate() - 1) + 
+                        " days, " + model.value.getUTCHours() + " hours, " + model.value.getUTCMinutes() + " minutes, " + model.value.getUTCSeconds() + 
+                        " seconds, " + model.value.getUTCMilliseconds() + " milliseconds from now";
                 }
             }
         });
