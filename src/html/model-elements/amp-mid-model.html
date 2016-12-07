@@ -3,7 +3,7 @@
 <link rel="import" href="amp-model-style.html">
 <link rel="import" href="amp-sdnv-model.html">
 <link rel="import" href="amp-oid-model.html">
-<link rel="import" href="amp-dc-model.html">
+<link rel="import" href="amp-data-collection-model.html">
 
 <!--
     ##amp-mid-model
@@ -13,27 +13,43 @@
 <dom-module id="amp-mid-model">
     <template>
         <!-- Grab common styles -->
-        <style include="amp-mid-style"></style>
+        <style include="amp-model-style"></style>
 
         <!-- Figure out a layout which would make sense to display the object -->
         <h2>Managed Identifier</h2>
 
-        <h3>Header:</h3>
-        <p hidden$="{{!model.header.isCompressed}}">Compressed</p>
-        <p>{{model.header.enclosedStructId}}</p>
-        <h3>Value:</h3>
-        <amp-oid-model>{{model.value}}</amp-oid-model>
+        <p>Header:</p>
+        <table>
+            <tr>
+                <th>Compressed OID?</th>
+                <th>Parametrized OID?</th>
+                <th>Has Tag?</th>
+                <th>Has Issuer?</th>
+                <th>Enclosed Structure</th>
+            </tr>
+
+            <tr>
+                <td>{{_yesOrNo(model.header.isCompressed)}}</td>
+                <td>{{_yesOrNo(model.header.isParametrized)}}</td>
+                <td>{{_yesOrNo(model.header.hasTag)}}</td>
+                <td>{{_yesOrNo(model.header.hasIssuer)}}</td>
+                <td>{{model.header.enclosedStructId}}</td>
+            </tr>
+        </table>
+
+        <p>Enclosed ADM member:</p>
+        <amp-oid-model model={{model.value}}></amp-oid-model>
         <template is="dom-if" if="{{model.header.hasIssuer}}">
-            <h3>Issuer:</h3>
-            <amp-sdnv-model>model="{{model.issuer}}"</amp-sdnv-model>
+            <p>Issuer:</p>
+            <amp-sdnv-model model="{{model.issuer}}"></amp-sdnv-model>
         </template>
         <template is="dom-if" if="{{model.header.isParametrized}}">
-            <h3>Parameters:</h3>
-            <amp-dc-model>model="{{model.parameters}}"</amp-dc-model>
+            <p>Parameters:</p>
+            <amp-data-collection-model model="{{model.parameters}}"></amp-dc-model>
         </template>
         <template is="dom-if" if="{{model.header.hasTag}}">
-            <h3>Tag:</h3>
-            <amp-sdnv-model>model="{{model.tag}}"</amp-sdnv-model>
+            <p>Tag:</p>
+            <amp-sdnv-model model="{{model.tag}}"></amp-sdnv-model>
         </template>
     </template>
 
@@ -63,6 +79,11 @@
                         }
                     }
                 }
+            },
+
+            _yesOrNo: function(boolValue)
+            {
+                return boolValue ? "Yes" : "No"
             }
         });
     </script>

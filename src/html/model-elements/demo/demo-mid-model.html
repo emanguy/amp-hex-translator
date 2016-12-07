@@ -10,41 +10,14 @@
 <body unresolved>
 <h1>Managed Identifier Model Demo</h1>
 
-<script>
-    Polymer({
-        is: "model-builder",
-
-        properties: {
-            model: {
-                type: Object,
-                value: function() {
-                    return
-                    {
-                        "type": "Managed Identifier",
-                        "header": {
-                        "isCompressed": true, // The OID type has 2 bits - 1 for whether or not it's compressed and 1 for if it's parametrized
-                            "isParametrized": true,
-                            "hasTag": true,
-                            "hasIssuer": true,
-                            "enclosedStructId": "Control"
-                        // The above will be an item from the AMP Structure list
-                    },
-                        "issuer": {"type": "Sdnv"},
-                        "value": { "type": "Object Identifier"},
-                        "parameters": { "type": "Data Collection"}, // The typed data collection containing the parameters
-                        "tag": {"type": "Sdnv"}
-                    };
-                },
-                notify: true
-            }
-        }
-    });
-</script>
 <demo-snippet>
-    <template is="dom-bind">
-        <amp-mid-model model="[[passedmodel]]"></amp-mid-model>
-        <model-builder model="{{passedmodel}}"></model-builder>
+    <template>
+        <amp-mid-model model='{"type":"Managed Identifier","header":{"isCompressed":true,"isParametrized":true,"hasTag":true,"hasIssuer":true,"enclosedStructId":"Control"},"issuer":{"type":"Sdnv","value":65534,"hexValue":"0x83FF7D"},"parameters":{"type":"Data Collection","isTyped":true,"value":[{"type":"String","value":"Hello"},{"type":"String","value":"World"}]},"tag":{"type":"Sdnv","value":65534,"hexValue":"0x83FF7D"},"value":{"type":"Object Identifier","value":"0","nickname":"[1]","extraInfo":"numReports"}}'></amp-mid-model>
     </template>
 </demo-snippet>
+
+<demo-snippet>
+    <template>
+        <amp-mid-model model='{"type":"Managed Identifier","header":{"isCompressed":true,"isParametrized":false,"hasTag":true,"hasIssuer":true,"enclosedStructId":"Control"},"issuer":{"type":"Sdnv","value":65534,"hexValue":"0x83FF7D"},"tag":{"type":"Sdnv","value":65534,"hexValue":"0x83FF7D"},"value":{"type":"Object Identifier","value":"0","nickname":"[1]","extraInfo":"numReports"}}'></amp-mid-model>
 </body>
 </html>
