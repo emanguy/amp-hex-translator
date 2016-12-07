@@ -1,0 +1,38 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-datatype-standin.html">
+
+<dom-module id="amp-data-collection-model">
+    <template>
+        <style include="amp-model-style"></style>
+
+        <h2><span hidden$="[[!model.isTyped]]">Typed </span>Data Collection</h2>
+
+        <p>Contained items:</p>
+        <template is="dom-repeat" items="[[model.value]]">
+            <amp-datatype-standin model="{{item}}"></amp-datatype-standin>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-data-collection-model",
+
+            properties: {
+                model: 
+                {
+                    type: Object,
+                    value: function() {
+                        return {
+                            type: "Data Collection",
+                            isTyped: false,
+                            value: []
+                        };
+                    }
+                }
+            }
+        })
+    </script>
+
+</dom-module>
