@@ -3,6 +3,11 @@
 <link rel="import" href="amp-model-style.html">
 <link rel="import" href="amp-datatype-standin.html">
 
+<!--
+    ##<amp-data-collection-model>
+
+    Renders the contents of a typed or untyped data collection.
+    -->
 <dom-module id="amp-data-collection-model">
     <template>
         <style include="amp-model-style"></style>
@@ -20,6 +25,7 @@
             is: "amp-data-collection-model",
 
             properties: {
+                /** The model of the data collection to represent */
                 model: 
                 {
                     type: Object,
