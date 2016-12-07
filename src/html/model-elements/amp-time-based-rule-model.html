@@ -1,0 +1,52 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-mid-model.html">
+<link rel="import" href="amp-timestamp-model.html">
+<link rel="import" href="amp-number-model.html">
+<link rel="import" href="amp-mid-collection-model.html">
+
+<dom-module id="amp-time-based-rule-model">
+    <template>
+        <style include="amp-model-style.html"></style>
+
+        <h2>Time Based Rule</h2>
+
+        <p>Identifier:</p>
+        <amp-mid-model model="{{model.identifier}}"></amp-mid-model>
+
+        <p>Start time:</p>
+        <amp-timestamp-model model="{{model.startTime}}"></amp-timestamp-model>
+
+        <p>Period:</p>
+        <amp-number-model model="{{model.period}}"></amp-number-model>
+
+        <p>Count:</p>
+        <amp-number-model model="{{model.count}}}"></amp-number-model>
+
+        <p>What to do:</p>
+        <amp-mid-collection-model model="{{model.value}}"></amp-mid-collection-model>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-time-based-rule-model",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            type: "Time Based Rule",
+                            identifier: {},
+                            startTime: {},
+                            period: {},
+                            count: {},
+                            value: {}
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
