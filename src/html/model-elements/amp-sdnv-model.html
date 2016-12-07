@@ -1,0 +1,41 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+
+<!--
+    ##amp-sdnv-model
+
+    This element displays the properties of the SDNV model provided to it.
+    -->
+<dom-module id="amp-sdnv-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2>SDNV</h2>
+
+        <p>{{model.value}} ({{model.hexValue}})</p>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-sdnv-model",
+
+            properties: {
+                /** The sdnv model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "String",
+                            "value": "",
+                            "hexValue": ""
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
