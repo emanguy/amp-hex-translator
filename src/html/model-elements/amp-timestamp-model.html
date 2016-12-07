@@ -1,0 +1,56 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+
+<!--
+    ##amp-timestamp-model
+
+    This element displays the properties of the timestamp model provided to it.
+    -->
+<dom-module id="amp-timestamp-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2><span hidden$="[[!model.isRelative]]">Relative</span> Timestamp</h2>
+
+        <p hidden$="[[model.isRelative]]">Time: {{_computedTime(model)}}</p>
+        <p hidden$="[[!model.isRelative]]">Offset: + {{_computedTime(model)}}</p>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-timestamp-model",
+
+            properties: {
+                /** The timestamp model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "Timestamp",
+                            "value": new Date(),
+                            "isRelative": true
+                        }
+                    }
+                }
+            },
+
+            _computedTime: function(model)
+            {
+                if (!model.isRelative)
+                {
+                    return model.value.toUTCString();
+                }
+                else
+                {
+                    return "" + (model.value.getUTCFullYear() - 1970) + " years, " + model.value.getUTCMonth() + " months, " + (model.value.getUTCDate() - 1) + 
+                        " days, " + model.value.getUTCHours() + " hours, " + model.value.getUTCMinutes() + " minutes, " + model.value.getUTCSeconds() + 
+                        " seconds, " + model.value.getUTCMilliseconds() + " milliseconds from now";
+                }
+            }
+        });
+    </script>
+</dom-module>

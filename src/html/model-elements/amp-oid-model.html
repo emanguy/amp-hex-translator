@@ -15,28 +15,8 @@
         <!-- Figure out a layout which would make sense to display the object -->
         <h2>Object Identifier</h2>
 
-        <!--TODO: tried to binding to function to determine if nickname should be shown but it is always displayed-->
-        <!--
-        <div hidden$="[[!_noNickname(model.nickname)]]">
-            <p>{{model.nickname}} is {{model.extraInfo}}</p>
-        </div>
-        <div hidden$="[[_noNickname(model.nickname)]]">
-            <p>{{model.value}} is {{model.extraInfo}}</p>
-        </div>
-        -->
+        <p><span hidden$="[[!_hasNickname(model.nickname)]]">[[model.nickname]].</span>[[model.value]] -- [[model.extraInfo]]</p>
 
-        <table>
-            <tr>
-                <th>Value</th>
-                <th>Nickname</th>
-                <th>Extra Info</th>
-            </tr>
-            <tr>
-                <td>{{model.value}}</td>
-                <td>{{model.nickname}}</td>
-                <td>{{model.extraInfo}}</td>
-            </tr>
-        </table>
     </template>
 
     <script>
@@ -60,7 +40,7 @@
             },
 
             _hasNickname: function(nickname) {
-                return nickname === "";
+                return (typeof nickname) !== "undefined" && nickname !== "";
             }
         });
     </script>

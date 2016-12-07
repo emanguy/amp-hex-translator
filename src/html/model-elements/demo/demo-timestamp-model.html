@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>Timestamp Model Demo</title>
+
+    <script src="../../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="../../../../bower_components/iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../amp-timestamp-model.html">
+</head>
+
+<body unresolved>
+<h1>Timestamp Model Demo</h1>
+
+<script>
+    Polymer({
+        is: "model-builder",
+
+        properties: {
+            model: {
+                type: Object,
+                value: function() {
+                    return {
+                        type: "Timestamp",
+                        value: new Date(),
+                        isRelative: false
+                    };
+                },
+                notify: true
+            }
+        }
+    });
+
+    Polymer({
+        is: "model-builder-2",
+
+        properties: {
+            model: {
+                type: Object,
+                value: function() {
+                    return {
+                        type: "Timestamp",
+                        value: new Date( Date.UTC(1970, 0, 1, 5, 25) ),
+                        isRelative: true
+                    };
+                },
+                notify: true
+            }
+        }
+    });
+</script>
+
+<demo-snippet>
+    <template is="dom-bind">
+        <amp-timestamp-model model="[[passedmodel]]"></amp-timestamp-model>
+        <model-builder model="{{passedmodel}}"></model-builder>
+    </template>
+</demo-snippet>
+
+<demo-snippet>
+    <template is="dom-bind">
+        <amp-timestamp-model model="[[passedmodel]]"></amp-timestamp-model>
+        <model-builder-2 model="{{passedmodel}}"></model-builder-2>
+    </template>
+</demo-snippet>
+</body>
+</html>
