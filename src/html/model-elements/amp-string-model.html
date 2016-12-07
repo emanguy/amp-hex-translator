@@ -1,0 +1,40 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+
+<!--
+    ##amp-string-model
+
+    This element displays the properties of the string model provided to it.
+    -->
+<dom-module id="amp-string-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2>String</h2>
+
+        <p>{{model.value}}</p>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-string-model",
+
+            properties: {
+                /** The string model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "String",
+                            "value": ""
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
