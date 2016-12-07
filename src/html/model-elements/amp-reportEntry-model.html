@@ -1,0 +1,57 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-mid-model.html">
+<link rel="import" href="amp-data-collection.html">
+
+
+<!--
+    ##amp-reportEntry-model
+
+    This element displays the properties of the reportEntry model provided to it.
+    -->
+<dom-module id="amp-report-entry-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layouasdasdt which would make sense to display the object -->
+            <h2>Report Entry</h2>
+            <p> Identifier </p>
+
+            <amp-mid-model model={{model.identifier}}></amp-mid-model>
+            <p> Report Entries </p>
+
+            <amp-data-collection-model model={{model.value}}></amp-data-collection-model>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-report-entry-model",
+
+            properties: {
+                /** The Report Entry model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "Report Entry",
+                            "identifier": {
+                               
+                            },
+                            "value": {}
+                            
+                        }
+                    }
+                }
+            },
+
+            _yesOrNo: function(boolValue)
+            {
+                return boolValue ? "Yes" : "No"
+            }
+        });
+    </script>
+</dom-module>
