@@ -1,0 +1,95 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-blob-model.html">
+<link rel="import" href="amp-timestamp-model.html">
+<link rel="import" href="amp-report-entry-model.html">
+<link rel="import" href="amp-mid-collection-model.html">
+<link rel="import" href="amp-yesorno-behavior.html">
+
+<dom-module id="amp-message-model">
+    <template>
+        <style include="amp-model-style"></style>
+
+        <h2>AMP Message</h2>
+        <p>Header:</p>
+
+        <table>
+            <tr>
+                <th>ACL Used?</th>
+                <th>Negative Ack?</th>
+                <th>Ack?</th>
+                <th>Opcode</th>
+            </tr>
+
+            <tr>
+                <td>{{_yesOrNo(model.header.hasTrailer)}}</td>
+                <td>{{_yesOrNo(model.header.negativeAcknowledgement)}}</td>
+                <td>{{_yesOrNo(model.header.acknowledgement)}}</td>
+                <td>{{model.header.opcodeValue}} -- {{model.header.opcode}}</td>
+            </tr>
+        </table>
+
+        <template is="dom-if" if="{{_opcodeIs(0)}}">
+            <p>Agent ID:</p>
+            <amp-blob-model model="{{model.value.agentId}}"></amp-blob-model>
+        </template>
+
+        <template is="dom-if" if="{{_opcodeIs(18)}}">
+            <p>Generation Time:</p>
+            <amp-timestamp-model model="{{model.value.time}}"></amp-timestamp-model>
+            <p>Receiver Name:</p>
+            <amp-blob-model model="{{model.value.receiverName}}"></amp-blob-model>
+
+            <p>Entries:</p>
+            <template is="dom-repeat" items="{{model.value.entries}}">
+                <amp-report-entry-model model="{{item}}"></amp-report-entry-model>
+            </template>
+        </template>
+
+        <template is="dom-if" if="{{_opcodeIs(26)}}">
+            <p>Start Control At:</p>
+            <amp-timestamp-model model="{{model.value.startTime}}"></amp-timestamp-model>
+
+            <p>Controls:</p>
+            <amp-mid-collection-model model="{{model.value.controls}}"></amp-mid-collection-model>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-message-model",
+            behaviors: [ AMPYesOrNoBehavior ],
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            type: "AMP Message",
+                            header: {
+                                hasTrailer: true,
+                                negativeAcknowledgement: true,
+                                acknowledgement: true,
+                                opcodeValue: 0,
+                                opcodeName: ""
+                            },
+                            value: {
+                                agentId: {},
+                                time: {},
+                                receiverName: {},
+                                entries: [],
+                                startTime: {},
+                                controls: {}
+                            }
+                        };
+                    }
+                }
+            },
+
+            _opcodeIs: function(opcode)
+            {
+                return this.header.opcode === opcode;
+            }
+        });
+    </script>
+</dom-module>

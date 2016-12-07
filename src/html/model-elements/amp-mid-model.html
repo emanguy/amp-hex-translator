@@ -4,6 +4,7 @@
 <link rel="import" href="amp-sdnv-model.html">
 <link rel="import" href="amp-oid-model.html">
 <link rel="import" href="amp-data-collection-model.html">
+<link rel="import" href="amp-yesorno-behavior.html">
 
 <!--
     ##amp-mid-model
@@ -84,10 +85,7 @@
                 }
             },
 
-            _yesOrNo: function(boolValue)
-            {
-                return boolValue ? "Yes" : "No"
-            }
+            behaviors: [ AMPYesOrNoBehavior ]
         });
     </script>
 </dom-module>

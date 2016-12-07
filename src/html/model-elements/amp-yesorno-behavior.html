@@ -1,0 +1,19 @@
+<script>
+    /** 
+      * Provides a boolean to yes/no conversion function.
+      * @polymerBehavior
+      */
+    AMPYesOrNoBehavior = {
+
+        /** 
+          * Returns "yes" for true and "no" for false. 
+          * 
+          * @param {Boolean} boolValue The boolean you want to convert
+          * @return {String} "Yes" for true, "No" for false
+          */
+        _yesOrNo: function(boolValue)
+        {
+            return boolValue ? "Yes" : "No"
+        }
+    }
+</script>
