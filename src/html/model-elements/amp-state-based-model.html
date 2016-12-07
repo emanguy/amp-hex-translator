@@ -1,0 +1,57 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel ="import" href="amp-mid-model.html">
+<link rel ="import" href="amp-timestamp-model.html">
+<link rel ="import" href="amp-expression-model.html">
+<link rel ="import" href="amp-number-model.html">
+<link rel ="import" href="<amp-data-collection-model.html">
+
+<dom-module id="amp-state-based-model.html">
+    <template>
+        <style include = "amp-model-style"></style>
+
+        <h2> State Based Rule </h2>
+        <p> Identifier </p>
+         <amp-mid-model model={{model.identifier}}></amp-mid-model>
+         <p> Start Time </p> 
+         <amp-timestamp-model model={{model.startTime}}></amp-timestamp-model>
+         <p> Condition </p>
+         <amp-expression-model model={{model.condition}}></amp-expression-model>>
+         <p> Count </p> 
+         <amp-number-model model={{model.count}}></amp-number-model>
+         <p> Entries </p>
+
+            <amp-data-collection-model model={{model.value}}></amp-data-collection-model>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-state-based-model",
+
+            properties: {
+                /** The state-based model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                             "type": "State Based Rule",
+                         "identifier": {},
+                         "startTime": {},
+                         "condition": { },
+                         "count": {},
+                         "value": {}
+}
+                    }
+                }
+            },
+
+            _yesOrNo: function(boolValue)
+            {
+                return boolValue ? "Yes" : "No"
+            }
+        });
+    </script>
+</dom-module>
