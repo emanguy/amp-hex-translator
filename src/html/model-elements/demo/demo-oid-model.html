@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>OID Model Demo</title>
+
+    <script src="../../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="../../../../bower_components/iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../amp-oid-model.html">
+</head>
+
+<body unresolved>
+<h1>Object Identifier Model Demo</h1>
+
+<script>
+    Polymer({
+        is: "model-builder",
+
+        properties: {
+            model: {
+                type: Object,
+                value: function() {
+                    return {
+                        "type": "Object Identifier",
+                        "value": "0",
+                        "nickname": "[1]",
+                        "extraInfo": "numReports"
+                    };
+                },
+                notify: true
+            }
+        }
+    });
+
+    Polymer({
+        is: "model-builder-2",
+
+        properties: {
+            model: {
+                type: Object,
+                value: function() {
+                    return {
+                        "type": "Object Identifier",
+                        "value": "1.3.6.1.2.3.3.1.0",
+                        "extraInfo": "numReports"
+                    };
+                },
+                notify: true
+            }
+        }
+    });
+</script>
+<demo-snippet>
+    <template is="dom-bind">
+        <amp-oid-model model="[[passedmodel]]"></amp-oid-model>
+        <model-builder model="{{passedmodel}}"></model-builder>
+    </template>
+</demo-snippet>
+
+<demo-snippet>
+    <template is="dom-bind">
+        <amp-oid-model model="[[passedmodel]]"></amp-oid-model>
+        <model-builder-2 model="{{passedmodel}}"></model-builder>
+    </template>
+</demo-snippet>
+</body>
+</html>
