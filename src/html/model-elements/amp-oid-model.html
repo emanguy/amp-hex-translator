@@ -1,0 +1,47 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+
+<!--
+    ##amp-oid-model
+
+    This element displays the properties of the OID model provided to it.
+    -->
+<dom-module id="amp-oid-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2>Object Identifier</h2>
+
+        <p><span hidden$="[[!_hasNickname(model.nickname)]]">[[model.nickname]].</span>[[model.value]] -- [[model.extraInfo]]</p>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-oid-model",
+
+            properties: {
+                /** The oid model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "Object Identifier",
+                            "value": "",
+                            "nickname": "",
+                            "extraInfo": ""
+                        };
+                    }
+                }
+            },
+
+            _hasNickname: function(nickname) {
+                return (typeof nickname) !== "undefined" && nickname !== "";
+            }
+        });
+    </script>
+</dom-module>

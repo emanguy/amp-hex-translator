@@ -50,7 +50,6 @@
             is: "amp-datatype-standin",
 
             properties: {
-                /** A model of any type */
                 _typeToElement: {
                     type: Object,
                     readOnly: true,
@@ -80,6 +79,7 @@
                     }
                 },
 
+                /** A model of any type */
                 model: {
                     type: Object,
                     value: function() { return {
@@ -87,7 +87,7 @@
                         }
                     },
                     observer: "_stampChild"
-                },
+                }
             },
 
             _stampChild: function(newModel)
