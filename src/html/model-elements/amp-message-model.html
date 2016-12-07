@@ -26,16 +26,16 @@
                 <td>{{_yesOrNo(model.header.hasTrailer)}}</td>
                 <td>{{_yesOrNo(model.header.negativeAcknowledgement)}}</td>
                 <td>{{_yesOrNo(model.header.acknowledgement)}}</td>
-                <td>{{model.header.opcodeValue}} -- {{model.header.opcode}}</td>
+                <td>{{model.header.opcodeValue}} -- {{model.header.opcodeName}}</td>
             </tr>
         </table>
 
-        <template is="dom-if" if="{{_opcodeIs(0)}}">
+        <template is="dom-if" if="{{_opcodeIs(0, model.header)}}">
             <p>Agent ID:</p>
             <amp-blob-model model="{{model.value.agentId}}"></amp-blob-model>
         </template>
 
-        <template is="dom-if" if="{{_opcodeIs(18)}}">
+        <template is="dom-if" if="{{_opcodeIs(18, model.header)}}">
             <p>Generation Time:</p>
             <amp-timestamp-model model="{{model.value.time}}"></amp-timestamp-model>
             <p>Receiver Name:</p>
@@ -47,7 +47,7 @@
             </template>
         </template>
 
-        <template is="dom-if" if="{{_opcodeIs(26)}}">
+        <template is="dom-if" if="{{_opcodeIs(26, model.header)}}">
             <p>Start Control At:</p>
             <amp-timestamp-model model="{{model.value.startTime}}"></amp-timestamp-model>
 
@@ -86,9 +86,9 @@
                 }
             },
 
-            _opcodeIs: function(opcode)
+            _opcodeIs: function(opcode, objectHeader)
             {
-                return this.header.opcode === opcode;
+                return objectHeader.opcodeValue === opcode;
             }
         });
     </script>
