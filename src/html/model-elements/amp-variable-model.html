@@ -1,0 +1,38 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+<link rel="import" href="amp-mid-model.html">
+<link rel="import" href="amp-expression-model.html">
+
+<dom-module id="amp-variable-model">
+    <template>
+        <style include="amp-model-style"></style>
+
+        <h2>Variable</h2>
+        <p>Type: {{model.variableType}}</p>
+        <p>Identifier:</p>
+        <amp-mid-model model="{{model.identifier}}"></amp-mid-model>
+        <p>Defining expression:</p>
+        <amp-expression-model model="{{model.value}}"></amp-expression-model>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-variable-model",
+
+            properties: {
+                model: {
+                    type: Object,
+                    value: function() {
+                        return {
+                            type: "Variable",
+                            identifier: {},
+                            variableType: "",
+                            value: {}
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
