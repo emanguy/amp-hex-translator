@@ -1,0 +1,52 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="amp-model-style.html">
+
+<!--
+    ##amp-float-model
+
+    This element displays the properties of the float model provided to it.
+    -->
+<dom-module id="amp-float-model">
+    <template>
+        <!-- Grab common styles -->
+        <style include="amp-model-style"></style>
+
+        <!-- Figure out a layout which would make sense to display the object -->
+        <h2>Float - {{model.precision}} Bit Precision</h2>
+
+        <table>
+            <tr>
+                <th>Decimal</th>
+                <th>Scientific Notation</th>
+            </tr>
+            <tr>
+                <td>{{model.value}}</td>
+                <td>{{model.fraction}} * 2<sup>{{model.exponent}}</sup></td>
+            </tr>
+        </table>
+    </template>
+
+    <script>
+        Polymer({
+            is: "amp-float-model",
+
+            properties: {
+                /** The basic float model which this element should represent */
+                model: {
+                    type: Object,
+                    value: function() {
+                        // You need to provide default values for each property of the model you intend to bind to
+                        return {
+                            "type": "Real",
+                            "value": 0.0,
+                            "precision": "32",
+                            "fraction": 1.0,
+                            "exponent": 0
+                        };
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
