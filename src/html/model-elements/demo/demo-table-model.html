@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Table demo</title>
+
+        <script src="../../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+
+        <link rel="import" href="../../../../bower_components/iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../amp-table-model.html">
+    </head>
+
+    <body>
+        <h1>Table Model Demo</h1>
+
+        <demo-snippet>
+            <template>
+                <amp-table-model model='{"type":"Table","columnNames":[{"type":"String","value":"Column 1"},{"type":"String","value":"Column 2"}],"value":[[{"type":"Byte","value":10,"binaryValue":"0b00001010"},{"type":"String","value":"My string"}],[{"type":"Byte","value":11,"binaryValue":"0b00001011"},{"type":"String","value":"My other string"}]]}'></amp-table-model>
+            </template>
+        </demo-snippet>
+    </body>
+</html>
