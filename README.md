@@ -7,7 +7,7 @@ A static webpage which translates AMP hexadecimal messages into a human-readable
 
 #Installation
 
-Simply install [bower](https://bower.io/) through [NPM](https://nodejs.org). Download the latest version of the code from our [releases](releases) page and run `bower install` to install dependencies for the webpage. Serve with your favorite web server.
+Simply install [bower](https://bower.io/) through [NPM](https://nodejs.org). Download the latest version of the code from our [releases](https://github.com/emanguy/amp-hex-translator/releases) page and run `bower install` to install dependencies for the webpage. Serve with your favorite web server.
 
 #Usage
 
@@ -15,4 +15,4 @@ Enter an [Asynchronous Messaging Protocol](https://tools.ietf.org/html/draft-bir
 
 #Documentation
 
-You can see documentation on the JSON object format for objects passed throughout the page and other design details on the [wiki](wiki). We will also have documentation for our [polymer custom elements](https://www.polymer-project.org/1.0/docs/devguide/feature-overview) on the related github pages website.
+You can see documentation on the JSON object format for objects passed throughout the page and other design details on the [wiki](https://github.com/emanguy/amp-hex-translator/wiki). We will also have documentation for our [polymer custom elements](https://www.polymer-project.org/1.0/docs/devguide/feature-overview) on the related github pages website.
