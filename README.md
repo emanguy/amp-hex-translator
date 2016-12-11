@@ -7,7 +7,7 @@ A static webpage which translates AMP hexadecimal messages into a human-readable
 
 #Installation
 
-Simply install [bower](https://bower.io/) through [NPM](https://nodejs.org). Download the latest version of the code from our [releases](https://github.com/emanguy/amp-hex-translator/releases) page and run `bower install` to install dependencies for the webpage. Serve with your favorite web server.
+Simply install [bower](https://bower.io/) through [NPM](https://nodejs.org). Download the latest version of the code from our [releases](https://github.com/emanguy/amp-hex-translator/releases) page and run `bower install --production` to install dependencies for the webpage. Serve with your favorite web server.
 
 #Usage
 
