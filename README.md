@@ -15,4 +15,4 @@ Enter an [Asynchronous Messaging Protocol](https://tools.ietf.org/html/draft-bir
 
 #Documentation
 
-You can see documentation on the JSON object format for objects passed throughout the page and other design details on the [wiki](https://github.com/emanguy/amp-hex-translator/wiki). We will also have documentation for our [polymer custom elements](https://www.polymer-project.org/1.0/docs/devguide/feature-overview) on the related github pages website.
+You can see documentation on the JSON object format for objects passed throughout the page and other design details on the [wiki](https://github.com/emanguy/amp-hex-translator/wiki). We will also have documentation for our [polymer custom elements](https://www.polymer-project.org/1.0/docs/devguide/feature-overview) on the related [github pages website](http://emanguy.github.io/amp-hex-translator/).
