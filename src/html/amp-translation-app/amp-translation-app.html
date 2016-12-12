@@ -19,7 +19,13 @@
 <link rel="import" href="../amp-translation-page/amp-translation-page.html">
 <link rel="import" href="../amp-error-page/amp-error-page.html">
 
+<!--
 
+    `<amp-translation-app>`
+
+    This is the entrypoint of the application. This handles state and events thrown from `<amp-hex-input>` and `<amp-construct-model>`.
+
+        -->
 <dom-module id="amp-translation-app">
     <template>
         <style>
@@ -124,18 +130,21 @@
         is: "amp-translation-app",
 
         properties: {
+            /** The sub-page currently being visited. Changing the value will cause the subpage to change. */
             state: {
                 type: String,
                 value: "instruction",
                 readOnly: true
             },
 
+            /** The last error caught during an **amp-error** event thrown from `<amp-construct-model>`*/
             error: {
                 type: Object,
                 value: function() { return new Error("No error to show") },
                 readOnly: true
             },
 
+            /** Computed value which tells `<amp-loading-page>` whether or not to animate its spinner */
             processing: {
                 type: Boolean,
                 computed: "_isProcessing(state)"
@@ -148,6 +157,7 @@
             "amp-error": "_showError"
         },
 
+        /** Called in response to the amp-go-pressed event. Begins model construction and switches to the loading page. */
         _beginTranslation: function()
         {
             if (!this.$.hexInput.invalid)
@@ -157,11 +167,14 @@
             }
         },
 
+        /** Called in response to the amp-model-complete event. Switches to the translation page. */
         _showModel: function()
         {
+            // Artificially add delay because model construction happens quickly
             this.async(function() {this._setState("translation") }, 1000);
         },
 
+        /** Called in response to the amp-error event. Sets the value of this.error and switches to the error page. */
         _showError: function(event)
         {
             this.async(function() {
@@ -170,6 +183,7 @@
             }, 1000);
         },
 
+        /** Computation function for the this.processing property */
         _isProcessing: function(state)
         {
             return state === "processing";
